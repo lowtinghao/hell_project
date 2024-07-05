@@ -9,3 +9,10 @@ This webapp is meant to help manage client workshop requests, trainer allocation
 ## Directory Structure
 - `back` contains the NodeJS backend application
 - `front` constains the ReactJS frontend application
+
+## MongoDB Atlas
+username : admin
+password : testpass123
+
+Connect using MongoDB directly or Mongoose
+mongodb+srv://admin:<password>@cluster0.ldwipqc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
