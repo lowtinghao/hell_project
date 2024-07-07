@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
 const workshopTypeSchema = new mongoose.Schema({
-    workshopTypes: { type: String, required: true, unique: true },
+    workshopType: { type: String, required: true, unique: true },
 });
 
 const WorkshopType = mongoose.model('WorkshopType', workshopTypeSchema);
 
-workshopTypeSchema.methods.getWorkshopTypes = async function() {
+WorkshopType.statics.getWorkshopTypes = async function() {
     try {
-        const workshopTypes = await mongoose.model('WorkshopType').find();
+        const workshopTypes = await this.find();
         return workshopTypes;
     } catch (error) {
         console.error('Error fetching workshop types:', error);
@@ -16,31 +16,30 @@ workshopTypeSchema.methods.getWorkshopTypes = async function() {
     }
 }
 
-workshopTypeSchema.methods.insertWorkshopType = async function(workshoptype) {
+WorkshopType.statics.insertWorkshopType = async function(workshopType) {
     try {
-        const workshopTypes = await mongoose.model('WorkshopType').insertOne(workshoptype);
-        return workshopTypes;
+        const newWorkshopType = new this({ workshopType });
+        await newWorkshopType.save();
+        return newWorkshopType;
     } catch (error) {
-        console.error('Error fetching workshop types:', error);
+        console.error('Error inserting workshop type:', error);
         throw error;
     }
 }
 
-workshopTypeSchema.methods.deleteWorkshopType = async function(workshoptype) {
+WorkshopType.statics.deleteWorkshopType = async function(workshopType) {
     try {
-        const workshopTypes = await mongoose.model('WorkshopType').deleteOne({workshopTypes: workshoptype});
-        return workshopTypes;
+        await this.deleteOne({ workshopType });
+        return;
     } catch (error) {
-        console.error('Error fetching workshop types:', error);
+        console.error('Error deleting workshop type:', error);
         throw error;
     }
 }
 
-
-
-
+// Define the workshop schema
 const workshopSchema = new mongoose.Schema({
-    workshopType: { type: String, required: true},
+    workshopType: { type: String, required: true },
     clientCompany: { type: String, required: true },
     clientType: { type: String, required: true },
     workshopNames: { type: [String], required: true },
@@ -55,27 +54,24 @@ const workshopSchema = new mongoose.Schema({
     otherWorkshopSpecificQuestions: { type: [String] }
 });
 
-
 const Workshop = mongoose.model('Workshop', workshopSchema);
 
-workshopSchema.methods.getWorkshopFields = async function() {
+Workshop.statics.getWorkshopFields = function() {
     try {
-        return workshopSchema;
+        return this.schema;
     } catch (error) {
         console.error('Error fetching workshops:', error);
         throw error;
     }
 }
 
-workshopSchema.methods.insertWorkshopField = async function(field, varType = String, require = false) {
+Workshop.statics.insertWorkshopField = async function(field, varType = String, required = false) {
     try {
-        workshopSchema.field={type: varType, required: require};
+        this.schema.add({ [field]: { type: varType, required } });
     } catch (error) {
-        console.error('Error fetching workshop types:', error);
+        console.error('Error inserting workshop field:', error);
         throw error;
     }
 }
 
-
-
-module.exports = Workshop, WorkshopType;
+module.exports = { Workshop, WorkshopType };
