@@ -2,19 +2,18 @@ const mongoose = require('mongoose');
 const {workshop, workshopType} = require('./workshop')
 
 
-
 const workshopRequestSchema = new mongoose.Schema({
-    workshopRequest: {type: workshop, required: true},
-    workshopId: {type: Number, required: true},
-    accepted: {type: Boolean, default: false},
-    trainerId: {type: Number}
-})
+    workshopRequest: { type: mongoose.Schema.Types.ObjectId, ref: 'Workshop', required: true },
+    workshopId: { type: Number, required: true },
+    accepted: { type: Boolean, default: false },
+    trainerId: { type: Number }
+});
 
-const Workshop = mongoose.model('WorkshopRequest', workshopRequestSchema);
+const WorkshopRequest = mongoose.model('WorkshopRequest', workshopRequestSchema);
 
-workshopRequestSchema.methods.getAllWorkshopRequests = async function() {
+WorkshopRequest.statics.getAllWorkshopRequests = async function() {
     try {
-        const workshops = await mongoose.model('WorkshopRequest').find();
+        const workshops = await this.find();
         return workshops;
     } catch (error) {
         console.error('Error fetching workshops:', error);
@@ -22,49 +21,49 @@ workshopRequestSchema.methods.getAllWorkshopRequests = async function() {
     }
 }
 
-workshopRequestSchema.methods.insertWorkshop = async function(workshopReqObj) {
+WorkshopRequest.statics.insertWorkshopRequest = async function(workshopReqObj) {
     try {
-        id = mongoose.model('WorkshopRequest').count() + 1;
-        const workshopObj = {workshopRequest: workshopReqObj, workshopId: id}
-        await mongoose.model('WorkshopRequest').insertOne(workshopObj);
+        const count = await this.countDocuments();
+        const id = count + 1;
+        const workshopObj = { workshopRequest: workshopReqObj._id, workshopId: id };
+        await this.create(workshopObj);
     } catch (error) {
-        console.error('Error fetching workshop types:', error);
+        console.error('Error inserting workshop request:', error);
         throw error;
     }
 }
 
-workshopRequestSchema.methods.rejectWorkshopById = async function(id) {
+WorkshopRequest.statics.rejectWorkshopById = async function(id) {
     try {
-        if (mongoose.model('WorkshopRequest').findOne({workshopId: id}, {accepted: 1}) == false){
-            await mongoose.model('WorkshopRequest').deleteOne({workshopId: id});
-        }else{
+        const workshop = await this.findOne({ workshopId: id });
+        if (workshop && !workshop.accepted) {
+            await this.deleteOne({ workshopId: id });
+        } else {
             console.log("Already accepted, can't reject");
         }
-        
     } catch (error) {
-        console.error('Error fetching workshop types:', error);
+        console.error('Error rejecting workshop:', error);
         throw error;
     }
 }
 
-workshopRequestSchema.methods.updateWorkshopAcceptanceByID = async function(workshopID, trainerID) {
+WorkshopRequest.statics.updateWorkshopAcceptanceByID = async function(workshopID, trainerID) {
     try {
-        await mongoose.model('WorkshopRequest').updateOne({workshopId: workshopID}, {$set :{accepted: true, trainerId: trainerID}});
+        await this.updateOne({ workshopId: workshopID }, { $set: { accepted: true, trainerId: trainerID } });
     } catch (error) {
-        console.error('Error fetching workshop types:', error);
+        console.error('Error updating workshop acceptance:', error);
         throw error;
     }
 }
 
-
-workshopRequestSchema.methods.getAcceptedWorkshops = async function() {
+WorkshopRequest.statics.getAcceptedWorkshops = async function() {
     try {
-        const workshops = await mongoose.model('WorkshopRequest').find({accepted:true});
+        const workshops = await this.find({ accepted: true });
         return workshops;
     } catch (error) {
-        console.error('Error fetching workshops:', error);
+        console.error('Error fetching accepted workshops:', error);
         throw error;
     }
 }
 
-module.exports = Workshop;
+module.exports = WorkshopRequest;
