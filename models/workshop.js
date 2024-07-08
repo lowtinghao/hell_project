@@ -16,9 +16,9 @@ WorkshopType.statics.getWorkshopTypes = async function() {
     }
 }
 
-WorkshopType.statics.insertWorkshopType = async function(workshopType) {
+WorkshopType.statics.insertWorkshopType = async function(workshopType) { // parameter is value of workshop type
     try {
-        const newWorkshopType = new this({ workshopType });
+        const newWorkshopType = new this({ workshopType: workshopType });
         await newWorkshopType.save();
         return newWorkshopType;
     } catch (error) {
@@ -27,9 +27,9 @@ WorkshopType.statics.insertWorkshopType = async function(workshopType) {
     }
 }
 
-WorkshopType.statics.deleteWorkshopType = async function(workshopType) {
+WorkshopType.statics.deleteWorkshopType = async function(workshopType) { // parameter is value of workshop type
     try {
-        await this.deleteOne({ workshopType });
+        await this.deleteOne({ workshopType: workshopType });
         return;
     } catch (error) {
         console.error('Error deleting workshop type:', error);
