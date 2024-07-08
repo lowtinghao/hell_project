@@ -6,7 +6,7 @@ const clientRoutes = require('./routes/clientRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = 'your_mongodb_uri_here';
+const MONGODB_URI = 'mongodb://localhost:27017/workshop';
 
 // Middleware
 app.use(cors());
