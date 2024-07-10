@@ -7,8 +7,16 @@ This webapp is meant to help manage client workshop requests, trainer allocation
 - Test Cases
 
 ## Directory Structure
-- `back` contains the NodeJS backend application
-- `front` constains the ReactJS frontend application
+### Backend
+- `/back` contains the NodeJS backend application
+- `/back/routes` contain all the routes for express JS. These routes handle the receiving of HTTP requests, responding to these requests, and formatting the request bodies into a format that the `handlers` recognize.
+- `/back/handlers` contain workshop/trainer handlers. These handlers are responsible for providing an interface for interacting with the MongoDB database through Mongoose.
+
+### TODO (Core functionality)
+- Implement TrainerController (Assigns trainers to workshops, View trainer schedule)
+
+### Frontend
+- `/front` constains the ReactJS frontend application
 
 ## MongoDB Atlas
 username : admin
