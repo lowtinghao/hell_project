@@ -16,20 +16,24 @@ const getDesignTokens = (mode) => ({
     },
     ...(mode === 'dark' && {
       background: {
-        default: '#0D2155',
-        paper: '#0D2155',
+        default: '#0D2155', // main background dell dark blue midnight
+        paper: '#0D2155', // component secondary colour dell dark blue midnight
       },
     }),
     text: {
       ...(mode === 'light'
         ? {
             primary: grey[900],
-            secondary: grey[800],
+            secondary: grey[800], //outline colours
           }
         : {
             primary: '#fff',
-            secondary: grey[500],
+            secondary: '#fff',
           }),
+    },
+    custom: {
+      accept: mode === 'dark' ? '#4CAF50' : '#388E3C', 
+      reject: mode === 'dark' ? '#FF4C4C' : '#D32F2F',
     },
   },
 });

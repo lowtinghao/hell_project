@@ -6,7 +6,7 @@ function createData(clientname, workname, worktype) {
   return { clientname, workname, worktype, status: 'New' };
 }
 
-const rows = [
+const initialRows = [
   createData('Client 1', 'Workshop 1', 'Business'),
   createData('Client 2', 'Workshop 2', 'Technology'),
   createData('Client 3', 'Workshop 3', 'Design'),
@@ -14,27 +14,27 @@ const rows = [
 ];
 
 export default function StickyHeadTable() {
-  const [tableRows, setTableRows] = useState(rows);
+  const [rows, setRows] = useState(initialRows);
   const [filter, setFilter] = useState('All');
   const theme = useTheme();
 
   const handleAccept = (index) => {
-    const newRows = [...tableRows];
+    const newRows = [...rows];
     newRows[index].status = 'Assign Instructors';
-    setTableRows(newRows);
+    setRows(newRows);
   };
 
   const handleReject = (index) => {
-    const newRows = [...tableRows];
+    const newRows = [...rows];
     newRows[index].status = 'Rejected';
-    setTableRows(newRows);
+    setRows(newRows);
   };
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
   };
 
-  const filteredRows = tableRows.filter((row) => {
+  const filteredRows = rows.filter((row) => {
     if (filter === 'All') {
       return true;
     }
@@ -83,27 +83,27 @@ export default function StickyHeadTable() {
                       <Button
                         variant="contained"
                         sx={{ 
-                          backgroundColor: theme.palette.mode === 'dark' ? theme.palette.success.dark : theme.palette.success.light, 
-                          color: theme.palette.mode === 'dark' ? theme.palette.success.contrastText : theme.palette.success.contrastText,
+                          backgroundColor: theme.palette.custom.accept, 
+                          color: theme.palette.getContrastText(theme.palette.custom.accept),
                           '&:hover': {
-                            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.success.main : theme.palette.success.dark,
+                            backgroundColor: theme.palette.custom.accept,
                           },
                           marginRight: 1
                         }}
-                        onClick={() => handleAccept(index)}
+                        onClick={() => handleAccept(rows.indexOf(row))}
                       >
                         Accept
                       </Button>
                       <Button
                         variant="contained"
                         sx={{ 
-                          backgroundColor: theme.palette.mode === 'dark' ? theme.palette.error.dark : theme.palette.error.light, 
-                          color: theme.palette.mode === 'dark' ? theme.palette.error.contrastText : theme.palette.error.contrastText,
+                          backgroundColor: theme.palette.custom.reject, 
+                          color: theme.palette.getContrastText(theme.palette.custom.reject),
                           '&:hover': {
-                            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.error.main : theme.palette.error.dark,
+                            backgroundColor: theme.palette.custom.reject,
                           }
                         }}
-                        onClick={() => handleReject(index)}
+                        onClick={() => handleReject(rows.indexOf(row))}
                       >
                         Reject
                       </Button>
