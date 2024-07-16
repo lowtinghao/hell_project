@@ -1,4 +1,4 @@
-// Navbar.js
+
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -40,7 +40,7 @@ function a11yProps(index) {
   };
 }
 
-export default function Navbarssss() {
+export default function Navbar() {
   const [value, setValue] = React.useState(0);
   const theme = useTheme();
 

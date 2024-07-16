@@ -39,11 +39,11 @@ export default function StickyHeadTable() {
       return true;
     }
     return row.status === filter;
-  });
+  }); 
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-      <TableContainer component={Paper} sx={{ maxWidth: 700, width: '100%', margin: 'auto' }}>
+      <TableContainer component={Paper} sx={{ maxWidth: 900, width: '100%', margin: 'auto' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px' }}>
           <Typography variant="h5">Workshop Requests</Typography>
           <FormControl sx={{ m: 1, minWidth: 120 }}>
