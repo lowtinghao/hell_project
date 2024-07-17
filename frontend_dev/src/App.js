@@ -3,13 +3,13 @@ import './App.css';
 import { CssBaseline, useTheme } from '@mui/material/styles';
 import Navbar from './components/tab';
 import { ThemeProvider } from './components/ThemeProvider';
+import { CalendarView } from './components/CalendarView';
 
 function App() {
 
   const theme = useTheme();
   return (
     <div className="App">
-      
       <ThemeProvider>
         <Navbar/>
       </ThemeProvider>
