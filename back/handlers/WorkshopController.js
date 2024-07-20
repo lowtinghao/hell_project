@@ -21,8 +21,18 @@ let workshop = new mongoose.model('Workshops', workshopSchema);
 
 class WorkshopController{
 
-    // HELPER FUNCTIONS
-    static parseWorkshopRequest(req) {
+    // HELPER METHODS
+    static validateWorkshopBody(req){ // Validates the body for the parser
+        let body = {... req.body};
+        if (typeof body.dates != 'string') {
+            throw new Error("body.dates is not of string type");
+        }
+        if (typeof body.assignedTrainers != 'string') {
+            throw new Error("body.assignedTrainers is not of string type");
+        }
+    }
+
+    static parseWorkshopRequest(req) { // Parses the JSON to match the database schema
         let body = {... req.body};
         // Format the comma seperated strings into an array of dates
         let arr_date_str = body.dates.split(',');
@@ -64,9 +74,10 @@ class WorkshopController{
         
     }
 
-    static async submitWorkshopRequest(body) {
-        let new_body = this.parseWorkshopRequest(body);
+    static async submitWorkshopRequest(req) {
         try {
+            this.validateWorkshopBody(req);
+            let new_body = this.parseWorkshopRequest(req);
             new_body.workshopId = await this.getLargestWorkshopId() + 1;
             await this.submitWorkshopRequestQuery(new_body);
         } catch (err) {
