@@ -21,10 +21,8 @@ function createData(clientid, clientname, workname, worktype, fromDate, toDate) 
 export default function WorkshopRequestTable() {
 	// Initializing variables here
 	const [rows, setRows] = useState(initialRows);
-  const [filter, setFilter] = useState('All');
-  const [open, setOpen] = useState(false);
-  const [selectedWorkshop, setSelectedWorkshop] = useState(null);
-  const theme = useTheme();
+    const [filter, setFilter] = useState('All');
+    const theme = useTheme();
 
 	// Here are all the button handlers
 	const handleAccept = (index) => {
@@ -81,6 +79,7 @@ export default function WorkshopRequestTable() {
 					<Table aria-label="simple table">
 						<TableHead>
 							<TableRow>
+								<TableCell>Client ID</TableCell>
 								<TableCell>Client Name</TableCell>
 								<TableCell align="center">Workshop Name</TableCell>
 								<TableCell align="center">Workshop Type</TableCell>
@@ -126,10 +125,16 @@ export default function WorkshopRequestTable() {
 												</Button>
 											</>
 										) : row.status === 'Assign Instructors' ? (
-											<Button variant="contained" color="primary">
-												<Link to="/assign-trainer">
+											<Button 
+											variant="contained" 
+											color="primary"
+											component={Link}
+											to="/assign-trainer"
+											state={{workshop:row}}
+											>
+												{/* <Link to="/assign-trainer"> */}
 												Assign Trainer
-												</Link>
+												{/* </Link> */}
 											</Button>
 										) : (
 											row.status
@@ -143,7 +148,7 @@ export default function WorkshopRequestTable() {
 				{/* <AssignTrainersPopup open={open} handleClose={handleCloseModal} workshop={selectedWorkshop}/> */}
 			</Box>
 		</div>
-    
+
   );
 }
 
