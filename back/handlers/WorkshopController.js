@@ -21,6 +21,27 @@ let workshop = new mongoose.model('Workshops', workshopSchema);
 
 class WorkshopController{
 
+    // HELPER FUNCTIONS
+    static parseWorkshopRequest(req) {
+        let body = {... req.body};
+        // Format the comma seperated strings into an array of dates
+        let arr_date_str = body.dates.split(',');
+        let arr_date = [];
+        arr_date_str.forEach(element => {
+            arr_date.push(new Date(element))
+        })
+        body.dates = arr_date;
+        // Format the comma seperated strings into an array of strings
+        let arr_trainer_str = body.assignedTrainers.split(',');
+        let arr_trainer = [];
+        arr_trainer_str.forEach(element => {
+            arr_trainer.push(element)
+        })
+        body.assignedTrainers = arr_trainer;
+        return body;
+    }
+
+    // CRUD FUNCTIONS
     static async getLargestWorkshopId() {
         try {
             let p = await workshop.find({});
@@ -34,13 +55,23 @@ class WorkshopController{
         }
     }
 
-    static async submitWorkshopRequest (details) {
+    static async submitWorkshopRequestQuery (details) {
         try {
             let p = await workshop.create(details);
         } catch (err) {
             throw err;
         }
         
+    }
+
+    static async submitWorkshopRequest(body) {
+        let new_body = this.parseWorkshopRequest(body);
+        try {
+            new_body.workshopId = await this.getLargestWorkshopId() + 1;
+            await this.submitWorkshopRequestQuery(new_body);
+        } catch (err) {
+            throw err;
+        }
     }
 
     static async getWorkshopsById(id) {

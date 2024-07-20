@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const WorkshopController = require('../handlers/WorkshopController')
+const mongoose = require('mongoose');
 
 
 router.use(express.json());
@@ -24,25 +25,8 @@ router.get('/workshops', async (req, res) => {
 );
 
 router.post('/workshops', async (req, res) => {
-    // Format the comma seperated strings into an array of dates
-    let body = req.body;
-    let arr_date_str = body.dates.split(',');
-    let arr_date = [];
-    arr_date_str.forEach(element => {
-        arr_date.push(new Date(element))
-    })
-    body.dates = arr_date;
-    // Format the comma seperated strings into an array of strings
-    let arr_trainer_str = body.assignedTrainers.split(',');
-    let arr_trainer = [];
-    arr_trainer_str.forEach(element => {
-        arr_trainer.push(element)
-    })
-    body.assignedTrainers = arr_trainer;
-
     try {
-        body.workshopId = await WorkshopController.getLargestWorkshopId() + 1;
-        await WorkshopController.submitWorkshopRequest(body);
+        await WorkshopController.submitWorkshopRequest(req);
         console.log("Successfully Sent");
         res.status(201);
         res.send("Successful Post Request to Workshops");
