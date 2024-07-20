@@ -14,6 +14,7 @@ This webapp is meant to help manage client workshop requests, trainer allocation
 
 ### TODO (Core functionality)
 - Implement TrainerController (Assigns trainers to workshops, View trainer schedule)
+- Fix structure of frontend code
 
 ### Frontend
 - `/front` constains the ReactJS frontend application
