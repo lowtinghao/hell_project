@@ -34,21 +34,30 @@ class WorkshopController{
 
     static parseWorkshopRequest(req) { // Parses the JSON to match the database schema
         let body = {... req.body};
-        // Format the comma seperated strings into an array of dates
-        let arr_date_str = body.dates.split(',');
-        let arr_date = [];
-        arr_date_str.forEach(element => {
-            arr_date.push(new Date(element))
-        })
-        body.dates = arr_date;
-        // Format the comma seperated strings into an array of strings
-        let arr_trainer_str = body.assignedTrainers.split(',');
-        let arr_trainer = [];
-        arr_trainer_str.forEach(element => {
-            arr_trainer.push(element)
-        })
-        body.assignedTrainers = arr_trainer;
-        return body;
+        try {
+            // Format the comma seperated strings into an array of dates
+            let arr_date_str = body.dates.split(',');
+            let arr_date = [];
+            arr_date_str.forEach(element => {
+                if (isNaN(new Date(element))) {
+                    throw new Error("Incorrect Formatting of Date")
+                }
+                arr_date.push(new Date(element));
+            })
+            body.dates = arr_date;
+            // Format the comma seperated strings into an array of strings
+            let arr_trainer_str = body.assignedTrainers.split(',');
+            let arr_trainer = [];
+            arr_trainer_str.forEach(element => {
+                arr_trainer.push(element)
+            })
+            body.assignedTrainers = arr_trainer;
+            return body;
+        }  catch (err) {
+            throw new Error("Incorrect Formatting of dates or trainers")
+        }
+        
+        
     }
 
     // CRUD FUNCTIONS
