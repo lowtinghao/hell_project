@@ -8,11 +8,12 @@ import Login from './pages/Login';
 import Client from './pages/Client';
 import Trainer from './pages/Trainer';
 import Admin from './pages/Admin';
+import AssignTrainer from './pages/AssignTrainer'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
   {path: '/',element: <Login />}, {path: '/client',element: <Client />}, {path: '/admin',element: <Admin />},
-  {path: '/trainer',element: <Trainer />}
+  {path: '/trainer',element: <Trainer />}, {path: '/assign-trainer', element: <AssignTrainer />}
 ]);
 root.render(
   <React.StrictMode>
