@@ -1,23 +1,34 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, useTheme, MenuItem, FormControl, Select, InputLabel, Box, Typography } from '@mui/material';
+import AssignTrainersPopup from '../components/AssignTrainersPopup';
+import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function createData(clientname, workname, worktype) {
-  return { clientname, workname, worktype, status: 'New' };
+// TODO: Modify this function to retrieve workshop request data from DB
+function createData(id, clientname, workname, worktype) {
+  return { id, clientname, workname, worktype, status: 'New' };
 }
 
+const date = new Date();
+console.log(date);
+
 const initialRows = [
-  createData('Client 1', 'Workshop 1', 'Business'),
-  createData('Client 2', 'Workshop 2', 'Technology'),
-  createData('Client 3', 'Workshop 3', 'Design'),
-  createData('Client 4', 'Workshop 4', 'Marketing')
+  createData('0', 'Client 1', 'Workshop 1', 'Business'),
+  createData('1', 'Client 2', 'Workshop 2', 'Technology'),
+  createData('2', 'Client 3', 'Workshop 3', 'Design'),
+  createData('3', 'Client 4', 'Workshop 4', 'Marketing')
 ];
 
 export default function StickyHeadTable() {
   const [rows, setRows] = useState(initialRows);
   const [filter, setFilter] = useState('All');
+  const [open, setOpen] = useState(false);
+  const [selectedWorkshop, setSelectedWorkshop] = useState(null);
   const theme = useTheme();
+  // const navigate = useNavigate();
 
+  
   const handleAccept = (index) => {
     const newRows = [...rows];
     newRows[index].status = 'Assign Instructors';
@@ -29,6 +40,20 @@ export default function StickyHeadTable() {
     newRows[index].status = 'Rejected';
     setRows(newRows);
   };
+
+  const handleOpenModal = (workshop) => {
+    setSelectedWorkshop(workshop);
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+    setSelectedWorkshop(null);
+  };
+
+  // const handleAssignInstructors = (row) => {
+  //   navigate('/AssignTrainers', { state: { workshop: row } });
+  // }
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -108,6 +133,14 @@ export default function StickyHeadTable() {
                         Reject
                       </Button>
                     </>
+                  ) : row.status === 'Assign Instructors' ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleOpenModal(row)}
+                    >
+                      Assign Instructors
+                    </Button>
                   ) : (
                     row.status
                   )}
@@ -117,6 +150,7 @@ export default function StickyHeadTable() {
           </TableBody>
         </Table>
       </TableContainer>
+      <AssignTrainersPopup open={open} handleClose={handleCloseModal} workshop={selectedWorkshop}/>
     </Box>
   );
 }

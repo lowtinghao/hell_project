@@ -4,6 +4,9 @@ import { CssBaseline, useTheme } from '@mui/material/styles';
 import Navbar from './components/tab';
 import { ThemeProvider } from './components/ThemeProvider';
 import { CalendarView } from './components/CalendarView';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import AssignTrainers from './pages/AssignTrainers';
+import AssignTrainers from './pages/AssignTrainers';
 
 function App() {
 

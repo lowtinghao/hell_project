@@ -55,7 +55,7 @@ export default function Navbar() {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <img src={delllogo} alt="dell logo" style={{ height: '50px', objectFit: 'contain' }} />
           <Tab label={<Typography variant="body1" sx={{ color: theme.palette.text.primary }}>Home</Typography>} {...a11yProps(0)} />
-          <Tab label={<Typography variant="body1" sx={{ color: theme.palette.text.primary }}>Form</Typography>} {...a11yProps(1)} />
+          <Tab label={<Typography variant="body1" sx={{ color: theme.palette.text.primary }}>Edit Form</Typography>} {...a11yProps(1)} />
           <Tab label={<Typography variant="body1" sx={{ color: theme.palette.text.primary }}>Trainers</Typography>} {...a11yProps(2)} />
           <ToggleButton />
         </Tabs>
