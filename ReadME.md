@@ -25,3 +25,12 @@ password : testpass123
 
 Connect using MongoDB directly or Mongoose
 mongodb+srv://admin:<password>@cluster0.ldwipqc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+## Required `npm` Installations
+### Material UI
+- `npm install @mui/material @emotion/react @emotion/styled`
+- `npm install @mui/icons-material`
+
+### Calendar Date Picker
+- `npm install react-calendar`
+
