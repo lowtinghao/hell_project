@@ -11,10 +11,10 @@
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
+  <a href="#technical-description">Technical Description</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
   <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
+  <a href="#contributors">Contributors</a> •
 </p>
 
 
@@ -66,28 +66,27 @@ $ npm install @mui/material @emotion/react @emotion/styled
 # Roboto font
 $ npm install typeface-roboto --save
 
-# Run the app
-$ npm start
+# Babel Presets [Testing]
+$ npm install --save-dev @babel/preset-env @babel/preset-react
+$ npm install --save-dev babel-jest
+
+# Jest Transform stub - handles non-JavaScript assets like images [Testing]
+$ npm install jest-transform-stub --save-dev
+
+# @testing-library
+$ npm install @testing-library/react
+$ npm install --save-dev @testing-library/user-event
 ```
 
 For the Backend, you will need to install the following via your command line. Ensure you are in the "back" folder
 
 ```bash
-# Wtv backend dependencies need to be installed
-$ 
+# Jest, In-memory mongoDB, Mongoose
+$ npm install --save-dev jest mongodb-memory-server mongoose
 
 #
 ```
 
-For the testing, you will need to install the following via your command line. Ensure you are in the appropriate "front"/"back" folder. After installing jest, update "test": "react-scripts test" in the package.json folder to "test": "jest".
-
-```bash
-# Jest, a popular tool to test Node.js apps
-$ npm i jest
-
-# MongoDB Memory Sever
-$ npm i mongodb-memory-server
-```
 
 
 
