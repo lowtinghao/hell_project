@@ -10,6 +10,7 @@ import { useTheme, ThemeProvider } from '@mui/material/styles';
 import delllogo from '../assets/dell_logo.avif';
 import CssBaseline from '@mui/material/CssBaseline';
 import StickyHeadTable from '../pages/adminhome';
+import Formtest from '../pages/formtest';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,8 +68,12 @@ export default function Navbar() {
       <CustomTabPanel value={value} index={1}>
       <StickyHeadTable/>
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}></CustomTabPanel>
-      <CustomTabPanel value={value} index={3}></CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <Formtest/>
+      </CustomTabPanel>
+
+      <CustomTabPanel value={value} index={3}>
+      </CustomTabPanel>
     </Box>
   );
 }
