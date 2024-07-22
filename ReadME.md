@@ -75,7 +75,21 @@ For the Backend, you will need to install the following via your command line. E
 ```bash
 # Wtv backend dependencies need to be installed
 $ 
+
+#
 ```
+
+For the testing, you will need to install the following via your command line. Ensure you are in the appropriate "front"/"back" folder. After installing jest, update "test": "react-scripts test" in the package.json folder to "test": "jest".
+
+```bash
+# Jest, a popular tool to test Node.js apps
+$ npm i jest
+
+# MongoDB Memory Sever
+$ npm i mongodb-memory-server
+```
+
+
 
 > **Note**
 > If you're using newer versions of node.js you may need to change your node version. An easy way to do this is by using [nvm](https://github.com/coreybutler/nvm-windows).
