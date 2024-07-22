@@ -17,9 +17,9 @@ This webapp is meant to help manage client workshop requests, trainer allocation
 - `/admin` Contains all admin routes
     - `/admin/workshops` Handles trainers from the admin panel
         - GET : Gets all workshops.\
-        <u>(Workshop filtering to be done on the frontend???)</u>
+        (Workshop filtering to be done on the frontend???)
         - POST : Updates a workshop.\
-        <u>(This is where workshops will be accepted denied. This is also where trainers will be updated to workshops)</u>
+        (This is where workshops will be accepted denied. This is also where trainers will be updated to workshops)
     - `/admin/trainers` Handles trainers from the admin panel
         - GET : Gets a list of all trainers
         - POST : Creates a trainer
@@ -28,25 +28,25 @@ This webapp is meant to help manage client workshop requests, trainer allocation
             - PUT : Updates the information for a specific trainer
 
 - `/client` Contains all client routes\
-    <u> Right now there is no login system for the clients. Normally this would be implemented using cookies and sessions. If we would like an <i>insecure</i> way of implementing client accounts, we can use the /client/client_id route instead. </u>
+    (Right now there is no login system for the clients. Normally this would be implemented using cookies and sessions. If we would like an <i>insecure</i> way of implementing client accounts, we can use the /client/client_id route instead.)
     - `/client/workshops` Handles workshops from the client view
-        - GET : Gets all workshops associated with particular client \<u> Normally the client will be identified using sessions, but we are implementing a single client for now so it will simply show all workshops.</u>
+        - GET : Gets all workshops associated with particular client \ (Normally the client will be identified using sessions, but we are implementing a single client for now so it will simply show all workshops.)
         - POST : Sends a new workshop request.
         - PUT : Updates a workshop request.
 
 - `/trainer` Contains all trainer routes\
-    <u> Similarly to the clients, no login system yet. We can also use trainer ids to implement trainer accounts.</u>
+    (Similarly to the clients, no login system yet. We can also use trainer ids to implement trainer accounts.)
     - `/trainers/workshops` Handles workshops from the trainer view
         - GET : View assigned Workshops, View schedule
 
 ### Handlers
-<u>Right now controllers are treated as a god classes that handle everything. This works because we have not implemented an account system. Once an account system is implemented, we will need another controller that handles authentication and making sure requests are valid.</u>
+(Right now controllers are treated as a god classes that handle everything. This works because we have not implemented an account system. Once an account system is implemented, we will need another controller that handles authentication and making sure requests are valid.)
 - `TrainerController.js` contains a static class that handles all trainer-based operations on the DB.
 - `WorkshopController.js` contains a static class that handles all workshop-based operations on the DB.
 - `ClientController.js` contains a static class that handles all client-based operations on the DB.\
-<u>Although now with no client accounts, there are no client based operations. Everything is handled within the TrainerController and WorkshopController</u>
+(Although now with no client accounts, there are no client based operations. Everything is handled within the TrainerController and WorkshopController)
 - `AccountValidator.js` Contains a static class that handles all authentication operations for the backend. This will ensure that only clients can make client requests, etc.\
-<u>Only to be implemented if we decide to create an account system.</u>
+(Only to be implemented if we decide to create an account system.)
 
 ### Frontend
 - `/front` constains the ReactJS frontend application
