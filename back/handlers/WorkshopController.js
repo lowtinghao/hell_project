@@ -57,7 +57,6 @@ class WorkshopController{
                 let arr_trainer_str = body.assignedTrainers.split(',');
                 let arr_trainer = [];
                 arr_trainer_str.forEach(element => {
-                    console.log(parseInt(element));
                     arr_trainer.push(parseInt(element));
                 })
             body.assignedTrainers = arr_trainer;
@@ -134,9 +133,7 @@ class WorkshopController{
             this.validateWorkshopBody(req);
             let new_body = this.parseWorkshopRequest(req);
             new_body.workshopId = workshop_id;
-            console.log(new_body)
-            await workshop.deleteOne({workshopId : workshop_id});
-            await this.submitWorkshopRequestQuery(new_body);
+            await workshop.replaceOne({workshopId : workshop_id}, new_body);
         } catch (err) {
             throw err;
         }
