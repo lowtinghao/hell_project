@@ -13,11 +13,13 @@ async function main() {
 app.use(express.json());
 const clientRoute = require('./routes/Client');
 const adminRoute = require('./routes/Admin');
+const trainerRoute = require('./routes/Trainer');
 
 
 app.use(express.json())
 app.use('/client', clientRoute);
 app.use('/admin', adminRoute);
+app.use('/trainer', trainerRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

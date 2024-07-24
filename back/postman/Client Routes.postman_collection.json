@@ -1,0 +1,71 @@
+{
+	"info": {
+		"_postman_id": "d4cf823e-4fd4-4021-9b18-0ab82e7eaee5",
+		"name": "Client Routes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27917267"
+	},
+	"item": [
+		{
+			"name": "Client Create New Workshop",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"client_id\" : 2, \n    \"companyName\" : \"Dell\",\n    \"clientType\" : \"Technical\",\n    \"workshopName\" : \"Workshop 2\",\n    \"dates\" : \"2024-07-25,2024-07-26\",\n    \"type\" : \"Preview\",\n    \"numberOfAttendees\" : \"0-5\",\n    \"dealSizePotential\" : 500,\n    \"location\" : \"Singapore\",\n    \"venue\" : \"Expo\",\n    \"comments\": \"Test Comment\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/client/workshops",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"client",
+						"workshops"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Client Get Workshops",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"client_id\" : 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/client/workshops",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"client",
+						"workshops"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
