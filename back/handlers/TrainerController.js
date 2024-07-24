@@ -92,8 +92,7 @@ class TrainerController{
     static async replaceTrainerbyTrainerId(details, id){
         try {
             details.trainer_id = id;
-            await trainer.deleteOne({trainer_id : id});
-            await trainer.create(details)
+            await trainer.replaceOne({trainer_id : id}, details);
         } catch (err) {
             return err;
         }
