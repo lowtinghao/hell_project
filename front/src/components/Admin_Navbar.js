@@ -162,6 +162,7 @@ function AdminNavbar() {
                         {pages.map((page) => (
                             <Button
                                 key={page}
+                                data-testid={`${page.toLowerCase()}-button`}
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: "#636363", display: "block" }}
                             >
