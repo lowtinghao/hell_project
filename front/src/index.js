@@ -9,12 +9,20 @@ import Client from './pages/Client';
 import Trainer from './pages/Trainer';
 import Admin from './pages/Admin';
 import AssignTrainer from './pages/AssignTrainer'
+import { FormProvider } from './components/FormContext';
+import AdminForm from './pages/AdminForm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
-  {path: '/',element: <Login />}, {path: '/client',element: <Client />}, {path: '/admin',element: <Admin />},
-  {path: '/trainer',element: <Trainer />}, {path: '/assign-trainer', element: <AssignTrainer />}
+  {path: '/',element: <Login />}, 
+  {path: '/client',element: <Client />}, 
+  {path: '/admin',element: <Admin />},
+  {path: '/trainer',element: <Trainer />}, 
+  { path: '/assign-trainer', element: <AssignTrainer /> },
+  { path: '/form', element: <FormProvider><AdminForm /></FormProvider> }
 ]);
+
+
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
