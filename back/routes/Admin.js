@@ -13,7 +13,9 @@ router.get('/', (req, res) => {
 router.post('/trainers',(req, res) => {
     let body = req.body;
     body.assigned_trainers = [];
-    TrainerController.createTrainer(body).then(() => res.send("Success")).catch((err) => res.send(err));
+    TrainerController.createTrainer(body)
+        .then(() => res.send("Success"))
+        .catch((err) => res.status(500).send(`Error: ${err.message}`));
 })
 
 module.exports = router;
