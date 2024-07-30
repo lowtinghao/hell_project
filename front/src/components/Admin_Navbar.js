@@ -1,8 +1,6 @@
-// Navbar for Admin Portal
-
 import Dell_logo from "../assets/dell_logo.svg";
-
 import * as React from "react";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -15,7 +13,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import 'typeface-roboto';
 
 const pages = ["Home", "Form", "Trainers"];
@@ -53,7 +50,7 @@ function AdminNavbar() {
                             borderRadius: 0,
                             ".MuiTouchRipple-ripple .MuiTouchRipple-child": {
                                 borderRadius: 0,
-                            },display: { xs: "none", md: "flex" }, mr: 1
+                            }, display: { xs: "none", md: "flex" }, mr: 1
                         }}
                     >
                         <img
@@ -81,10 +78,6 @@ function AdminNavbar() {
                         Workshop Resource Portal
                     </Typography>
 
-                
-
-
-
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
                         <IconButton
                             size="large"
@@ -111,12 +104,19 @@ function AdminNavbar() {
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
-                                display: { xs: "block", md: "none" }, 
+                                display: { xs: "block", md: "none" },
                             }}
                         >
                             {pages.map((page) => (
                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                                    <Typography textAlign="center">
+                                        <Link
+                                            to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
+                                            style={{ textDecoration: 'none', color: 'inherit' }}
+                                        >
+                                            {page}
+                                        </Link>
+                                    </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
@@ -131,7 +131,7 @@ function AdminNavbar() {
                             ".MuiTouchRipple-ripple .MuiTouchRipple-child": {
                                 borderRadius: 0,
                                 backgroundColor: "red",
-                            },display: { xs: "flex", md: "none" }, mr: 1
+                            }, display: { xs: "flex", md: "none" }, mr: 1
                         }}
                     >
                         <img
@@ -166,15 +166,15 @@ function AdminNavbar() {
                                 onClick={handleCloseNavMenu}
                                 sx={{ my: 2, color: "#636363", display: "block" }}
                             >
-                                {page}
+                                <Link
+                                    to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
+                                    style={{ textDecoration: 'none', color: 'inherit' }}
+                                >
+                                    {page}
+                                </Link>
                             </Button>
                         ))}
                     </Box>
-
-
-
-
-
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
@@ -210,4 +210,5 @@ function AdminNavbar() {
         </AppBar>
     );
 }
+
 export { AdminNavbar };
