@@ -60,7 +60,6 @@ mongodb+srv://admin:<password>@cluster0.ldwipqc.mongodb.net/?retryWrites=true&w=
 
 
 # TODO
-Currently, update operations are deleting and creating a new documents. Implement by comparing fields instead. Or query params.
 Ensure all usecases are completable using routes.
 
 Added Postman folder as examples for the API
