@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "48e57d9f-9976-42c9-abef-978f13976a39",
+		"name": "Trainer Routes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27917267"
+	},
+	"item": [
+		{
+			"name": "Get Assigned Workshops",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"trainer_id\" : 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/trainer/workshops",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"trainer",
+						"workshops"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
