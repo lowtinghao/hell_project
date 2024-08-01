@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation} from 'react-router-dom';
 import FormPreview from '../components/FormPreview';
 import { FormProvider } from '../components/FormContext';
 import { useEffect, useState, useReducer } from 'react';
 import { Box, Button } from '@mui/material';
 function App() {
+  const location = useLocation();
+  const clientId = location.state.id;
+  console.log("Client ID: " + clientId);
+
   const [workshop, setWorkshop] = useState({});
   const back_url = "localhost:3001";
 
