@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ThemeProvider } from '../components/ThemeProvider';
 import WorkshopRequestTable from '../components/WorkshopRequestTable';
-import Navbar from '../components/Navbar';
+import CalendarView from '../components/CalendarView';
 import { AdminNavbar } from '../components/Admin_Navbar';
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
           <ThemeProvider>
             <WorkshopRequestTable />
           </ThemeProvider>
+          <CalendarView/>
           <button><Link to="/">Back</Link></button>
         </div>
       );
