@@ -30,9 +30,9 @@ class WorkshopController{
     static validateWorkshopBody(req){ // Validates the body for the parser
         let body = {... req.body};
         console.log("Validating Workshop Body...")
-        if (typeof body.dates != 'string') {
-            console.log("body.dates is not of string type")
-            throw new Error("body.dates is not of string type");
+        if (body.dates.length == 0) {
+            console.log("No date selected");
+            throw new Error("No date selected");
         }
     }
 
@@ -41,31 +41,15 @@ class WorkshopController{
     // OUTPUT : JS Object.  body.dates should be an array of Dates. body.assignedTrainers should be an array of numbers
     static parseWorkshopRequest(req) { // Parses the JSON to match the database schema
         let body = {... req.body};
-        try {
-            // Format the comma seperated strings into an array of dates
-            let arr_date_str = body.dates.split(',');
-            let arr_date = [];
-            arr_date_str.forEach(element => {
-                if (isNaN(new Date(element))) {
-                    throw new Error("Incorrect Formatting of Date")
-                }
-                arr_date.push(new Date(element));
-            })
-            body.dates = arr_date;
-            // Format the comma seperated strings into an array of strings
-            if (typeof(body.assignedTrainers) == 'string'){
-                let arr_trainer_str = body.assignedTrainers.split(',');
-                let arr_trainer = [];
-                arr_trainer_str.forEach(element => {
-                    arr_trainer.push(parseInt(element));
-                })
-            body.assignedTrainers = arr_trainer;
-            }
-            return body;
-        }  catch (err) {
-            console.log(err);
-            throw new Error("Incorrect Formatting of dates or trainers")
-        }
+        return body;
+        // try {
+
+        //     }
+            
+        // }  catch (err) {
+        //     console.log(err);
+        //     throw new Error("Incorrect Formatting of dates or trainers")
+        // }
     }
 
     // CRUD FUNCTIONS
@@ -130,6 +114,7 @@ class WorkshopController{
     // OUTPUT : None.
     static async replaceWorkshopByWorkshopId(req, workshop_id){
         try {
+            console.log(req.body);
             this.validateWorkshopBody(req);
             let new_body = this.parseWorkshopRequest(req);
             new_body.workshopId = workshop_id;
