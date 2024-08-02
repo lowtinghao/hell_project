@@ -9,7 +9,7 @@ const WorkshopController = require('../handlers/WorkshopController');
 router.use(express.json());
 
 router.get('/', (req, res) => {
-    res.send('Hello Admin!');
+    res.send('Hello Trainer!');
 });
 
 router.get('/workshops', async (req,res) => {
@@ -19,7 +19,7 @@ router.get('/workshops', async (req,res) => {
         res.send(workshops)
     } catch (err) {
         res.status(201);
-        res.send(err)
+        res.send(err.message)
     }
 })
 

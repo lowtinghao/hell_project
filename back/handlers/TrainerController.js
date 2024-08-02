@@ -1,11 +1,12 @@
-const { default: mongoose } = require('mongoose');
+const mongoose = require('mongoose');
+const Trainer = require('../models/Trainer');
 
-let trainerSchema = new mongoose.Schema({
+/*let trainerSchema = new mongoose.Schema({
     trainer_id : {type : Number, unique : true}, 
     trainer_name : {type: String, required : true},
-});
+}); */
 
-let trainer = new mongoose.model('Trainers', trainerSchema);
+//let trainer = new mongoose.model('Trainers', trainerSchema);
 
 // TODO : Specify functionality, inputs, outputs of functions
 // TODO : For all accesses to the database, specify types and do data validation
@@ -25,12 +26,12 @@ class TrainerController{
     // Outputs : Number representing the largest trainer body
     static async getLargestTrainerId() {
         try {
-            let p = await trainer.find({});
+            let p = await Trainer.find({});
             if (p.length == 0) {
                 return 0;
             }
-            p.sort((a,b) => a.trainer_id < b.trainer_id ? 1 : -1);
-            return p[0].trainer_id;
+            p.sort((a,b) => a.trainerId < b.trainerId ? 1 : -1);
+            return p[0].trainerId;
         } catch (err) {
             throw err;
         }
@@ -47,8 +48,8 @@ class TrainerController{
         try {
             let details = this.parseNewTrainerRequest(req);
             let id = await this.getLargestTrainerId() + 1;
-            details.trainer_id = id;
-            let p = await trainer.create(details);
+            details.trainerId = id;
+            await Trainer.create(details);
         } catch (err) {
             throw err;
         }
@@ -59,9 +60,9 @@ class TrainerController{
     // OUTPUT : None
     static async deleteTrainer(id){
         try {
-            let p = await trainer.deleteOne({ trainer_id : id });
+            await Trainer.deleteOne({ trainerId : id });
         } catch (err) {
-            return err;
+            throw err;
         }
     }
 
@@ -70,7 +71,7 @@ class TrainerController{
     // OUTPUT : JS Object containing all trainers
     static async getAllTrainers() {
         try {
-            let p = await trainer.find({});
+            let p = await Trainer.find({});
             return p;
         } catch (err) {
             throw err;
@@ -82,7 +83,7 @@ class TrainerController{
     // OUTPUT : JS Object containing trainer
     static async getTrainerById(trainer_id) {
         try {
-            let p = await trainer.find({trainer_id : trainer_id});
+            let p = await Trainer.find({trainerId : trainer_id});
             return p;
         } catch (err) {
             throw err;
@@ -91,10 +92,10 @@ class TrainerController{
 
     static async replaceTrainerbyTrainerId(details, id){
         try {
-            details.trainer_id = id;
-            await trainer.replaceOne({trainer_id : id}, details);
+            details.trainerId = id;
+            await Trainer.replaceOne({trainerId : id}, details);
         } catch (err) {
-            return err;
+            throw err;
         }
     }
 }
