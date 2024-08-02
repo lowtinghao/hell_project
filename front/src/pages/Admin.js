@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation} from 'react-router-dom';
 import { ThemeProvider } from '../components/ThemeProvider';
 import WorkshopRequestTable from '../components/WorkshopRequestTable';
-import Navbar from '../components/Navbar';
 import { AdminNavbar } from '../components/Admin_Navbar';
 
+
 function App() {
+  const location = useLocation();
+  const adminId = location.state.id;
+  console.log("Admin ID: " + adminId);
       return (
         <div>
           <AdminNavbar/>

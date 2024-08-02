@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
-import { TrainerNavbar } from '../components/Trainer_Navbar';
-import ViewWorkshopsTable from '../components/Trainer_ViewWorkshopsTable';
+import { Link, useLocation} from 'react-router-dom';
+
 function App() {
+  const location = useLocation();
+  const trainerId = location.state.id;
+  console.log("Trainer ID: " + trainerId);
       return (
         <div>
-          <TrainerNavbar/>
           <h2>Trainer Page</h2>
           <br/>
           <ViewWorkshopsTable/>
