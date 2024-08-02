@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import AdminForm from '../pages/AdminForm';
 import AssignTrainer from '../pages/AssignTrainer';
 import FormBuilder from '../components/FormBuilder';
+import TrainerAvailability from '../components/TrainerAvailability';
 
 
 
@@ -27,6 +28,7 @@ function App() {
         <ThemeProvider>
           <WorkshopRequestTable />
         </ThemeProvider>
+        <button><Link to="/">Back</Link></button>
       </div>
     );
   } else if (page === "trainers-button"){
@@ -34,12 +36,35 @@ function App() {
     return (
       <div>
         <AdminNavbar setPage = {setPage}/>
-        <h2>Assign Trainer</h2>
-        <ThemeProvider>
-          <AssignTrainer />
-        </ThemeProvider>
+        <h2>Trainer Page : I need help with this</h2>
+
+        {/* <ThemeProvider>
+				  <TrainerAvailability/>
+			  </ThemeProvider> */}
+        <button><Link to="/">Back</Link></button>
       </div>
       );
-    };
+    } else if (page === "form-button"){
+      console.log("Going to trainer page")
+      return (
+        <div>
+          <AdminNavbar setPage = {setPage}/>
+          <h1>Form Page : I need help with this</h1>
+          <button><Link to="/">Back</Link></button>
+        </div>
+        
+        
+
+       
+        
+        // <div>
+        //   
+        //   <h2>Assign Trainer</h2>
+        //   <ThemeProvider>
+        //     <AssignTrainer />
+        //   </ThemeProvider>
+        // </div>
+        );
+      };
 }
     export default App;

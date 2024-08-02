@@ -16,7 +16,7 @@ import MenuItem from "@mui/material/MenuItem";
 import 'typeface-roboto';
 import { dark } from "@mui/material/styles/createPalette";
 
-const pages = ["Home", "Trainers"];
+const pages = ["Home", "Trainers", "Form"];
 const settings = ["Account", "Logout"];
 
 function AdminNavbar(props) {
@@ -70,7 +70,6 @@ function AdminNavbar(props) {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
                             display: { xs: "none", md: "flex" },
@@ -81,7 +80,9 @@ function AdminNavbar(props) {
                             textDecoration: "none",
                         }}
                     >
-                        Workshop Resource Portal
+                        <Button onClick={handleClick} data-testid={'home-button'}>
+                            Workshop Resource Portal
+                        </Button>
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -130,7 +131,7 @@ function AdminNavbar(props) {
                             ))}
                         </Menu>
                     </Box>
-                    <IconButton
+                    <IconButton 
                         size="large"
                         edge="start"
                         color="inherit"
@@ -143,7 +144,9 @@ function AdminNavbar(props) {
                             }, display: { xs: "flex", md: "none" }, mr: 1
                         }}
                     >
-                        <img
+                        <img 
+                            onClick={handleClick} 
+                            data-testid={'home-button'}
                             src={Dell_logo}
                             alt="Dell Technologies Logo"
                             height="33"
@@ -153,7 +156,6 @@ function AdminNavbar(props) {
                         variant="h5"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
                             display: { xs: "flex", md: "none" },
@@ -165,7 +167,9 @@ function AdminNavbar(props) {
                             textDecoration: "none",
                         }}
                     >
-                        Workshop Resource Portal
+                        <Button onClick={handleClick} data-testid={'home-button'}>
+                            Workshop Resource Portal
+                        </Button>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                         {pages.map((page) => (

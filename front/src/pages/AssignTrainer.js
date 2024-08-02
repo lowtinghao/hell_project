@@ -13,7 +13,6 @@ function App() {
 			<ThemeProvider>
 				<TrainerAvailability/>
 			</ThemeProvider>
-			<button><Link to="/admin">Back</Link></button>
 		</div>
 	);
 }
