@@ -110,12 +110,13 @@ function AdminNavbar() {
                             {pages.map((page) => (
                                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">
-                                        <Link
+                                        {page}
+                                        {/* <Link
                                             to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
                                             style={{ textDecoration: 'none', color: 'inherit' }}
                                         >
                                             {page}
-                                        </Link>
+                                        </Link> */}
                                     </Typography>
                                 </MenuItem>
                             ))}

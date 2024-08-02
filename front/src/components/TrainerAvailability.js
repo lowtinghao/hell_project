@@ -18,7 +18,7 @@ const initialRows = [
 
 // TODO: Modify this function as GET request from DB --> function should be pointing to request that was clicked in previous page
 function ShowWorkshopDetails(workshop){
-	console.log('');
+	console.log((new Date(workshop['fromDate'])).toLocaleDateString());
 	return (
 		<div>
 			{/* Show details of selected worskshop */}
@@ -42,8 +42,8 @@ function ShowWorkshopDetails(workshop){
 							<TableCell align="center">{workshop['clientname']}</TableCell>
 							<TableCell align="center">{workshop['workname']}</TableCell>
 							<TableCell align="center">{workshop['worktype']}</TableCell>
-							<TableCell align="center">{workshop['fromDate'].toLocaleDateString()}</TableCell>
-							<TableCell align="center">{workshop['toDate'].toLocaleDateString()}</TableCell>
+							<TableCell align="center">{(new Date(workshop['fromDate'])).toLocaleDateString()}</TableCell>
+							<TableCell align="center">{(new Date(workshop['fromDate'])).toLocaleDateString()}</TableCell>
 					</TableBody>
 					</Table>
 				</TableContainer>
