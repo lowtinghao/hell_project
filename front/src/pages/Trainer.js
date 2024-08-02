@@ -1,5 +1,7 @@
 import { Link, useLocation} from 'react-router-dom';
 
+import ViewWorkshopsTable from '../components/Trainer_ViewWorkshopsTable';
+
 function App() {
   const location = useLocation();
   const trainerId = location.state.id;
