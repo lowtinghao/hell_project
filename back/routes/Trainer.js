@@ -32,6 +32,7 @@ router.get('/workshops', async (req,res) => {
     } catch (err) {
         res.status(201);
         res.send(`Unable to fetch workshops due to error: ${err.message}`);
+        //res.send("Unable to fetch workshops")
     }
 })
 
