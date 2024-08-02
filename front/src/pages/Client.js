@@ -3,6 +3,9 @@ import FormPreview from '../components/FormPreview';
 import { FormProvider } from '../components/FormContext';
 import { useEffect, useState, useReducer } from 'react';
 import { Box, Button } from '@mui/material';
+
+import ViewClientWorkshopsTable from '../components/Client_ViewWorkshopsTable';
+
 function App() {
   const location = useLocation();
   const clientId = location.state.id;
@@ -61,6 +64,10 @@ function App() {
           <Box>
             <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
           </Box>
+
+          <br/>
+          <ViewClientWorkshopsTable/>
+
           <button><Link to="/">Back</Link></button>
         </div>
       );
