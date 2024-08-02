@@ -7,9 +7,7 @@ const trainerSchema = new mongoose.Schema({
     workshopId: { type: Number } //same as for schedule
 });
 
-const Trainer = mongoose.model('Trainer', trainerSchema);
-
-Trainer.statics.getTrainers = async function() {
+trainerSchema.statics.getTrainers = async function() {
     try {
         const trainers = await this.find();
         return trainers;
@@ -18,6 +16,8 @@ Trainer.statics.getTrainers = async function() {
         throw error;
     }
 }
+
+const Trainer = mongoose.model('Trainer', trainerSchema);
 
 
 /* Trainer.statics.updateTrainerSchedule = async function() {
