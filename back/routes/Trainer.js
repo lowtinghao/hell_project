@@ -12,15 +12,28 @@ router.get('/', (req, res) => {
     res.send('Hello Trainer!');
 });
 
-router.get('/workshops', async (req,res) => {
+// TODO: get workshops only assigned to respective trainer
+/* router.get('/workshops', async (req,res) => {
     try {
         let workshops = await WorkshopController.getworkshopsAssignedToTrainer(parseInt(req.body.trainer_id));
         res.status(200);
         res.send(workshops)
     } catch (err) {
         res.status(201);
-        res.send(err.message)
+        res.send(err)
+    }
+}) */
+
+router.get('/workshops', async (req,res) => {
+    try {
+        let workshops = await WorkshopController.getAllWorkshops();
+        res.status(200);
+        res.send(workshops)
+    } catch (err) {
+        res.status(201);
+        res.send(`Unable to fetch workshops due to error: ${err.message}`);
     }
 })
+
 
 module.exports = router;
