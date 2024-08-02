@@ -4,7 +4,7 @@ import ViewWorkshopsTable from '../components/ViewWorkshopsTable';
 function App() {
       return (
         <div>
-          
+          <TrainerNavbar/>
           <h2>Trainer Page</h2>
           <br/>
           <ViewWorkshopsTable/>

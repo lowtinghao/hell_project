@@ -95,16 +95,16 @@ export default function ViewWorkshopsTable() {
 			let filtered = filterWorkshops(workshops, -1);
 			let formattedWorkshops = formatWorkshopJson(filtered);
 			setRows([...formattedWorkshops]);
-		} else if (filter === 'New'){
+		} else if (filter === 'Pending'){
 			let filtered = filterWorkshops(workshops, 0);
 			let formattedWorkshops = formatWorkshopJson(filtered);
 			setRows([...formattedWorkshops]);
-		} else if (filter === 'Rejected') {
-			let filtered = filterWorkshops(workshops, 2);
+		} else if (filter === 'Accepted') {
+			let filtered = filterWorkshops(workshops, 1);
 			let formattedWorkshops = formatWorkshopJson(filtered);
 			setRows([...formattedWorkshops]);
-		} else if (filter === 'Assign Instructors') {
-			let filtered = filterWorkshops(workshops, 1);
+		}else if (filter === 'Rejected') {
+			let filtered = filterWorkshops(workshops, 2);
 			let formattedWorkshops = formatWorkshopJson(filtered);
 			setRows([...formattedWorkshops]);
 		}
@@ -129,7 +129,7 @@ export default function ViewWorkshopsTable() {
 			<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
 				<TableContainer component={Paper} sx={{ maxWidth: 900, width: '100%', margin: 'auto' }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px' }}>
-						<Typography variant="h5">Workshop Requests</Typography>
+						<Typography variant="h5">View All Workshops</Typography>
 						<FormControl sx={{ m: 1, minWidth: 120 }}>
 							<InputLabel id="filter-label">Filter</InputLabel>
 							<Select
@@ -140,9 +140,9 @@ export default function ViewWorkshopsTable() {
 								onChange={handleFilterChange}
 							>
 								<MenuItem value="All">All</MenuItem>
-								<MenuItem value="New">New</MenuItem>
-								<MenuItem value="Assign Instructors">Assign Instructors</MenuItem>
-								<MenuItem value="Rejected">Rejected</MenuItem>
+								<MenuItem value="Pending">Pending</MenuItem>
+								<MenuItem value="Accepted">Accepted</MenuItem>
+                                <MenuItem value="Rejected">Rejected</MenuItem>
 							</Select>
 						</FormControl>
 					</Box>
