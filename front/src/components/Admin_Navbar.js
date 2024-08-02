@@ -14,11 +14,12 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import 'typeface-roboto';
+import { dark } from "@mui/material/styles/createPalette";
 
-const pages = ["Home", "Form", "Trainers"];
+const pages = ["Home", "Trainers"];
 const settings = ["Account", "Logout"];
 
-function AdminNavbar() {
+function AdminNavbar(props) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -35,6 +36,11 @@ function AdminNavbar() {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+    
+    const handleClick = (e) => {
+        handleCloseNavMenu();
+        props.setPage(e.target.getAttribute("data-testid"));
     };
 
     return (
@@ -108,9 +114,11 @@ function AdminNavbar() {
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                <MenuItem key={page} onClick={handleClick}>
                                     <Typography textAlign="center">
+                                        <Button data-testid={`${page.toLowerCase()}-button`}>
                                         {page}
+                                        </Button>
                                         {/* <Link
                                             to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
                                             style={{ textDecoration: 'none', color: 'inherit' }}
@@ -164,15 +172,15 @@ function AdminNavbar() {
                             <Button
                                 key={page}
                                 data-testid={`${page.toLowerCase()}-button`}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: "#636363", display: "block" }}
-                            >
-                                <Link
+                                onClick={handleClick}
+                                sx={{ my: 2, color: "#636363", display: "block" }}>
+                                    {page}
+                                {/* <Link
                                     to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
                                     {page}
-                                </Link>
+                                </Link> */}
                             </Button>
                         ))}
                     </Box>

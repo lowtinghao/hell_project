@@ -16,18 +16,9 @@ import { Link } from 'react-router-dom';
 export default function SignIn() {
   const [loginType, setLoginType] = React.useState('admin');
   const [ id, setId ] = useState();
-<<<<<<< HEAD
-
   const handleChange = (e) => {
     setId(e.target.value)
   }
-=======
-  
-  const handleChange = (e) => {
-    setId(e.target.value)
-  }
-
->>>>>>> 0c7e5238 (Undid Id system for now)
   return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -59,33 +50,19 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-<<<<<<< HEAD
               sx={{ mt: 3, mb: 2 }}>
-=======
-              sx={{ mt: 3, mb: 2 }}
-              >
->>>>>>> 0c7e5238 (Undid Id system for now)
               Sign In
             </Button>
             </Link>
           </Box>
           <Box>
           <ToggleButtonGroup>
-<<<<<<< HEAD
             <ToggleButton selected={loginType === "admin"} onClick={() => setLoginType('admin')}>Admin</ToggleButton>
             <ToggleButton selected={loginType === "trainer"} onClick={() => setLoginType('trainer')}>Trainer</ToggleButton>
-=======
-            <ToggleButton selected={loginType === "admin"} onClick={() => {setLoginType('admin')}}>Admin</ToggleButton>
-            <ToggleButton selected={loginType === "trainer"} onClick={() => {setLoginType('trainer')}}>Trainer</ToggleButton>
->>>>>>> 0c7e5238 (Undid Id system for now)
             <ToggleButton selected={loginType === "client"} onClick={() => setLoginType('client')}>Client</ToggleButton>
           </ToggleButtonGroup>
           </Box>
         </Box>
       </Container>
   );
-<<<<<<< HEAD
-=======
-  
->>>>>>> 0c7e5238 (Undid Id system for now)
 }
