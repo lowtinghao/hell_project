@@ -73,6 +73,10 @@ export default function ViewWorkshopsTable() {
 	async function fetchWorkshops() {
 		let response = await fetch(`http://${back_url}/trainer/workshops`);
 		let data = await response.json();
+
+        // remove rejected workshops
+        data = data.filter(item => item.status !== 2);
+        console.log(data);
 		setWorkshops(data)};
 
 		
@@ -103,18 +107,11 @@ export default function ViewWorkshopsTable() {
 			let filtered = filterWorkshops(workshops, 1);
 			let formattedWorkshops = formatWorkshopJson(filtered);
 			setRows([...formattedWorkshops]);
-		}else if (filter === 'Rejected') {
-			let filtered = filterWorkshops(workshops, 2);
-			let formattedWorkshops = formatWorkshopJson(filtered);
-			setRows([...formattedWorkshops]);
 		}
 	}, [filter, workshops]);
 
 
-	const handleAssignInstructors = (index) => {
-		console.log('Assign instructors clicked');
 
-	};
 
 	const handleFilterChange = (event) => {
 		console.log(event.target.value);
@@ -142,7 +139,6 @@ export default function ViewWorkshopsTable() {
 								<MenuItem value="All">All</MenuItem>
 								<MenuItem value="Pending">Pending</MenuItem>
 								<MenuItem value="Accepted">Accepted</MenuItem>
-                                <MenuItem value="Rejected">Rejected</MenuItem>
 							</Select>
 						</FormControl>
 					</Box>
@@ -170,9 +166,7 @@ export default function ViewWorkshopsTable() {
 											</>
 										) : row.status === 1 ? ( // The value 1 represents a request that has been accepted
 											<p>Accepted</p>
-										) : row.status === 2 ? ( // The value 2 represents a request that has been rejected
-											<p>Rejected</p>
-										) : (
+										) :(
 											row.status
 										)}
 									</TableCell>
