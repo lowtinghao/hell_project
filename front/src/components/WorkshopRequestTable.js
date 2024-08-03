@@ -189,15 +189,16 @@ export default function WorkshopRequestTable() {
 			<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
 				<TableContainer component={Paper} sx={{ maxWidth: 900, width: '100%', margin: 'auto' }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px' }}>
-						<Typography variant="h5">Workshop Requests</Typography>
+						<Typography variant="h5" data-testid="table-title">Workshop Requests</Typography>
 						<FormControl sx={{ m: 1, minWidth: 120 }}>
-							<InputLabel id="filter-label">Filter</InputLabel>
+							<InputLabel id="filter-label" data-testid="filter-label">Filter</InputLabel>
 							<Select
 								labelId="filter-label"
 								id="filter-select"
 								value={filter}
 								label="Filter"
 								onChange={handleFilterChange}
+								data-testid="filter-select"
 							>
 								<MenuItem value="All">All</MenuItem>
 								<MenuItem value="New">New</MenuItem>
@@ -206,24 +207,24 @@ export default function WorkshopRequestTable() {
 							</Select>
 						</FormControl>
 					</Box>
-					<Table aria-label="simple table">
+					<Table aria-label="simple table" data-testid="workshop-table">
 						<TableHead>
 							<TableRow>
-								<TableCell>Client ID</TableCell>
-								<TableCell>Client Name</TableCell>
-								<TableCell align="center">Workshop Name</TableCell>
-								<TableCell align="center">Workshop Type</TableCell>
-								<TableCell align="center">Status</TableCell>
+								<TableCell data-testid="client-id-header">Client ID</TableCell>
+                                                                <TableCell data-testid="client-name-header">Client Name</TableCell>
+                                                                <TableCell align="center" data-testid="workshop-name-header">Workshop Name</TableCell>
+                                                                <TableCell align="center" data-testid="workshop-type-header">Workshop Type</TableCell>
+                                                                <TableCell align="center" data-testid="status-header">Status</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{rows.map((row, index) => (
 								<TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell component="th" scope="row">{row.clientid}</TableCell>
-									<TableCell align="center">{row.clientname}</TableCell>
-									<TableCell align="center">{row.workname}</TableCell>
-									<TableCell align="center">{row.worktype}</TableCell>
-									<TableCell align="center">
+									<TableCell component="th" scope="row" data-testid={`client-id-${row.workshopId}`}>{row.clientid}</TableCell>
+                                                                        <TableCell align="center" data-testid={`client-name-${row.workshopId}`}>{row.clientname}</TableCell>
+                                                                        <TableCell align="center" data-testid={`workshop-name-${row.workshopId}`}>{row.workname}</TableCell>
+                                                                        <TableCell align="center" data-testid={`workshop-type-${row.workshopId}`}>{row.worktype}</TableCell>
+                                                                        <TableCell align="center" data-testid={`status-${row.workshopId}`}>
 										{row.status === 0 ? ( //This represents a new request
 											<>
 												<Button
@@ -237,6 +238,7 @@ export default function WorkshopRequestTable() {
 														marginRight: 1
 													}}
 													onClick={() => handleAccept(row)}
+								                                        data-testid={`accept-button-${row.workshopId}`}
 												>
 													Accept
 												</Button>
@@ -250,6 +252,7 @@ export default function WorkshopRequestTable() {
 														}
 													}}
 													onClick={() => handleReject(row)}
+                                                                                                        data-testid={`reject-button-${row.workshopId}`}
 												>
 													Reject
 												</Button>
@@ -261,13 +264,14 @@ export default function WorkshopRequestTable() {
 											component={Link}
 											to="/assign-trainer"
 											state={{workshop:row}}
-											>
+											data-testid={`assign-trainer-button-${row.workshopId}`}
+                                                                                        >
 												{/* <Link to="/assign-trainer"> */}
 												Assign Trainer
 												{/* </Link> */}
 											</Button>
 										) : row.status === 2 ? ( // The value 2 represents a request that has been rejected
-											<p>Rejected</p>
+											<p data-testid={`rejected-text-${row.workshopId}`}>Rejected</p>
 										) : (
 											row.status
 										)}
