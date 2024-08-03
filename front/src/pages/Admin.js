@@ -15,13 +15,18 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(location.state);
     if (location.state == null){
       navigate('/');
     }
     if (location.state.id == null) {
       navigate('/');
     }
+    console.log(parseFloat(location.state.id));
+    console.log(parseInt(location.state.id));
+    if (!Number.isInteger(parseFloat(location.state.id))) {
+      navigate('/');
+    }
+    console.log(typeof(location.state.id));
   }, [location, navigate]);
 
   const [page, setPage] = useState("home-button")

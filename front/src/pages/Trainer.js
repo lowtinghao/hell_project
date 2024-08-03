@@ -9,11 +9,13 @@ function App() {
   
 
   useEffect(() => {
-    console.log(location.state);
     if (location.state == null){
       navigate('/');
     }
     if (location.state.id == null) {
+      navigate('/');
+    }
+    if (!Number.isInteger(parseFloat(location.state.id))) {
       navigate('/');
     }
   }, [location, navigate]);
