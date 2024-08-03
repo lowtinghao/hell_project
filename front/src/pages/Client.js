@@ -5,18 +5,31 @@ import { useEffect, useState, useReducer } from 'react';
 import { Box, Button } from '@mui/material';
 import { ClientNavbar } from '../components/Client_Navbar';
 import ViewClientWorkshopsTable from '../components/Client_ViewWorkshopsTable';
+
+function checkIfIdIsValid(location_state){
+  if (location_state == null){
+    return false;
+  }
+  if (location_state.id == null) {
+    return false;
+  }
+  if (!Number.isInteger(parseFloat(location_state.id))) {
+    return false;
+  }
+  return true;
+}
+
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [id,setId] = useState();
+
   useEffect(() => {
-    if (location.state == null){
+    console.log(location.state);
+    if (!checkIfIdIsValid(location.state)){
       navigate('/');
-    }
-    if (location.state.id == null) {
-      navigate('/');
-    }
-    if (!Number.isInteger(parseFloat(location.state.id))) {
-      navigate('/');
+    } else {
+      setId(location.state.id);
     }
   }, [location, navigate]);
 
@@ -67,6 +80,7 @@ function App() {
       return (
         <div>
           <h2>Client Page</h2>
+          <h3>{"ID : " + id}</h3>
           <FormProvider>
            <FormPreview workshopSetter={setWorkshop} workshop={workshop}/>
           </FormProvider>

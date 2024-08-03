@@ -1,6 +1,6 @@
 import Dell_logo from "../assets/dell_logo.svg";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -20,6 +20,7 @@ const pages = ["Home", "Trainers", "Form"];
 const settings = ["Account", "Logout"];
 
 function AdminNavbar(props) {
+    const navigate = useNavigate(); 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -36,6 +37,15 @@ function AdminNavbar(props) {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    const handleClickSetting = (setting) => {
+        if (setting === "Logout") {
+            navigate("/");
+        } else {
+            handleCloseUserMenu();
+        }
+        
     };
     
     const handleClick = (e) => {
@@ -212,7 +222,7 @@ function AdminNavbar(props) {
                             onClose={handleCloseUserMenu}
                         >
                             {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                <MenuItem key={setting} onClick={() => handleClickSetting(setting)}>
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
                             ))}
