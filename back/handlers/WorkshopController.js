@@ -118,6 +118,7 @@ class WorkshopController{
             this.validateWorkshopBody(req);
             let new_body = this.parseWorkshopRequest(req);
             new_body.workshopId = workshop_id;
+            new_body.status = 0
             await workshop.replaceOne({workshopId : workshop_id}, new_body);
         } catch (err) {
             throw err;
@@ -152,8 +153,11 @@ class WorkshopController{
     static async assignTrainerToWorkshop(trainer_id, workshop_id){
         try {
             let workshopInfo = await this.getWorkshopByWorkshopId(workshop_id);
-            workshopInfo.assignedTrainers.push(trainer_id);
-            await workshop.replaceOne({ workshopId : workshop_id }, workshopInfo);
+            if (workshopInfo.length == 0){
+                throw new Error('Workshop not found');
+            }
+            workshopInfo[0].assignedTrainers.push(trainer_id);
+            await workshop.replaceOne({ workshopId : workshop_id }, workshopInfo[0]);
         } catch (err) {
             throw err;
         }
@@ -172,4 +176,4 @@ class WorkshopController{
 
 }
 
-module.exports = WorkshopController;
+module.exports = {WorkshopController, workshop};

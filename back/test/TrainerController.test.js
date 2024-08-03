@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const TrainerController = require('../handlers/TrainerController');
-const Trainer = require('../models/Trainer');
+const {TrainerController, Trainer} = require('../handlers/TrainerController');
 
 describe('TrainerController', () => {
     let mongoServer;
@@ -28,7 +27,7 @@ describe('TrainerController', () => {
 
     describe('parseNewTrainerRequest', () => {
         test('should parse the request body correctly', () => {
-            const req = { body: { trainerName: 'John Doe', trainerId: 1, schedule: {}, workshopId: 101 } };
+            const req = { body: { trainer_name: 'John Doe', trainer_id: 1 } };
             const parsedRequest = TrainerController.parseNewTrainerRequest(req);
             expect(parsedRequest).toEqual(req.body);
         });
@@ -41,10 +40,12 @@ describe('TrainerController', () => {
         });
 
         test('should return the largest trainer ID', async () => {
-            await Trainer.create({ trainerId: 1, trainerName: 'Trainer1' });
-            await Trainer.create({ trainerId: 3, trainerName: 'Trainer2' });
-            await Trainer.create({ trainerId: 2, trainerName: 'Trainer3' });
+            //setting up
+            await Trainer.create({trainer_id: 1, trainer_name: 'Trainer1' });
+            await Trainer.create({ trainer_id: 3,  trainer_name: 'Trainer2' } );
+            await Trainer.create({ trainer_id: 2,  trainer_name: 'Trainer3' } );
 
+            //testing
             const largestTrainerId = await TrainerController.getLargestTrainerId();
             expect(largestTrainerId).toBe(3);
         });
@@ -63,7 +64,7 @@ describe('TrainerController', () => {
     describe('createTrainer', () => {
         beforeEach(() => {
             jest.spyOn(TrainerController, 'parseNewTrainerRequest').mockImplementation((req) => {
-                return { trainerName: 'John Doe', trainerId: 1, schedule: {}, workshopId: 101 };
+                return { trainer_name: 'John Doe', trainer_id: 1 };
             });
             jest.spyOn(TrainerController, 'getLargestTrainerId').mockImplementation(async () => {
                 return 0;
@@ -71,11 +72,11 @@ describe('TrainerController', () => {
         });
 
         test('should create a new trainer', async () => {
-            const req = { body: { trainerName: 'John Doe', trainerId: 1, schedule: {}, workshopId: 101 } };
+            const req = { trainer_name: 'John Doe', trainer_id: 1 };
             await TrainerController.createTrainer(req);
-            const trainer = await Trainer.findOne({ trainerName: 'John Doe' });
+            const trainer = await Trainer.findOne({ trainer_name: 'John Doe' });
             expect(trainer).toBeTruthy();
-            expect(trainer.trainerId).toBe(1);
+            expect(trainer.trainer_id).toBe(1);
         });
 
         test('should throw an error if there is an issue with creating the trainer', async () => {
@@ -83,7 +84,7 @@ describe('TrainerController', () => {
                 throw new Error('Mocked error');
             });
 
-            const req = { body: { trainerName: 'John Doe', trainerId: 1, schedule: {}, workshopId: 101 } };
+            const req = { trainer_name: 'John Doe', trainer_id: 1 };
             await expect(TrainerController.createTrainer(req)).rejects.toThrow('Mocked error');
         });
 
@@ -92,16 +93,16 @@ describe('TrainerController', () => {
                 throw new Error('Mocked error');
             });
 
-            const req = { body: { trainerName: 'John Doe', trainerId: 1, schedule: {}, workshopId: 101 } };
+            const req = { trainer_name: 'John Doe', trainer_id: 1 };
             await expect(TrainerController.createTrainer(req)).rejects.toThrow('Mocked error');
         });
     });
 
     describe('deleteTrainer', () => {
         test('should delete the trainer', async () => {
-            await Trainer.create({ trainerId: 1, trainerName: 'John Doe' });
+            await Trainer.create({ trainer_name: 'John Doe', trainer_id: 1 });
             await TrainerController.deleteTrainer(1);
-            const trainer = await Trainer.findOne({ trainerId: 1 });
+            const trainer = await Trainer.findOne({ trainer_id: 1 });
             expect(trainer).toBeNull();
         });
 
@@ -115,13 +116,15 @@ describe('TrainerController', () => {
 
     describe('getAllTrainers', () => {
         test('should get all trainers', async () => {
-            await Trainer.create({ trainerId: 1, trainerName: 'Trainer1' });
-            await Trainer.create({ trainerId: 2, trainerName: 'Trainer2' });
-
+            //setting up
+            await Trainer.create({ trainer_name: 'Trainer1', trainer_id: 1 });
+            await Trainer.create({ trainer_name: 'Trainer2', trainer_id: 2 });
+            
+            //testing
             const trainers = await TrainerController.getAllTrainers();
             expect(trainers).toHaveLength(2);
-            expect(trainers[0].trainerName).toBe('Trainer1');
-            expect(trainers[1].trainerName).toBe('Trainer2');
+            expect(trainers[0].trainer_name).toBe('Trainer1');
+            expect(trainers[1].trainer_name).toBe('Trainer2');
         });
 
         test('should throw an error if there is an issue with fetching all trainers', async () => {
@@ -135,11 +138,13 @@ describe('TrainerController', () => {
 
     describe('getTrainerById', () => {
         test('should get trainer by ID', async () => {
-            await Trainer.create({ trainerId: 1, trainerName: 'John Doe' });
-
+            //setting up
+            await Trainer.create({trainer_name: 'John Doe', trainer_id: 1 });
+            
+            //testing
             const trainer = await TrainerController.getTrainerById(1);
             expect(trainer).toBeTruthy();
-            expect(trainer[0].trainerName).toBe('John Doe');
+            expect(trainer[0].trainer_name).toBe('John Doe');
         });
 
         test('should throw an error if there is an issue with fetching the trainer by ID', async () => {
@@ -153,16 +158,16 @@ describe('TrainerController', () => {
 
     describe('replaceTrainerByTrainerId', () => {
         test('should replace the trainer details', async () => {
-            await Trainer.create({ trainerId: 1, trainerName: 'John Doe' });
+            //setting up
+            await Trainer.create({trainer_name: 'John Doe', trainer_id: 1 });
 
-            const newDetails = { trainerName: 'Jane Doe', workshopId: 102 };
+            //testing
+            const newDetails = { trainer_name: 'Jane Doe' };
             await TrainerController.replaceTrainerbyTrainerId(newDetails, 1);
 
-            const updatedTrainer = await Trainer.findOne({ trainerId: 1 });
-            console.log(updatedTrainer);
+            const updatedTrainer = await Trainer.findOne({ trainer_id: 1 });
             expect(updatedTrainer).toBeTruthy();
-            expect(updatedTrainer.trainerName).toBe('Jane Doe');
-            expect(updatedTrainer.workshopId).toBe(102);
+            expect(updatedTrainer.trainer_name).toBe('Jane Doe');
         });
 
         test('should throw an error if there is an issue with replacing the trainer', async () => {
@@ -170,7 +175,7 @@ describe('TrainerController', () => {
                 throw new Error('Mocked error');
             });
 
-            const newDetails = { trainerName: 'Jane Doe', workshopId: 102 };
+            const newDetails = { trainer_name: 'Jane Doe' };
             await expect(TrainerController.replaceTrainerbyTrainerId(newDetails, 1)).rejects.toThrow('Mocked error');
         });
     });

@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
-const Trainer = require('../models/Trainer');
 
-/*let trainerSchema = new mongoose.Schema({
+let trainerSchema = new mongoose.Schema({
     trainer_id : {type : Number, unique : true}, 
     trainer_name : {type: String, required : true},
-}); */
+});
 
-//let trainer = new mongoose.model('Trainers', trainerSchema);
+let Trainer = new mongoose.model('Trainers', trainerSchema);
 
 // TODO : Specify functionality, inputs, outputs of functions
 // TODO : For all accesses to the database, specify types and do data validation
@@ -30,8 +29,8 @@ class TrainerController{
             if (p.length == 0) {
                 return 0;
             }
-            p.sort((a,b) => a.trainerId < b.trainerId ? 1 : -1);
-            return p[0].trainerId;
+            p.sort((a,b) => a.trainer_id < b.trainer_id ? 1 : -1);
+            return p[0].trainer_id;
         } catch (err) {
             throw err;
         }
@@ -48,7 +47,7 @@ class TrainerController{
         try {
             let details = this.parseNewTrainerRequest(req);
             let id = await this.getLargestTrainerId() + 1;
-            details.trainerId = id;
+            details.trainer_id = id;
             await Trainer.create(details);
         } catch (err) {
             throw err;
@@ -60,7 +59,7 @@ class TrainerController{
     // OUTPUT : None
     static async deleteTrainer(id){
         try {
-            await Trainer.deleteOne({ trainerId : id });
+            await Trainer.deleteOne({ trainer_id : id });
         } catch (err) {
             throw err;
         }
@@ -83,7 +82,7 @@ class TrainerController{
     // OUTPUT : JS Object containing trainer
     static async getTrainerById(trainer_id) {
         try {
-            let p = await Trainer.find({trainerId : trainer_id});
+            let p = await Trainer.find({trainer_id : trainer_id});
             return p;
         } catch (err) {
             throw err;
@@ -92,12 +91,12 @@ class TrainerController{
 
     static async replaceTrainerbyTrainerId(details, id){
         try {
-            details.trainerId = id;
-            await Trainer.replaceOne({trainerId : id}, details);
+            details.trainer_id = id;
+            await Trainer.replaceOne({trainer_id : id}, details);
         } catch (err) {
             throw err;
         }
     }
 }
 
-module.exports = TrainerController;
+module.exports = {TrainerController, Trainer};

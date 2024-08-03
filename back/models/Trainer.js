@@ -1,3 +1,4 @@
+/*
 const mongoose = require('mongoose');
 
 const trainerSchema = new mongoose.Schema({
@@ -31,4 +32,4 @@ const Trainer = mongoose.model('Trainer', trainerSchema);
 }
 */
 
-module.exports = Trainer;
+//module.exports = Trainer;
