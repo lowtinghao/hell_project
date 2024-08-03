@@ -38,9 +38,9 @@ function App() {
         <AdminNavbar setPage = {setPage}/>
         <h2>Trainer Page : I need help with this</h2>
 
-        {/* <ThemeProvider>
+        <ThemeProvider>
 				  <TrainerAvailability/>
-			  </ThemeProvider> */}
+			  </ThemeProvider>
         <button><Link to="/">Back</Link></button>
       </div>
       );

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, useTheme, MenuItem, FormControl, Select, InputLabel, Box, Typography } from '@mui/material';
 const back_url = "localhost:3001";
@@ -17,9 +17,71 @@ const initialRows = [
 	retrieveTrainers(3, 'Damian', 'IT', 'Available')
 ];
 
+
+
+
 // TODO: Modify this function as GET request from DB --> function should be pointing to request that was clicked in previous page
 function ShowWorkshopDetails(workshop){
-	console.log((new Date(workshop['fromDate'])).toLocaleDateString());
+	const [workshops, setWorkshops] = useState({});
+	const [rows, setRows] = useState([]);
+
+
+	async function fetchWorkshops() {
+		let response = await fetch(`http://${back_url}/admin/workshops`);
+		let data = await response.json();
+		setWorkshops(data)};
+
+	useEffect(() => {
+		fetchWorkshops();
+		}, []);
+
+
+	const formatWorkshopJson = (filteredWorkshops) => {
+	let i;
+	let workshopRows = [];
+	for (i in filteredWorkshops){
+		workshopRows.push(createData(
+			filteredWorkshops[i].client_id, 
+			filteredWorkshops[i].companyName, 
+			filteredWorkshops[i].companyName, 
+			filteredWorkshops[i].clientType, 
+			filteredWorkshops[i].dates[0], 
+			filteredWorkshops[i].dates[filteredWorkshops[i].dates.length - 1],
+			filteredWorkshops[i].status,
+			filteredWorkshops[i].workshopId));
+		}
+	return workshopRows;
+  }
+
+  const filterWorkshops = (workshops, filter) => {
+	let filtered = [];
+	let i;
+	if (filter === -1) {
+		for (i in Object.keys(workshops)){
+			filtered.push(workshops[i]);
+		}
+	} else {
+		for (i in Object.keys(workshops)){
+			if (workshops[i].status === filter){
+				filtered.push(workshops[i]);
+			}
+		}
+	}
+	
+	return filtered;
+  };
+
+  function createData(clientid, clientname, workname, worktype, fromDate, toDate, status, workshopId) {
+    return { clientid, clientname, workname, worktype, fromDate, toDate, status, workshopId};
+  }
+
+  useEffect(() => {
+	let filtered = filterWorkshops(workshops, -1);
+	let formattedWorkshops = formatWorkshopJson(filtered);
+	setRows([...formattedWorkshops]);
+	console.log("Populating Table")
+}, [workshops]);
+
 	return (
 		<div>
 			{/* Show details of selected worskshop */}
