@@ -16,7 +16,6 @@ import { Link } from 'react-router-dom';
 export default function SignIn() {
   const [loginType, setLoginType] = React.useState('admin');
   const [ id, setId ] = useState();
-
   const handleChange = (e) => {
     setId(e.target.value)
   }

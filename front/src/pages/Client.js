@@ -3,10 +3,13 @@ import FormPreview from '../components/FormPreview';
 import { FormProvider } from '../components/FormContext';
 import { useEffect, useState, useReducer } from 'react';
 import { Box, Button } from '@mui/material';
+import { ClientNavbar } from '../components/Client_Navbar';
+import ViewClientWorkshopsTable from '../components/Client_ViewWorkshopsTable';
+import CalendarDatePicker from '../components/CalendarDatePicker';
 function App() {
   const location = useLocation();
-  const clientId = location.state.id;
-  console.log("Client ID: " + clientId);
+  //const clientId = location.state.id;
+  //console.log("Client ID: " + clientId);
 
   const [workshop, setWorkshop] = useState({});
   const back_url = "localhost:3001";
@@ -61,6 +64,10 @@ function App() {
           <Box>
             <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
           </Box>
+
+          <br/>
+          <ViewClientWorkshopsTable/>
+
           <button><Link to="/">Back</Link></button>
         </div>
       );
