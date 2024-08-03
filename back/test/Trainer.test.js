@@ -1,7 +1,7 @@
 const request = require('supertest');
 const express = require('express');
 const trainersRouter = require('../routes/Trainer');
-const WorkshopController = require('../handlers/WorkshopController');
+const {WorkshopController} = require('../handlers/WorkshopController');
 
 const app = express();
 app.use(express.json());

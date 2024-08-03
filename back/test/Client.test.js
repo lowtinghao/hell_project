@@ -1,7 +1,7 @@
 const request = require('supertest');
 const express = require('express');
 const clientRouter = require('../routes/Client');
-const WorkshopController = require('../handlers/WorkshopController');
+const {WorkshopController} = require('../handlers/WorkshopController');
 
 // Set up the Express app
 const app = express();
