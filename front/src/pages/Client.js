@@ -6,34 +6,23 @@ import { Box, Button } from '@mui/material';
 import { ClientNavbar } from '../components/Client_Navbar';
 import ViewClientWorkshopsTable from '../components/Client_ViewWorkshopsTable';
 
-function checkIfIdIsValid(location_state){
-  if (location_state == null){
-    return false;
-  }
-  if (location_state.id == null) {
-    return false;
-  }
-  if (!Number.isInteger(parseFloat(location_state.id))) {
-    return false;
-  }
-  return true;
-}
-
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [id,setId] = useState();
-
   useEffect(() => {
-    console.log(location.state);
-    if (!checkIfIdIsValid(location.state)){
+    if (location.state == null){
       navigate('/');
-    } else {
-      setId(location.state.id);
+    }
+    if (location.state.id == null) {
+      navigate('/');
+    }
+    if (!Number.isInteger(parseFloat(location.state.id))) {
+      navigate('/');
     }
   }, [location, navigate]);
 
   const [workshop, setWorkshop] = useState({});
+  const [tabValue, setTabValue] = useState(0);
   const back_url = "localhost:3001";
 
 
@@ -66,33 +55,40 @@ function App() {
         return true;
       } else {
         console.log('Failed to request workshop');
+        console.error('Failed to request workshop');
         return false;
       }
     }
     if (sendRequest()) {
       window.location.reload(true);
     } else {
+      console.error('Failed to request workshop');
       // HANDLE HERE
     }
-    
   };
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  }
   
-      return (
-        <div>
-          <h2>Client Page</h2>
-          <h3>{"ID : " + id}</h3>
-          <FormProvider>
-           <FormPreview workshopSetter={setWorkshop} workshop={workshop}/>
-          </FormProvider>
-          <Box>
+  return (
+    <div>
+      <ClientNavbar value={tabValue} handleChange={handleTabChange} />
+      <Box sx={{p:2}}>
+        {tabValue===0 && (
+          <div>          
+            <FormProvider>
+              <FormPreview workshopSetter={setWorkshop} workshop={workshop}/>
+            </FormProvider>
             <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
-          </Box>
-
-          <br/>
+          </div>
+        )}
+        {tabValue===1 &&(
           <ViewClientWorkshopsTable/>
-
-          <button><Link to="/">Back</Link></button>
-        </div>
-      );
-    }
-    export default App;
+        )}
+      </Box>
+      <button><Link to="/">Back</Link></button>
+    </div>
+  );
+}
+export default App;

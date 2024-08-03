@@ -8,6 +8,7 @@ import AssignTrainer from '../pages/AssignTrainer';
 import FormBuilder from '../components/FormBuilder';
 import TrainerAvailability from '../components/TrainerAvailability';
 import Admin_view_trainer_schedule from '../components/Admin_view_trainer_schedule';
+import TrainersTab from '../components/Admin_TrainersTab';
 
 function checkIfIdIsValid(location_state){
   if (location_state == null){
@@ -57,10 +58,10 @@ function App() {
       <div>
         <AdminNavbar setPage = {setPage}/>
         <h2>Trainer Page : I need help with this</h2>
-        <Admin_view_trainer_schedule />
-        {/* <ThemeProvider>
-				  <TrainerAvailability/>
-			  </ThemeProvider> */}
+
+        <ThemeProvider>
+				  <TrainersTab/>
+			  </ThemeProvider>
         <button><Link to="/">Back</Link></button>
       </div>
       );
