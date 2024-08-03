@@ -1,4 +1,4 @@
-import { Link, useLocation} from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import FormPreview from '../components/FormPreview';
 import { FormProvider } from '../components/FormContext';
 import { useEffect, useState, useReducer } from 'react';
@@ -8,10 +8,21 @@ import ViewClientWorkshopsTable from '../components/Client_ViewWorkshopsTable';
 import CalendarDatePicker from '../components/CalendarDatePicker';
 function App() {
   const location = useLocation();
-  //const clientId = location.state.id;
-  //console.log("Client ID: " + clientId);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (location.state == null){
+      navigate('/');
+    }
+    if (location.state.id == null) {
+      navigate('/');
+    }
+    if (!Number.isInteger(parseFloat(location.state.id))) {
+      navigate('/');
+    }
+  }, [location, navigate]);
 
   const [workshop, setWorkshop] = useState({});
+  const [tabValue, setTabValue] = useState(0);
   const back_url = "localhost:3001";
 
 
@@ -44,32 +55,40 @@ function App() {
         return true;
       } else {
         console.log('Failed to request workshop');
+        console.error('Failed to request workshop');
         return false;
       }
     }
     if (sendRequest()) {
       window.location.reload(true);
     } else {
+      console.error('Failed to request workshop');
       // HANDLE HERE
     }
-    
   };
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  }
   
-      return (
-        <div>
-          <h2>Client Page</h2>
-          <FormProvider>
-           <FormPreview workshopSetter={setWorkshop} workshop={workshop}/>
-          </FormProvider>
-          <Box>
+  return (
+    <div>
+      <ClientNavbar value={tabValue} handleChange={handleTabChange} />
+      <Box sx={{p:2}}>
+        {tabValue===0 && (
+          <div>          
+            <FormProvider>
+              <FormPreview workshopSetter={setWorkshop} workshop={workshop}/>
+            </FormProvider>
             <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
-          </Box>
-
-          <br/>
+          </div>
+        )}
+        {tabValue===1 &&(
           <ViewClientWorkshopsTable/>
-
-          <button><Link to="/">Back</Link></button>
-        </div>
-      );
-    }
-    export default App;
+        )}
+      </Box>
+      <button><Link to="/">Back</Link></button>
+    </div>
+  );
+}
+export default App;

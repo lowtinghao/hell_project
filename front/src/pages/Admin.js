@@ -1,4 +1,4 @@
-import { Form, Link, useLocation} from 'react-router-dom';
+import { Form, Link, useLocation, useNavigate} from 'react-router-dom';
 import { ThemeProvider } from '../components/ThemeProvider';
 import WorkshopRequestTable from '../components/WorkshopRequestTable';
 import TrainersTab from '../components/Admin_TrainersTab';
@@ -8,16 +8,31 @@ import AdminForm from '../pages/AdminForm';
 import AssignTrainer from '../pages/AssignTrainer';
 import FormBuilder from '../components/FormBuilder';
 import TrainerAvailability from '../components/TrainerAvailability';
+import Admin_view_trainer_schedule from '../components/Admin_view_trainer_schedule';
 
 
 
 function App() {
   const location = useLocation();
-  //const [ id, setId ] = useState(location.state.id);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (location.state == null){
+      navigate('/');
+    }
+    if (location.state.id == null) {
+      navigate('/');
+    }
+    console.log(parseFloat(location.state.id));
+    console.log(parseInt(location.state.id));
+    if (!Number.isInteger(parseFloat(location.state.id))) {
+      navigate('/');
+    }
+    console.log(typeof(location.state.id));
+  }, [location, navigate]);
+
   const [page, setPage] = useState("home-button")
-  //console.log(location)
-  //console.log("Admin ID: " + id);
   console.log("Page: " + page);
+
 
 
   if (page === "home-button"){
