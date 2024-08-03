@@ -1,9 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ThemeProvider } from '../components/ThemeProvider';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, useTheme, MenuItem, FormControl, Select, InputLabel, Box, Typography } from '@mui/material';
 
-
+const back_url = "localhost:3001";
 // TODO: Modify this function as GET request from DB for ALL trainers
 function retrieveTrainers(trainerId, trainerName, trainerTeam, trainerAvail) {
 	return { trainerId, trainerName, trainerTeam, trainerAvail };
@@ -42,8 +42,8 @@ function ShowWorkshopDetails(workshop){
 							<TableCell align="center">{workshop['clientname']}</TableCell>
 							<TableCell align="center">{workshop['workname']}</TableCell>
 							<TableCell align="center">{workshop['worktype']}</TableCell>
-							<TableCell align="center">{workshop['fromDate'].toLocaleDateString()}</TableCell>
-							<TableCell align="center">{workshop['toDate'].toLocaleDateString()}</TableCell>
+							<TableCell align="center">{workshop['fromDate']}</TableCell>
+							<TableCell align="center">{workshop['toDate']}</TableCell>
 					</TableBody>
 					</Table>
 				</TableContainer>
@@ -60,9 +60,10 @@ function TrainerAvailability() {
   const workshop = location.state?.workshop;
 
 	// Initializing useStates	
-	const [rows, setRows] = useState(initialRows);
+	const [rows, setRows] = useState([]);
   const [filter, setFilter] = useState('All');
 	const theme = useTheme();
+	const [trainers, setTrainers] = useState({});
 
 	// Initialization
 	const filteredRows = rows.filter((row) => {
@@ -71,6 +72,18 @@ function TrainerAvailability() {
     }
     return row.status === filter;
   }); 
+
+	// Retrieving trainers
+	async function fetchTrainers() {
+		let response = await fetch(`http://${back_url}/admin/trainers`);
+		let data = await response.json();
+		setTrainers(data);
+	}
+
+	// This effect fetches trainer data from the backend, on initial render.
+	useEffect(() => {
+		fetchTrainers();
+		}, []);
 
 	// Button handlers here
 	const handleFilterChange = (event) => {

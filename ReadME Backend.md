@@ -57,3 +57,9 @@ password : testpass123
 
 Connect using MongoDB directly or Mongoose
 mongodb+srv://admin:<password>@cluster0.ldwipqc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+
+# TODO
+Ensure all usecases are completable using routes.
+
+Added Postman folder as examples for the API

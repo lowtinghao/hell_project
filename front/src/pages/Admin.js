@@ -12,7 +12,7 @@ function App() {
           <ThemeProvider>
             <WorkshopRequestTable />
           </ThemeProvider>
-          <CalendarView/>
+          {/* <CalendarView/> */}
           <button><Link to="/">Back</Link></button>
         </div>
       );

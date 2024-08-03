@@ -2,26 +2,101 @@ const { default: mongoose } = require('mongoose');
 
 let trainerSchema = new mongoose.Schema({
     trainer_id : {type : Number, unique : true}, 
-    trainer_name : String,
-    assigned_workshops : [Number], // This should be an actual workshop in the workshope collection
+    trainer_name : {type: String, required : true},
 });
 
 let trainer = new mongoose.model('Trainers', trainerSchema);
 
+// TODO : Specify functionality, inputs, outputs of functions
+// TODO : For all accesses to the database, specify types and do data validation
+
 class TrainerController{
-    // TODO : Create a new trainer
-    static async createTrainer(details) {
+    // HELPER FUNCTIONS
+    // DONE : Parses the HTTP request body
+    // INPUTS : HTTP Request
+    // OUTPUTS : JS Object with trainer details
+    static parseNewTrainerRequest(req) {
+        let body = {... req.body};
+        return body
+    }
+
+    // DONE : Gets the current largest trainer Id from the database
+    // INPUTS : None
+    // Outputs : Number representing the largest trainer body
+    static async getLargestTrainerId() {
         try {
+            let p = await trainer.find({});
+            if (p.length == 0) {
+                return 0;
+            }
+            p.sort((a,b) => a.trainer_id < b.trainer_id ? 1 : -1);
+            return p[0].trainer_id;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    // DONE :
+    // 1. This parses the request body to get the trainer details
+    // 2. Gets the current largest trainer ID
+    // 3. Creates a new trainer with an ID 1 larger
+    // 4. Sends a request to the database to create a new trainer
+    // INPUTS : HTTP Request containing trainer details
+    // OUTPUTS : None. Creates a new trainer document.
+    static async createTrainer(req) {
+        try {
+            let details = this.parseNewTrainerRequest(req);
+            let id = await this.getLargestTrainerId() + 1;
+            details.trainer_id = id;
             let p = await trainer.create(details);
         } catch (err) {
             throw err;
         }
         
     }
-    // TODO : Delete a trainer
-    // TODO : Assign a trainer a workshop
-    // TODO : Access the workshops a trainer is assigned to
-    // TODO : Access the schedule of a trainer
+    // DONE : This takes in a trainers id, then sends a delete request to the database for the trainer document
+    // INPUT : Number, Trainer_id
+    // OUTPUT : None
+    static async deleteTrainer(id){
+        try {
+            let p = await trainer.deleteOne({ trainer_id : id });
+        } catch (err) {
+            return err;
+        }
+    }
+
+    // DONE : Gets all trainers
+    // INPUT : None
+    // OUTPUT : JS Object containing all trainers
+    static async getAllTrainers() {
+        try {
+            let p = await trainer.find({});
+            return p;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    // DONE : Gets trainer by id
+    // INPUT : Number, Trainer id
+    // OUTPUT : JS Object containing trainer
+    static async getTrainerById(trainer_id) {
+        try {
+            let p = await trainer.find({trainer_id : trainer_id});
+            return p;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    static async replaceTrainerbyTrainerId(details, id){
+        try {
+            details.trainer_id = id;
+            await trainer.replaceOne({trainer_id : id}, details);
+        } catch (err) {
+            return err;
+        }
+    }
 }
 
 module.exports = TrainerController;
