@@ -1,4 +1,4 @@
-import { Form, Link, useLocation} from 'react-router-dom';
+import { Form, Link, useLocation, useNavigate} from 'react-router-dom';
 import { ThemeProvider } from '../components/ThemeProvider';
 import WorkshopRequestTable from '../components/WorkshopRequestTable';
 import { AdminNavbar } from '../components/Admin_Navbar';
@@ -7,16 +7,26 @@ import AdminForm from '../pages/AdminForm';
 import AssignTrainer from '../pages/AssignTrainer';
 import FormBuilder from '../components/FormBuilder';
 import TrainerAvailability from '../components/TrainerAvailability';
+import Admin_view_trainer_schedule from '../components/Admin_view_trainer_schedule';
 
 
 
 function App() {
   const location = useLocation();
-  //const [ id, setId ] = useState(location.state.id);
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(location.state);
+    if (location.state == null){
+      navigate('/');
+    }
+    if (location.state.id == null) {
+      navigate('/');
+    }
+  }, [location, navigate]);
+
   const [page, setPage] = useState("home-button")
-  //console.log(location)
-  //console.log("Admin ID: " + id);
   console.log("Page: " + page);
+
 
 
   if (page === "home-button"){
@@ -37,10 +47,10 @@ function App() {
       <div>
         <AdminNavbar setPage = {setPage}/>
         <h2>Trainer Page : I need help with this</h2>
-
-        <ThemeProvider>
+        <Admin_view_trainer_schedule />
+        {/* <ThemeProvider>
 				  <TrainerAvailability/>
-			  </ThemeProvider>
+			  </ThemeProvider> */}
         <button><Link to="/">Back</Link></button>
       </div>
       );

@@ -1,4 +1,4 @@
-import { Link, useLocation} from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import FormPreview from '../components/FormPreview';
 import { FormProvider } from '../components/FormContext';
 import { useEffect, useState, useReducer } from 'react';
@@ -7,8 +7,16 @@ import { ClientNavbar } from '../components/Client_Navbar';
 import ViewClientWorkshopsTable from '../components/Client_ViewWorkshopsTable';
 function App() {
   const location = useLocation();
-  //const clientId = location.state.id;
-  //console.log("Client ID: " + clientId);
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(location.state);
+    if (location.state == null){
+      navigate('/');
+    }
+    if (location.state.id == null) {
+      navigate('/');
+    }
+  }, [location, navigate]);
 
   const [workshop, setWorkshop] = useState({});
   const back_url = "localhost:3001";
