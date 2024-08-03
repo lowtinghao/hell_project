@@ -14,6 +14,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import 'typeface-roboto';
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import { dark } from "@mui/material/styles/createPalette";
 
 const pages = ["Home", "Trainers", "Form"];
@@ -37,7 +39,7 @@ function AdminNavbar(props) {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    
+
     const handleClick = (e) => {
         handleCloseNavMenu();
         props.setPage(e.target.getAttribute("data-testid"));
@@ -118,7 +120,7 @@ function AdminNavbar(props) {
                                 <MenuItem key={page} onClick={handleClick}>
                                     <Typography textAlign="center">
                                         <Button data-testid={`${page.toLowerCase()}-button`}>
-                                        {page}
+                                            {page}
                                         </Button>
                                         {/* <Link
                                             to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
@@ -131,7 +133,7 @@ function AdminNavbar(props) {
                             ))}
                         </Menu>
                     </Box>
-                    <IconButton 
+                    <IconButton
                         size="large"
                         edge="start"
                         color="inherit"
@@ -144,8 +146,8 @@ function AdminNavbar(props) {
                             }, display: { xs: "flex", md: "none" }, mr: 1
                         }}
                     >
-                        <img 
-                            onClick={handleClick} 
+                        <img
+                            onClick={handleClick}
                             data-testid={'home-button'}
                             src={Dell_logo}
                             alt="Dell Technologies Logo"
@@ -178,7 +180,7 @@ function AdminNavbar(props) {
                                 data-testid={`${page.toLowerCase()}-button`}
                                 onClick={handleClick}
                                 sx={{ my: 2, color: "#636363", display: "block" }}>
-                                    {page}
+                                {page}
                                 {/* <Link
                                     to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
@@ -190,10 +192,23 @@ function AdminNavbar(props) {
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
+                        <Tooltip title="View Notifications">
+                            <IconButton
+                                size="large"
+                                aria-label="show 17 new notifications"
+                                sx={{ p: 1, mr: 4 }}
+                            >
+                                <Badge badgeContent={17} color="error">
+                                    <NotificationsIcon />
+                                </Badge>
+                            </IconButton>
+                            </Tooltip>
                         <Tooltip title="Open settings">
+
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                             </IconButton>
+
                         </Tooltip>
                         <Menu
                             sx={{ mt: "45px" }}
