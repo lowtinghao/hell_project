@@ -18,15 +18,16 @@ const router = createBrowserRouter([
   {path: '/client',element: <Client />}, 
   {path: '/admin',element: <Admin />},
   {path: '/trainer',element: <Trainer />}, 
-  { path: '/assign-trainer', element: <AssignTrainer /> },
+  { path: '/admin/assign-trainer', element: <AssignTrainer /> },
   { path: '/form', element: <FormProvider><AdminForm /></FormProvider> }
 ]);
 
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
   </React.StrictMode>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

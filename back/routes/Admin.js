@@ -41,7 +41,7 @@ router.post('/workshops/:workshop_id', async (req,res) => {
         res.send("Success")
     } catch (err) {
         res.status(201);
-        res.send(err)
+        res.send(err.message)
     }
 })
 // DONE : GET /admin/trainers
@@ -52,7 +52,7 @@ router.get('/trainers', async (req,res) => {
         res.send(p);
     } catch (err) {
         res.status(201);
-        res.send(err);
+        res.send(err.message);
     }
 })
 // DONE : GET /admin/trainers/trainer_id
@@ -63,7 +63,7 @@ router.get('/trainers/:trainer_id', async (req,res) => {
         res.send(p);
     } catch (err) {
         res.status(201);
-        res.send(err);
+        res.send(err.message);
     }
 })
 // DONE : POST /admin/trainers/trainer_id
@@ -74,12 +74,24 @@ router.post('/trainers/:trainer_id', async (req,res) => {
         res.send("Success")
     } catch (err) {
         res.status(201);
-        res.send("Unable to fetch workshops")
+        res.send(err.message)
+    }
+})
+// Assign a trainer to a workshop
+// DONE : POST /admin/assign-trainer/trainer_id/workshop_id
+router.post('/assign-trainer/:trainer_id/:workshop_id', async (req,res) => {
+    try {
+        let assign_trainer = await WorkshopController.assignTrainerToWorkshop(req.params.trainer_id, req.params.workshop_id);
+        res.status(200);
+        res.send("Success")
+    } catch (err) {
+        res.status(201);
+        res.send(err.message)
     }
 })
 // DONE : Creates a trainer
 router.post('/trainers',(req, res) => {
-    TrainerController.createTrainer(req).then(() => res.send("Success")).catch((err) => res.send(err));
+    TrainerController.createTrainer(req).then(() => res.send("Success")).catch((err) => res.status(500).send(err.message));
 })
 
 

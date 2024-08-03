@@ -2,21 +2,25 @@
 import React from 'react';
 import { useForm } from './FormContext';
 import { Box, Button, MenuItem, Select, TextField, Typography } from '@mui/material';
+import CalendarDatePicker from './CalendarDatePicker';
 
-const FormPreview = () => {
+
+const FormPreview = (props) => {
   const { formData, formResponses, handleResponseChange, submitForm } = useForm();
+  const workshopSetter = props.workshopSetter;
+  const workshop = props.workshop;
 
   const handleInputChange = (index, value) => {
     handleResponseChange(index, value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    submitForm();
+    const newWorkshop = { ...workshop };
+    newWorkshop[formData[index].title] = value;
+    workshopSetter(newWorkshop);
+    //console.log(formData[index].title);
+    
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box component="form">
       {formData.map((question, index) => (
         <Box key={index} sx={{ mb: 2 }}>
           <Typography variant="h6">{question.title}</Typography>
@@ -50,9 +54,13 @@ const FormPreview = () => {
               ))}
             </Select>
           )}
+          {question.type === 'date' && (
+            // TODO : HELP IMPLEMENT THIS
+            <CalendarDatePicker>
+            </CalendarDatePicker>
+          )}
         </Box>
       ))}
-      <Button type="submit" variant="contained" color="primary">Submit</Button>
     </Box>
   );
 };

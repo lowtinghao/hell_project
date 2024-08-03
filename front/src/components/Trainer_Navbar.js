@@ -1,6 +1,7 @@
+// Navbar for Trainer
+
 import Dell_logo from "../assets/dell_logo.svg";
 import * as React from "react";
-import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,12 +15,11 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import 'typeface-roboto';
-import { dark } from "@mui/material/styles/createPalette";
 
-const pages = ["Home", "Trainers", "Form"];
+const pages = ["View Workshops"];
 const settings = ["Account", "Logout"];
 
-function AdminNavbar(props) {
+function TrainerNavbar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -37,11 +37,6 @@ function AdminNavbar(props) {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    
-    const handleClick = (e) => {
-        handleCloseNavMenu();
-        props.setPage(e.target.getAttribute("data-testid"));
-    };
 
     return (
         <AppBar position="static" sx={{ bgcolor: "white" }}>
@@ -52,6 +47,7 @@ function AdminNavbar(props) {
                         edge="start"
                         color="inherit"
                         aria-label="Dell Technologies Logo"
+                        disabled = "true"
                         sx={{
                             borderRadius: 0,
                             ".MuiTouchRipple-ripple .MuiTouchRipple-child": {
@@ -80,9 +76,7 @@ function AdminNavbar(props) {
                             textDecoration: "none",
                         }}
                     >
-                        <Button onClick={handleClick} data-testid={'home-button'}>
-                            Workshop Resource Portal
-                        </Button>
+                        Workshop Resource Portal
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -115,27 +109,21 @@ function AdminNavbar(props) {
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleClick}>
+                                <MenuItem key={page} onClick={handleCloseNavMenu}>
                                     <Typography textAlign="center">
-                                        <Button data-testid={`${page.toLowerCase()}-button`}>
-                                        {page}
-                                        </Button>
-                                        {/* <Link
-                                            to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
-                                            style={{ textDecoration: 'none', color: 'inherit' }}
-                                        >
-                                            {page}
-                                        </Link> */}
                                     </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
                     </Box>
-                    <IconButton 
+
+                    
+                    <IconButton
                         size="large"
                         edge="start"
                         color="inherit"
                         aria-label="Dell Technologies Logo"
+                        disabled = "true"
                         sx={{
                             borderRadius: 0,
                             ".MuiTouchRipple-ripple .MuiTouchRipple-child": {
@@ -144,9 +132,7 @@ function AdminNavbar(props) {
                             }, display: { xs: "flex", md: "none" }, mr: 1
                         }}
                     >
-                        <img 
-                            onClick={handleClick} 
-                            data-testid={'home-button'}
+                        <img
                             src={Dell_logo}
                             alt="Dell Technologies Logo"
                             height="33"
@@ -167,24 +153,18 @@ function AdminNavbar(props) {
                             textDecoration: "none",
                         }}
                     >
-                        <Button onClick={handleClick} data-testid={'home-button'}>
-                            Workshop Resource Portal
-                        </Button>
+                        Workshop Resource Portal
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                         {pages.map((page) => (
                             <Button
                                 key={page}
                                 data-testid={`${page.toLowerCase()}-button`}
-                                onClick={handleClick}
-                                sx={{ my: 2, color: "#636363", display: "block" }}>
-                                    {page}
-                                {/* <Link
-                                    to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
-                                    style={{ textDecoration: 'none', color: 'inherit' }}
-                                >
-                                    {page}
-                                </Link> */}
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "#636363", display: "block" }}
+                            >
+                                
+
                             </Button>
                         ))}
                     </Box>
@@ -224,4 +204,4 @@ function AdminNavbar(props) {
     );
 }
 
-export { AdminNavbar };
+export { TrainerNavbar };

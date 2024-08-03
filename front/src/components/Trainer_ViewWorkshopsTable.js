@@ -13,13 +13,13 @@ function createData(clientid, clientname, workname, worktype, fromDate, toDate, 
   console.log(date);
   
   
-/* Initial testing 
+
   const initialRows = [
     createData('0', 'Client 1', 'Workshop 1', 'Business', date, date),
     createData('1', 'Client 2', 'Workshop 2', 'Technology', date, date),
     createData('2', 'Client 3', 'Workshop 3', 'Design', date, date),
     createData('3', 'Client 4', 'Workshop 4', 'Marketing', date, date)
-  ]; */
+  ];
 
   // This function filters workshops by their status
   // A -1 status means all workshops are returned
@@ -63,7 +63,7 @@ function createData(clientid, clientname, workname, worktype, fromDate, toDate, 
   
   
 
-export default function WorkshopRequestTable() {	
+export default function ViewWorkshopsTable() {	
 	// Initializing variables here
 	const [rows, setRows] = useState([]);
     const [filter, setFilter] = useState('All');
@@ -71,50 +71,13 @@ export default function WorkshopRequestTable() {
 	const [workshops, setWorkshops] = useState({});
 
 	async function fetchWorkshops() {
-		let response = await fetch(`http://${back_url}/admin/workshops`);
+		let response = await fetch(`http://${back_url}/trainer/workshops`);
 		let data = await response.json();
+
+        // remove rejected workshops
+        data = data.filter(item => item.status !== 2);
+        console.log(data);
 		setWorkshops(data)};
-
-	const acceptWorkshop = async (workshop_id) => {
-		let workshopToAccept = workshops.find(workshop => workshop.workshopId === workshop_id);
-		workshopToAccept.status = 1;
-		const response = await fetch(`http://${back_url}/admin/workshops/${workshop_id}`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(workshopToAccept)
-		})
-
-		if (response.status === 200) {
-			console.log('Workshop accepted');
-			console.log('Workshop id', workshop_id);
-			return true;
-		} else {
-			console.log('Failed to accept workshop');
-			return false;
-		}
-	};
-
-	const rejectWorkshop = async (workshop_id) => {
-		let workshopToReject = workshops.find(workshop => workshop.workshopId === workshop_id);
-		workshopToReject.status = 2;
-		const response = await fetch(`http://${back_url}/admin/workshops/${workshop_id}`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(workshopToReject)
-		})
-
-		if (response.status === 200) {
-			console.log('Workshop rejected');
-			return true;
-		} else {
-			console.log('Failed to reject workshop');
-			return false;
-		}
-	};
 
 		
 	// This effect fetches workshop data from the backend, on initial render.
@@ -136,46 +99,19 @@ export default function WorkshopRequestTable() {
 			let filtered = filterWorkshops(workshops, -1);
 			let formattedWorkshops = formatWorkshopJson(filtered);
 			setRows([...formattedWorkshops]);
-		} else if (filter === 'New'){
+		} else if (filter === 'Pending'){
 			let filtered = filterWorkshops(workshops, 0);
 			let formattedWorkshops = formatWorkshopJson(filtered);
 			setRows([...formattedWorkshops]);
-		} else if (filter === 'Rejected') {
-			let filtered = filterWorkshops(workshops, 2);
-			let formattedWorkshops = formatWorkshopJson(filtered);
-			setRows([...formattedWorkshops]);
-		} else if (filter === 'Assign Instructors') {
+		} else if (filter === 'Accepted') {
 			let filtered = filterWorkshops(workshops, 1);
 			let formattedWorkshops = formatWorkshopJson(filtered);
 			setRows([...formattedWorkshops]);
 		}
 	}, [filter, workshops]);
 
-	// Here are all the button handlers
-	const handleAccept = async (row) => {
-		const res = await acceptWorkshop(row.workshopId);
-		if (res){
-			console.log('Workshop accepted');
-			fetchWorkshops();
-		} else {
-			console.log('Failed to accept workshop');
-		}
-  };
 
-  const handleReject = async (row) => {
-	const res = await rejectWorkshop(row.workshopId);
-		if (res){
-			console.log('Workshop accepted');
-			fetchWorkshops();
-		} else {
-			console.log('Failed to accept workshop');
-		}
-  };
 
-	const handleAssignInstructors = (index) => {
-		console.log('Assign instructors clicked');
-
-	};
 
 	const handleFilterChange = (event) => {
 		console.log(event.target.value);
@@ -190,7 +126,7 @@ export default function WorkshopRequestTable() {
 			<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
 				<TableContainer component={Paper} sx={{ maxWidth: 900, width: '100%', margin: 'auto' }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px' }}>
-						<Typography variant="h5">Workshop Requests</Typography>
+						<Typography variant="h5">View All Workshops</Typography>
 						<FormControl sx={{ m: 1, minWidth: 120 }}>
 							<InputLabel id="filter-label">Filter</InputLabel>
 							<Select
@@ -201,18 +137,16 @@ export default function WorkshopRequestTable() {
 								onChange={handleFilterChange}
 							>
 								<MenuItem value="All">All</MenuItem>
-								<MenuItem value="New">New</MenuItem>
-								<MenuItem value="Assign Instructors">Assign Instructors</MenuItem>
-								<MenuItem value="Rejected">Rejected</MenuItem>
+								<MenuItem value="Pending">Pending</MenuItem>
+								<MenuItem value="Accepted">Accepted</MenuItem>
 							</Select>
 						</FormControl>
 					</Box>
 					<Table aria-label="simple table">
 						<TableHead>
 							<TableRow>
-								<TableCell align="center">Workshop ID</TableCell>
-								<TableCell align="center">Client ID</TableCell>
-								<TableCell align="center">Client Name</TableCell>
+								<TableCell>Client ID</TableCell>
+								<TableCell>Client Name</TableCell>
 								<TableCell align="center">Workshop Name</TableCell>
 								<TableCell align="center">Workshop Type</TableCell>
 								<TableCell align="center">Status</TableCell>
@@ -221,57 +155,18 @@ export default function WorkshopRequestTable() {
 						<TableBody>
 							{rows.map((row, index) => (
 								<TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell align="center" component="th" scope="row">{row.workshopId}</TableCell>
-									<TableCell align="center">{row.clientid}</TableCell>
+									<TableCell component="th" scope="row">{row.clientid}</TableCell>
 									<TableCell align="center">{row.clientname}</TableCell>
 									<TableCell align="center">{row.workname}</TableCell>
 									<TableCell align="center">{row.worktype}</TableCell>
 									<TableCell align="center">
 										{row.status === 0 ? ( //This represents a new request
 											<>
-												<Button
-													variant="contained"
-													sx={{ 
-														backgroundColor: theme.palette.custom.accept, 
-														color: theme.palette.getContrastText(theme.palette.custom.accept),
-														'&:hover': {
-															backgroundColor: theme.palette.custom.accept,
-														},
-														marginRight: 1
-													}}
-													onClick={() => handleAccept(row)}
-												>
-													Accept
-												</Button>
-												<Button
-													variant="contained"
-													sx={{ 
-														backgroundColor: theme.palette.custom.reject, 
-														color: theme.palette.getContrastText(theme.palette.custom.reject),
-														'&:hover': {
-															backgroundColor: theme.palette.custom.reject,
-														}
-													}}
-													onClick={() => handleReject(row)}
-												>
-													Reject
-												</Button>
+												<p>Pending</p>
 											</>
 										) : row.status === 1 ? ( // The value 1 represents a request that has been accepted
-											<Button 
-											variant="contained" 
-											color="primary"
-											component={Link}
-											to="/admin/assign-trainer"
-											state={{workshop:row}}
-											>
-												{/* <Link to="/assign-trainer"> */}
-												Assign Trainer
-												{/* </Link> */}
-											</Button>
-										) : row.status === 2 ? ( // The value 2 represents a request that has been rejected
-											<p>Rejected</p>
-										) : (
+											<p>Accepted</p>
+										) :(
 											row.status
 										)}
 									</TableCell>

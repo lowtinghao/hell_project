@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const WorkshopController = require('../handlers/WorkshopController')
+const WorkshopController = require('../handlers/WorkshopController');
 const mongoose = require('mongoose');
 
 
@@ -25,6 +25,19 @@ router.get('/workshops', async (req, res) => {
     }
 }
 );
+
+router.get('/allworkshops', async (req,res) => {
+    try {
+        let workshops = await WorkshopController.getAllWorkshops();
+        res.status(200);
+        res.send(workshops)
+    } catch (err) {
+        res.status(201);
+        res.send("Unable to fetch workshops")
+    }
+})
+
+
 
 router.post('/workshops', async (req, res) => {
     try {

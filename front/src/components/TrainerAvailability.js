@@ -5,20 +5,54 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 
 const back_url = "localhost:3001";
 // TODO: Modify this function as GET request from DB for ALL trainers
-function retrieveTrainers(trainerId, trainerName, trainerTeam, trainerAvail) {
+function createData(trainerId, trainerName, trainerTeam, trainerAvail) {
 	return { trainerId, trainerName, trainerTeam, trainerAvail };
 }
+
+/* Initial testing 
 // To remove this function when GET is implemented
 const initialRows = [
 	retrieveTrainers(0, 'Aaron', 'Business', 'Busy'),
 	retrieveTrainers(1, 'Bob', 'Design', 'Available'),
 	retrieveTrainers(2, 'Chris', 'IT', 'Available'),
 	retrieveTrainers(3, 'Damian', 'IT', 'Available')
-];
+]; */
+
+const filterTrainers = (trainers, filter) => {
+	let filtered = [];
+	let i;
+	if (filter === -1) {
+		for (i in Object.keys(trainers)){
+			filtered.push(trainers[i]);
+		}
+	} else {
+		for (i in Object.keys(trainers)){
+			if (trainers[i].status === filter){
+				filtered.push(trainers[i]);
+			}
+		}
+	}
+
+	return filtered;
+}
+
+  // This function converts filtered list of trainers into the correct format
+const formatTrainerJson = (filteredTrainers) => {
+	let i;
+	let trainerRows = [];
+	for (i in filteredTrainers){
+		trainerRows.push(createData(
+			filteredTrainers[i].trainer_id,
+			filteredTrainers[i].trainer_name
+		));
+	}
+	return trainerRows;
+}
+
 
 // TODO: Modify this function as GET request from DB --> function should be pointing to request that was clicked in previous page
 function ShowWorkshopDetails(workshop){
-	console.log('');
+	console.log((new Date(workshop['fromDate'])).toLocaleDateString());
 	return (
 		<div>
 			{/* Show details of selected worskshop */}
@@ -29,8 +63,9 @@ function ShowWorkshopDetails(workshop){
 					<Table aria-label="simple table">
 					<TableHead>
 						<TableRow>
-							<TableCell>Client ID</TableCell>
-							<TableCell>Client Name</TableCell>
+							<TableCell align="center">Worskshop ID</TableCell>
+							<TableCell align="center">Client ID</TableCell>
+							<TableCell align="center">Client Name</TableCell>
 							<TableCell align="center">Workshop Name</TableCell>
 							<TableCell align="center">Workshop Type</TableCell>
 							<TableCell align="center">From</TableCell>
@@ -38,12 +73,13 @@ function ShowWorkshopDetails(workshop){
 						</TableRow>
 					</TableHead>
 					<TableBody>
-							<TableCell component="th" scope="row">{workshop['clientid']}</TableCell>
+						<TableCell align="center" component="th" scope="row">{workshop.workshopId}</TableCell>
+							<TableCell align="center">{workshop['clientid']}</TableCell>
 							<TableCell align="center">{workshop['clientname']}</TableCell>
 							<TableCell align="center">{workshop['workname']}</TableCell>
 							<TableCell align="center">{workshop['worktype']}</TableCell>
-							<TableCell align="center">{workshop['fromDate']}</TableCell>
-							<TableCell align="center">{workshop['toDate']}</TableCell>
+							<TableCell align="center">{(new Date(workshop['fromDate'])).toLocaleDateString()}</TableCell>
+							<TableCell align="center">{(new Date(workshop['fromDate'])).toLocaleDateString()}</TableCell>
 					</TableBody>
 					</Table>
 				</TableContainer>
@@ -59,6 +95,8 @@ function TrainerAvailability() {
 	const location = useLocation();
   const workshop = location.state?.workshop;
 
+	console.log("workshop id",workshop.workshopId);
+
 	// Initializing useStates	
 	const [rows, setRows] = useState([]);
   const [filter, setFilter] = useState('All');
@@ -73,29 +111,67 @@ function TrainerAvailability() {
     return row.status === filter;
   }); 
 
-	// Retrieving trainers
+	// Retrieving trainers from backend
 	async function fetchTrainers() {
 		let response = await fetch(`http://${back_url}/admin/trainers`);
 		let data = await response.json();
 		setTrainers(data);
 	}
 
+	// POST method to DB when assigning trainer
+	const assignTrainer = async (trainer_id, workshop_id) => {
+		let trainerToAssign = trainers.find(trainer => trainer.trainerId === trainer_id);
+		const response = await fetch(`http://${back_url}/admin/assign-trainer/${trainer_id}/${workshop_id}`, {
+			method : 'POST',
+			headers: {
+				'Content-Type' : 'application/json'
+			},
+			body: JSON.stringify(trainerToAssign)
+		})
+
+		if (response.status === 200) {
+			console.log('Trainer assigned');
+			return true;
+		} else {
+			console.log('Failed to assign trainer');
+			return false;
+		}
+	}
+
+
 	// This effect fetches trainer data from the backend, on initial render.
 	useEffect(() => {
 		fetchTrainers();
 		}, []);
+
+	// This effect populates the table when workshops update
+	useEffect(() => {
+		let filtered = filterTrainers(trainers, -1);
+		let formattedTrainers = formatTrainerJson(filtered);
+		setRows([...formattedTrainers]);
+		console.log("Populating Table")
+	}, [trainers]);
+
+
 
 	// Button handlers here
 	const handleFilterChange = (event) => {
 		setFilter(event.target.value);
 	};
 
-	const handleAssign = (index) => {
-    const newRows = [...rows];
+	const handleAssign = async (row, workshop) => {
+    /*const newRows = [...rows];
     newRows[index].trainerAvail = 'Assigned';
-    setRows(newRows);
+    setRows(newRows);*/
 		
 		// TODO: function to send POST to DB for workshop trainer assignment
+		const res = await assignTrainer(row.trainerId, workshop.workshopId);
+		if (res){
+			console.log('Trainer assigned');
+			fetchTrainers();
+		} else{
+			console.log('Failed to assign trainer');
+		}
   };
 
 	return (
@@ -117,25 +193,37 @@ function TrainerAvailability() {
 							</Select>
 						</FormControl>
 				</Box>
-					<Table aria-label="simple table">
+				<Table aria-label="simple table">
 					<TableHead>
-									<TableRow>
-										<TableCell>ID</TableCell>
-										<TableCell>Name</TableCell>
-										<TableCell align="center">Team</TableCell>
-										<TableCell align="center">Availability</TableCell>
-									</TableRow>
-								</TableHead>
-					</Table>
+						<TableRow>
+							<TableCell align="center">ID</TableCell>
+							<TableCell align="center">Name</TableCell>
+							<TableCell align="center">Action</TableCell>
+						</TableRow>
+					</TableHead>
 					<TableBody>
-						{filteredRows.map((row) => (
+						{rows.map((row) => (
 							<TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell component="th" scope="row">{row.trainerId}</TableCell>
+									<TableCell align="center" component="th" scope="row">{row.trainerId}</TableCell>
 									<TableCell align="center">{row.trainerName}</TableCell>
-									<TableCell align="center">{row.trainerTeam}</TableCell>
-									<TableCell align="center">{row.trainerAvail}</TableCell>
 									<TableCell align="center">
-										{row.trainerAvail === 'Available'? (
+										<>
+										<Button
+													variant="contained"
+													sx={{ 
+														backgroundColor: theme.palette.custom.accept, 
+														color: theme.palette.getContrastText(theme.palette.custom.accept),
+														'&:hover': {
+															backgroundColor: theme.palette.custom.accept,
+														},
+														marginRight: 1
+													}}
+													onClick={() => handleAssign(row, workshop)}
+													>
+													Assign Workshop
+												</Button>
+										</>
+										{/* {row.trainerAvail === 'Available'? (
 											<>
 												<Button
 													variant="contained"
@@ -147,18 +235,20 @@ function TrainerAvailability() {
 														},
 														marginRight: 1
 													}}
-													onClick={() => handleAssign(rows.indexOf(row))}
+													onClick={() => handleAssign(row)}
 													>
 													Assign Workshop
 												</Button>
 											</>
 										) : (
 											row.trainerAvail
-										)} 
+										)}  */}
 									</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
+					
+					</Table>
 				</TableContainer>
 			</Box>
 		</div>
