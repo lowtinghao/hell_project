@@ -24,7 +24,7 @@ import { MenuList } from "@mui/material";
 import ListItemIcon from '@mui/material/ListItemIcon';
 
 const pages = ["Home", "Trainers", "Form"];
-const settings = ["Account", "Logout"];
+const settings = ["Logout"];
 
 
 function AdminNavbar(props) {
