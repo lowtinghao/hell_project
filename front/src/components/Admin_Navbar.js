@@ -26,24 +26,38 @@ const settings = ["Account", "Logout"];
 function AdminNavbar(props) {
 
     const [notifications, setNotifications] = useState([]);
+    const [notifDisplay, setNotifDisplay] = useState([]); 
     //console.log("Admin Nav reloading");
     //console.log(props.socket);
     useEffect(() => {
         props.socket?.on("alertingAdmin", data => {
             setNotifications((prev) => [...prev, data]);
+            setNotifDisplay((prev) => [...prev, data.companyName + " submitted a new request"]);
         })
         
     }, [props.socket]);
     console.log(notifications);
+    console.log(notifDisplay);
+    let notifCount = notifDisplay.length;
+
     const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElNotif, setAnchorElNotif] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
+    };
+
+    const handleOpenNotifPanel = (event) => {
+        setAnchorElNotif(event.currentTarget);
+    };
+
+    const handleCloseNotifPanel = () => {
+        setAnchorElNotif(null);
     };
 
     const handleCloseNavMenu = () => {
@@ -64,6 +78,7 @@ function AdminNavbar(props) {
 
     const handleClick = (e) => {
         handleCloseNavMenu();
+        handleCloseNotifPanel();
         props.setPage(e.target.getAttribute("data-testid"));
     };
 
@@ -217,17 +232,44 @@ function AdminNavbar(props) {
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
+
                         <Tooltip title="View Notifications">
-                            <IconButton
+                            <IconButton onClick = {handleOpenNotifPanel}
                                 size="large"
                                 aria-label="show new notifications"
                                 sx={{ p: 1, mr: 4 }}
                             >
-                                <Badge badgeContent={17} color="error">
+                                <Badge badgeContent={notifCount} color="error">
                                     <NotificationsIcon />
                                 </Badge>
                             </IconButton>
                         </Tooltip>
+
+                        <Menu
+                            sx={{ mt: "45px", }}
+                            id="menu-notifs"
+                            anchorEl={anchorElNotif}
+                            anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            open={Boolean(anchorElNotif)}
+                            onClose={handleCloseNotifPanel}
+                        >
+                            {notifDisplay.map((notification) => (
+                                <MenuItem onClick={() => handleClickSetting(notification)}>
+                                    <Typography textAlign="center">{notification}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+
+
+
                         <Tooltip title="Open settings">
 
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -258,6 +300,8 @@ function AdminNavbar(props) {
                             ))}
                         </Menu>
                     </Box>
+
+
                 </Toolbar>
             </Container>
         </AppBar>
