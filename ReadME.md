@@ -121,3 +121,8 @@ Justin Cho Ming Jun | Koh Yee Cheng, Danae
 Larioza Andrea Ronquillo | Lindero Dianthe Marithe Lumagui
 Low Ting Hao | Muthu Ramaswamy | V Priyanka Valli
 
+### Asset Attributions
+- Admin Home Picture | <a href="https://www.freepik.com/free-vector/flat-design-illustration-customer-support_12982910.htm#fromView=search&page=1&position=0&uuid=f61d8eae-05b2-429b-8320-0d1ca0dcef98">Image by freepik</a>
+- Trainer Home Picture | <a href="https://www.freepik.com/free-vector/hand-drawn-colorful-innovation-concept_20286053.htm#fromView=search&page=1&position=5&uuid=a7045fb2-94a0-4903-a875-c5c1201f1d01">Image by pikisuperstar on Freepik</a>
+- Client Home Picture
+

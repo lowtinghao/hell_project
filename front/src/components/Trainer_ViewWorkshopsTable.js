@@ -145,7 +145,7 @@ export default function ViewWorkshopsTable(trainerid) {
 	return (
 		<div>
 			<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-				<TableContainer component={Paper} sx={{ maxWidth: 900, width: '100%', margin: 'auto' }}>
+				<TableContainer component={Paper} sx={{ maxWidth: 1000, width: '100%', margin: 'auto' }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px' }}>
 						<Typography variant="h5">View All Workshops</Typography>
 						<FormControl sx={{ m: 1, minWidth: 120 }}>

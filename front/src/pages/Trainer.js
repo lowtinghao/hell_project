@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { TrainerNavbar } from '../components/Trainer_Navbar';
 import ViewWorkshopsTable from '../components/Trainer_ViewWorkshopsTable';
 import { useEffect, useState } from 'react';
+import { TrainerHomeCard } from '../components/Trainer_WelcomeCard';
 
 function checkIfIdIsValid(location_state){
   if (location_state == null){
@@ -36,8 +37,8 @@ function App() {
       return (
         <div>
           <TrainerNavbar />
-          <h2>Trainer Page</h2>
-          <h3>{"ID : " + id}</h3>
+
+          <TrainerHomeCard trainerId = {id}/>
           <br/>
           <ViewWorkshopsTable trainerid = {location.state.id}/>
           <button><Link to="/">Back</Link></button>

@@ -4,9 +4,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import Admin_Picture from "../assets/flat-design-illustration-customer-support.png";
+import Trainer_Picture from "../assets/Trainer Welcome Card Photo.png";
 import 'typeface-roboto';
-
 const StyledCard = styled(Card)(({ theme: { breakpoints, spacing } }) => ({
   maxWidth: 1000, width: '100%', margin: 'auto',
   // 16px
@@ -23,7 +22,7 @@ const StyledCard = styled(Card)(({ theme: { breakpoints, spacing } }) => ({
   textAlign: "center",
 
   background:
-    "linear-gradient(34deg, #1976D2 0%, #7FB8F0 29%, #559CE2 92%)",
+    "linear-gradient(34deg, #623AD6 0%, #9D9BE8 29%, #806BDF 92%)",
 
   [breakpoints.up("sm")]: {
     textAlign: "left",
@@ -33,11 +32,11 @@ const StyledCard = styled(Card)(({ theme: { breakpoints, spacing } }) => ({
 
 const CardMediaMedia = styled(CardMedia)(({ theme: { breakpoints } }) => ({
   flexShrink: 0,
-  width: "50%",
+  width: "55%",
   paddingTop: "30%",
   marginLeft: "auto",
   marginRight: "auto",
-  overflow: "visible",
+  overflow: "hidden",
 
   [breakpoints.up("sm")]: {
     marginRight: "initial",
@@ -61,19 +60,18 @@ const TypographyHeading = styled(Typography)(({}) => ({
 }));
 
 
-export function AdminHomeCard(adminId) {
-    console.log(adminId);
+export function TrainerHomeCard(trainerId) {
   return (
     <StyledCard>
       <CardMediaMedia
-        image={Admin_Picture}
+        image={Trainer_Picture}
       />
       <CardContent>
         <TypographyOverline variant={"overline"}>
-          Admin ID: {adminId.adminId}
+          Trainer ID: {trainerId.trainerId}
         </TypographyOverline>
         <TypographyHeading variant={"h3"} gutterBottom>
-          Welcome Admin
+          Welcome Trainer
         </TypographyHeading>
       </CardContent>
     </StyledCard>
