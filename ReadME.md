@@ -73,6 +73,10 @@ $ npm install --save-dev babel-jest
 # Jest Transform stub - handles non-JavaScript assets like images [Testing]
 $ npm install jest-transform-stub --save-dev
 
+# Cypress - used for system testing
+$ npm install cypress --save-dev
+$ npx cypress open
+
 # @testing-library
 $ npm install @testing-library/react
 $ npm install --save-dev @testing-library/user-event
