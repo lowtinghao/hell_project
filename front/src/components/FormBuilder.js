@@ -7,7 +7,7 @@ import PreviewIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { useForm } from './FormContext';
+import { useForm } from './FormContext';  // Adjust the import path according to your project structure
 
 const Question = ({ question, index, handleQuestionChange, handleAddOption, handleOptionChange, handleRemoveQuestion, handleMoveQuestion }) => {
   const handleChange = (field, value) => {
@@ -50,7 +50,7 @@ const Question = ({ question, index, handleQuestionChange, handleAddOption, hand
 
 const FormBuilder = () => {
   const { formData, addQuestion, updateQuestion, removeQuestion, moveQuestion } = useForm();
-  const [editMode, setEditMode] = useState(false); // Set default mode to edit mode
+  const [editMode, setEditMode] = useState(true);  // Set default mode to edit mode
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleAddQuestion = (type) => {

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import AdminForm from '../pages/AdminForm';
 import AssignTrainer from '../pages/AssignTrainer';
 import FormBuilder from '../components/FormBuilder';
+import { FormProvider } from '../components/FormContext';
 import TrainerAvailability from '../components/TrainerAvailability';
 import Admin_view_trainer_schedule from '../components/Admin_view_trainer_schedule';
 import TrainersTab from '../components/Admin_TrainersTab';
@@ -71,6 +72,9 @@ function App() {
         <div>
           <AdminNavbar setPage = {setPage}/>
           <h1>Form Page : I need help with this</h1>
+          <FormProvider>
+          <FormBuilder />
+          </FormProvider>
           <button><Link to="/">Back</Link></button>
         </div>
         
