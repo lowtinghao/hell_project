@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+/*const mongoose = require('mongoose');
 const {workshop, workshopType} = require('./Workshop')
 
 
@@ -66,4 +66,4 @@ WorkshopRequest.statics.getAcceptedWorkshops = async function() {
     }
 }
 
-module.exports = WorkshopRequest;
+module.exports = WorkshopRequest; */

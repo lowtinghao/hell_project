@@ -98,5 +98,4 @@ class TrainerController{
         }
     }
 }
-
 module.exports = {TrainerController, Trainer};

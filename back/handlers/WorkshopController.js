@@ -9,13 +9,13 @@ let workshopSchema = new mongoose.Schema({
     dates : [Date],
     type : String,
     numberOfAttendees : String,
-    dealSizePotential : String,
+    dealSizePotential : Number,
     location : String,
     venue : String,
     comments: String,
     status : Number, // This specifies if it has been accepted or not, set automatically. 0: Unprocessed 1: Accepted 2: Rejected 3: Completed
     assignedTrainers : [] 
-}, {strict : false});
+});
 
 // TODO : For all accesses to the database, specify types and do data validation
 
@@ -173,7 +173,6 @@ class WorkshopController{
             throw err
         }
     }
-
 }
 
 module.exports = {WorkshopController, workshop};

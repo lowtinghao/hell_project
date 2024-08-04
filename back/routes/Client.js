@@ -26,19 +26,6 @@ router.get('/workshops', async (req, res) => {
 }
 );
 
-router.get('/allworkshops', async (req,res) => {
-    try {
-        let workshops = await WorkshopController.getAllWorkshops();
-        res.status(200);
-        res.send(workshops)
-    } catch (err) {
-        res.status(201);
-        res.send("Unable to fetch workshops")
-    }
-})
-
-
-
 router.post('/workshops', async (req, res) => {
     try {
         await WorkshopController.submitWorkshopRequest(req);
@@ -52,7 +39,5 @@ router.post('/workshops', async (req, res) => {
     }
 }
 );
-
-
 
 module.exports = router;

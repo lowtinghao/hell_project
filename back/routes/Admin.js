@@ -82,5 +82,4 @@ router.post('/trainers',(req, res) => {
     TrainerController.createTrainer(req).then(() => res.send("Success")).catch((err) => res.status(500).send(err.message));
 })
 
-
 module.exports = router;

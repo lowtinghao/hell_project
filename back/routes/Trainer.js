@@ -35,5 +35,4 @@ router.get('/workshops', async (req,res) => {
     }
 })
 
-
 module.exports = router;
