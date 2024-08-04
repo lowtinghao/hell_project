@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-const TrainerController = require('../handlers/TrainerController');
-const WorkshopController = require('../handlers/WorkshopController');
+const {TrainerController} = require('../handlers/TrainerController');
+const {WorkshopController} = require('../handlers/WorkshopController');
 
 router.use(express.json());
 
@@ -41,7 +41,7 @@ router.post('/workshops/:workshop_id', async (req,res) => {
         res.send("Success")
     } catch (err) {
         res.status(201);
-        res.send(err)
+        res.send(err.message)
     }
 })
 // DONE : GET /admin/trainers
@@ -52,7 +52,7 @@ router.get('/trainers', async (req,res) => {
         res.send(p);
     } catch (err) {
         res.status(201);
-        res.send(err);
+        res.send(err.message);
     }
 })
 // DONE : GET /admin/trainers/trainer_id
@@ -63,7 +63,7 @@ router.get('/trainers/:trainer_id', async (req,res) => {
         res.send(p);
     } catch (err) {
         res.status(201);
-        res.send(err);
+        res.send(err.message);
     }
 })
 // DONE : POST /admin/trainers/trainer_id
@@ -74,12 +74,12 @@ router.post('/trainers/:trainer_id', async (req,res) => {
         res.send("Success")
     } catch (err) {
         res.status(201);
-        res.send("Unable to fetch workshops")
+        res.send(err.message)
     }
 })
 // DONE : Creates a trainer
 router.post('/trainers',(req, res) => {
-    TrainerController.createTrainer(req).then(() => res.send("Success")).catch((err) => res.send(err));
+    TrainerController.createTrainer(req).then(() => res.send("Success")).catch((err) => res.status(500).send(err.message));
 })
 
 

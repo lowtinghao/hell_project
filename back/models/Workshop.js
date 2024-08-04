@@ -1,3 +1,5 @@
+/*
+
 const mongoose = require('mongoose');
 
 const workshopTypeSchema = new mongoose.Schema({
@@ -75,3 +77,5 @@ Workshop.statics.insertWorkshopField = async function(field, varType = String, r
 }
 
 module.exports = { Workshop, WorkshopType };
+
+*/

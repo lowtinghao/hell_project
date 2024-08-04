@@ -1,11 +1,11 @@
-const { default: mongoose } = require('mongoose');
+const mongoose = require('mongoose');
 
 let trainerSchema = new mongoose.Schema({
     trainer_id : {type : Number, unique : true}, 
     trainer_name : {type: String, required : true},
 });
 
-let trainer = new mongoose.model('Trainers', trainerSchema);
+let Trainer = new mongoose.model('Trainers', trainerSchema);
 
 // TODO : Specify functionality, inputs, outputs of functions
 // TODO : For all accesses to the database, specify types and do data validation
@@ -25,7 +25,7 @@ class TrainerController{
     // Outputs : Number representing the largest trainer body
     static async getLargestTrainerId() {
         try {
-            let p = await trainer.find({});
+            let p = await Trainer.find({});
             if (p.length == 0) {
                 return 0;
             }
@@ -48,7 +48,7 @@ class TrainerController{
             let details = this.parseNewTrainerRequest(req);
             let id = await this.getLargestTrainerId() + 1;
             details.trainer_id = id;
-            let p = await trainer.create(details);
+            await Trainer.create(details);
         } catch (err) {
             throw err;
         }
@@ -59,9 +59,9 @@ class TrainerController{
     // OUTPUT : None
     static async deleteTrainer(id){
         try {
-            let p = await trainer.deleteOne({ trainer_id : id });
+            await Trainer.deleteOne({ trainer_id : id });
         } catch (err) {
-            return err;
+            throw err;
         }
     }
 
@@ -70,7 +70,7 @@ class TrainerController{
     // OUTPUT : JS Object containing all trainers
     static async getAllTrainers() {
         try {
-            let p = await trainer.find({});
+            let p = await Trainer.find({});
             return p;
         } catch (err) {
             throw err;
@@ -82,7 +82,7 @@ class TrainerController{
     // OUTPUT : JS Object containing trainer
     static async getTrainerById(trainer_id) {
         try {
-            let p = await trainer.find({trainer_id : trainer_id});
+            let p = await Trainer.find({trainer_id : trainer_id});
             return p;
         } catch (err) {
             throw err;
@@ -92,11 +92,11 @@ class TrainerController{
     static async replaceTrainerbyTrainerId(details, id){
         try {
             details.trainer_id = id;
-            await trainer.replaceOne({trainer_id : id}, details);
+            await Trainer.replaceOne({trainer_id : id}, details);
         } catch (err) {
-            return err;
+            throw err;
         }
     }
 }
 
-module.exports = TrainerController;
+module.exports = {TrainerController, Trainer};

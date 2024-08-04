@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const WorkshopController = require('../handlers/WorkshopController')
+const {WorkshopController} = require('../handlers/WorkshopController');
 const mongoose = require('mongoose');
 
 

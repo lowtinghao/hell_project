@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 
-const TrainerController = require('../handlers/TrainerController');
-const WorkshopController = require('../handlers/WorkshopController');
+const {TrainerController} = require('../handlers/TrainerController');
+const {WorkshopController} = require('../handlers/WorkshopController');
 
 router.use(express.json());
 
