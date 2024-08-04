@@ -2,11 +2,12 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, useTheme, MenuItem, FormControl, Select, InputLabel, Box, Typography } from '@mui/material';
+import WorkshopDetailsPopup from './WorkshopDetailsPopup';
 
 const back_url = "localhost:3001";
 // TODO: Modify this function to retrieve workshop request data from DB
-function createData(clientid, clientname, workname, worktype, fromDate, toDate, status, workshopId) {
-    return { clientid, clientname, workname, worktype, fromDate, toDate, status, workshopId};
+function createData(clientid, clientname, workname, worktype, fromDate, toDate, type, status, workshopId, numberOfAttendees, dealSizePotential, location, venue, comments, assignedTrainers) {
+    return { clientid, clientname, workname, worktype, fromDate, toDate, type, status, workshopId, numberOfAttendees, dealSizePotential, location, venue, comments, assignedTrainers};
   }
   
   const date = new Date();
@@ -54,8 +55,15 @@ function createData(clientid, clientname, workname, worktype, fromDate, toDate, 
 			filteredWorkshops[i].clientType, 
 			filteredWorkshops[i].dates[0], 
 			filteredWorkshops[i].dates[filteredWorkshops[i].dates.length - 1],
+			filteredWorkshops[i].type,
 			filteredWorkshops[i].status,
-			filteredWorkshops[i].workshopId));
+			filteredWorkshops[i].workshopId,
+			filteredWorkshops[i].numberOfAttendees,
+			filteredWorkshops[i].dealSizePotential,
+			filteredWorkshops[i].location,
+			filteredWorkshops[i].venue,
+			filteredWorkshops[i].comments,
+			filteredWorkshops[i].assignedTrainers));
 		}
 	return workshopRows;
   }
@@ -69,6 +77,8 @@ export default function ViewWorkshopsTable() {
     const [filter, setFilter] = useState('All');
     const theme = useTheme();
 	const [workshops, setWorkshops] = useState({});
+	const [selectedWorkshop, setSelectedWorkshop] = useState(null); // Add this state for popup
+    const [open, setOpen] = useState(false); // Add this state for popup
 
 	async function fetchWorkshops() {
 		let response = await fetch(`http://${back_url}/trainer/workshops`);
@@ -116,7 +126,18 @@ export default function ViewWorkshopsTable() {
 	const handleFilterChange = (event) => {
 		console.log(event.target.value);
     	setFilter(event.target.value);
-  };
+  	};
+
+	const handleOpenPopup = (workshop) => { // Add this function to handle popup open
+		console.log('Selected workshop:', workshop); // Log the selected workshop
+		setSelectedWorkshop(workshop);
+		setOpen(true);
+	};
+
+	const handleClosePopup = () => { // Add this function to handle popup close
+		setOpen(false);
+		setSelectedWorkshop(null);
+	};
 
   
 
@@ -150,6 +171,7 @@ export default function ViewWorkshopsTable() {
 								<TableCell align="center">Workshop Name</TableCell>
 								<TableCell align="center">Workshop Type</TableCell>
 								<TableCell align="center">Status</TableCell>
+								<TableCell align="center">Actions</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -170,12 +192,24 @@ export default function ViewWorkshopsTable() {
 											row.status
 										)}
 									</TableCell>
+									<TableCell align="center"> {/* Add this cell for View Details button */}
+                                        <Button variant="contained" color="primary" onClick={() => handleOpenPopup(row)}>
+                                            View Details
+                                        </Button>
+                                    </TableCell>
 								</TableRow>
 							))}
 						</TableBody>
 					</Table>
 				</TableContainer>
 				{/* <AssignTrainersPopup open={open} handleClose={handleCloseModal} workshop={selectedWorkshop}/> */}
+				{selectedWorkshop && ( // Add this to render the popup
+					<WorkshopDetailsPopup
+						open={open}
+						handleClose={handleClosePopup}
+						workshop={selectedWorkshop}
+					/>
+				)}
 			</Box>
 		</div>
 

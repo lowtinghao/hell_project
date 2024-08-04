@@ -15,12 +15,14 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import 'typeface-roboto';
 
 const pages = ["Workshop Request Form", "View Workshops"];
 const settings = ["Account", "Logout"];
 
-function ClientNavbar() {
+function ClientNavbar({value, handleChange}) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -43,51 +45,15 @@ function ClientNavbar() {
         <AppBar position="static" sx={{ bgcolor: "white" }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="Dell Technologies Logo"
-                        sx={{
-                            borderRadius: 0,
-                            ".MuiTouchRipple-ripple .MuiTouchRipple-child": {
-                                borderRadius: 0,
-                            }, display: { xs: "none", md: "flex" }, mr: 1
-                        }}
-                    >
-                        <img
-                            src={Dell_logo}
-                            alt="Dell Technologies Logo"
-                            height="33"
-                        ></img>
-                    </IconButton>
-
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
-                        sx={{
-                            mr: 2,
-                            display: { xs: "none", md: "flex" },
-                            fontFamily: "Roboto",
-                            fontWeight: 300,
-                            fontSize: "1.4rem",
-                            color: '#0672cb',
-                            textDecoration: "none",
-                        }}
-                    >
-                        Workshop Resource Portal
-                    </Typography>
-
-                    <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+                    {/* Menu Icon for small screens */}
+                    <Box sx={{ display: { xs: 'flex', md: 'flex' }, mr: 1 }}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
-                            color="#636363"
+                            color="inherit"
                         >
                             <MenuIcon />
                         </IconButton>
@@ -95,118 +61,100 @@ function ClientNavbar() {
                             id="menu-appbar"
                             anchorEl={anchorElNav}
                             anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "left",
+                                vertical: 'bottom',
+                                horizontal: 'left',
                             }}
                             keepMounted
                             transformOrigin={{
-                                vertical: "top",
-                                horizontal: "left",
+                                vertical: 'top',
+                                horizontal: 'left',
                             }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: "block", md: "none" },
-                            }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">
-                                        <Link
-                                            to={page === "Home" ? "/client" : `/${page.toLowerCase()}`}
-                                            style={{ textDecoration: 'none', color: 'inherit' }}
-                                        >
-                                            {page}
-                                        </Link>
-                                    </Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem onClick={() => { handleCloseNavMenu(); handleChange(null, 0); }}>
+                                <Typography textAlign="center">Workshop Request Form</Typography>
+                            </MenuItem>
+                            <MenuItem onClick={() => { handleCloseNavMenu(); handleChange(null, 1); }}>
+                                <Typography textAlign="center">View Workshops</Typography>
+                            </MenuItem>
                         </Menu>
-                    </Box>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="Dell Technologies Logo"
-                        sx={{
-                            borderRadius: 0,
-                            ".MuiTouchRipple-ripple .MuiTouchRipple-child": {
-                                borderRadius: 0,
-                                backgroundColor: "red",
-                            }, display: { xs: "flex", md: "none" }, mr: 1
-                        }}
-                    >
-                        <img
-                            src={Dell_logo}
-                            alt="Dell Technologies Logo"
-                            height="33"
-                        ></img>
-                    </IconButton>
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
-                        sx={{
-                            mr: 2,
-                            display: { xs: "flex", md: "none" },
-                            flexGrow: 1,
-                            fontFamily: "Roboto",
-                            fontWeight: 300,
-                            fontSize: "1rem",
-                            color: '#0672cb',
-                            textDecoration: "none",
-                        }}
-                    >
-                        Workshop Resource Portal
-                    </Typography>
-                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                data-testid={`${page.toLowerCase()}-button`}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: "#636363", display: "block" }}
-                            >
-                                <Link
-                                    to={page === "Home" ? "/client" : `/${page.toLowerCase()}`}
-                                    style={{ textDecoration: 'none', color: 'inherit' }}
-                                >
-                                    {page}
-                                </Link>
-                            </Button>
-                        ))}
                     </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: "45px" }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
+                    {/* Logo and title */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="Dell Technologies Logo"
+                            sx={{
+                                borderRadius: 0,
+                                ".MuiTouchRipple-ripple .MuiTouchRipple-child": {
+                                    borderRadius: 0,
+                                }, display: { xs: 'none', md: 'flex' }, mr: 1
                             }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
+                            <img
+                                src={Dell_logo}
+                                alt="Dell Technologies Logo"
+                                height="33"
+                            ></img>
+                        </IconButton>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{
+                                flexGrow: 1,
+                                textAlign: { xs: 'center', md: 'left' },
+                                fontFamily: "Roboto",
+                                fontWeight: 300,
+                                fontSize: "1.4rem",
+                                color: '#0672cb',
+                                textDecoration: "none",
+                            }}
+                        >
+                            Workshop Resource Portal
+                        </Typography>
                     </Box>
+
+                    {/* Tabs for larger screens */}
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                        <Tabs value={value} onChange={handleChange}>
+                            <Tab label="Workshop Request Form" data-testid="workshop request form-button" />
+                            <Tab label="View Workshops" data-testid="view workshops-button"/>
+                        </Tabs>
+                    </Box>
+
+                    {/* Avatar */}
+                    <Tooltip title="Open settings">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, marginLeft: 'auto' }}>
+                            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                        </IconButton>
+                    </Tooltip>
+                    <Menu
+                        sx={{ mt: "45px" }}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "right",
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "right",
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                    >
+                        {settings.map((setting) => (
+                            <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                                <Typography textAlign="center">{setting}</Typography>
+                            </MenuItem>
+                        ))}
+                    </Menu>
                 </Toolbar>
             </Container>
         </AppBar>

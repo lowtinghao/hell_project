@@ -10,22 +10,35 @@ import TrainerAvailability from '../components/TrainerAvailability';
 import Admin_view_trainer_schedule from '../components/Admin_view_trainer_schedule';
 
 import { io } from "socket.io-client";
+import TrainersTab from '../components/Admin_TrainersTab';
+
+function checkIfIdIsValid(location_state){
+  if (location_state == null){
+    return false;
+  }
+  if (location_state.id == null) {
+    return false;
+  }
+  if (!Number.isInteger(parseFloat(location_state.id))) {
+    return false;
+  }
+  return true;
+}
+
+
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const user = "admin"+location.state.id;
+  const [id,setId] = useState();
+
   useEffect(() => {
-    if (location.state == null) {
+    console.log(location.state);
+    if (!checkIfIdIsValid(location.state)){
       navigate('/');
-    }
-    if (location.state.id == null) {
-      navigate('/');
-    }
-    console.log(parseFloat(location.state.id));
-    console.log(parseInt(location.state.id));
-    if (!Number.isInteger(parseFloat(location.state.id))) {
-      navigate('/');
+    } else {
+      setId(location.state.id);
     }
     console.log(typeof (location.state.id));
   }, [location, navigate]);
@@ -46,18 +59,16 @@ function App() {
   const [page, setPage] = useState("home-button")
   console.log("Page: " + page);
 
-
-
-  if (page === "home-button") {
+  if (page === "home-button"){
     console.log("Going to home page")
     return (
       <div>
         <AdminNavbar setPage={setPage} socket = {socket} user = {user}/>
         <h2>Admin Page</h2>
+        <h3>{"ID : " + id}</h3>
         <ThemeProvider>
           <WorkshopRequestTable />
         </ThemeProvider>
-        <button><Link to="/">Back</Link></button>
       </div>
     );
   } else if (page === "trainers-button") {
@@ -66,10 +77,10 @@ function App() {
       <div>
         <AdminNavbar setPage={setPage} socket = {socket} user = {user} />
         <h2>Trainer Page : I need help with this</h2>
-        <Admin_view_trainer_schedule />
-        {/* <ThemeProvider>
-				  <TrainerAvailability/>
-			  </ThemeProvider> */}
+
+        <ThemeProvider>
+				  <TrainersTab/>
+			  </ThemeProvider>
         <button><Link to="/">Back</Link></button>
       </div>
     );

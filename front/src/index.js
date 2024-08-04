@@ -20,7 +20,7 @@ const router = createBrowserRouter([
   {path: '/client',element: <Client />}, 
   {path: '/admin',element: <Admin />},
   {path: '/trainer',element: <Trainer />}, 
-  { path: '/assign-trainer', element: <AssignTrainer /> },
+  { path: '/admin/assign', element: <AssignTrainer /> },
   { path: '/form', element: <FormProvider><AdminForm /></FormProvider> }
 ]);
 

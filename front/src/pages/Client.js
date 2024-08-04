@@ -8,6 +8,7 @@ import ViewClientWorkshopsTable from '../components/Client_ViewWorkshopsTable';
 import { io } from "socket.io-client";
 
 
+
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function App() {
   }, [location, navigate]);
 
   const [workshop, setWorkshop] = useState({});
+  const [tabValue, setTabValue] = useState(0);
   const back_url = "localhost:3001";
 
 
@@ -71,6 +73,7 @@ function App() {
         return true;
       } else {
         console.log('Failed to request workshop');
+        console.error('Failed to request workshop');
         return false;
       }
     }
@@ -78,24 +81,31 @@ function App() {
       socket.emit("alertAdmin", { senderName: user });
       //window.location.reload(true);
     } else {
+      console.error('Failed to request workshop');
       // HANDLE HERE
     }
-
   };
 
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  }
+  
   return (
     <div>
-      <h2>Client Page</h2>
-      <FormProvider>
-        <FormPreview workshopSetter={setWorkshop} workshop={workshop} />
-      </FormProvider>
-      <Box>
-        <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
+      <ClientNavbar value={tabValue} handleChange={handleTabChange} />
+      <Box sx={{p:2}}>
+        {tabValue===0 && (
+          <div>          
+            <FormProvider>
+              <FormPreview workshopSetter={setWorkshop} workshop={workshop}/>
+            </FormProvider>
+            <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
+          </div>
+        )}
+        {tabValue===1 &&(
+          <ViewClientWorkshopsTable/>
+        )}
       </Box>
-
-      <br />
-      <ViewClientWorkshopsTable />
-
       <button><Link to="/">Back</Link></button>
     </div>
   );
