@@ -9,7 +9,7 @@ import Admin_Picture from "../assets/flat-design-illustration-customer-support.p
 import 'typeface-roboto';
 
 const StyledCard = styled(Card)(({ theme: { breakpoints, spacing } }) => ({
-  maxWidth: 900, width: '100%', margin: 'auto',
+  maxWidth: 1000, width: '100%', margin: 'auto',
   // 16px
   borderRadius: spacing(2),
   marginTop: '50px',

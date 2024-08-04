@@ -9,67 +9,67 @@ import AssignTrainersnew from '../components/AssignTrainersnew';
 const back_url = "localhost:3001";
 // TODO: Modify this function to retrieve workshop request data from DB
 function createData(clientid, clientname, workname, worktype, fromDate, toDate, status, workshopId) {
-    return { clientid, clientname, workname, worktype, fromDate, toDate, status, workshopId};
-  }
-  
-  const date = new Date();
-  console.log(date);
-  
-  const initialRows = [
-    createData('0', 'Client 1', 'Workshop 1', 'Business', date, date),
-    createData('1', 'Client 2', 'Workshop 2', 'Technology', date, date),
-    createData('2', 'Client 3', 'Workshop 3', 'Design', date, date),
-    createData('3', 'Client 4', 'Workshop 4', 'Marketing', date, date)
-  ];
+	return { clientid, clientname, workname, worktype, fromDate, toDate, status, workshopId };
+}
 
-  // This function filters workshops by their status
-  // A -1 status means all workshops are returned
-  // Status code : -1 -> All, 0 -> New, 1 -> Assign Instructors, 2 -> Rejected
-  const filterWorkshops = (workshops, filter) => {
+const date = new Date();
+console.log(date);
+
+const initialRows = [
+	createData('0', 'Client 1', 'Workshop 1', 'Business', date, date),
+	createData('1', 'Client 2', 'Workshop 2', 'Technology', date, date),
+	createData('2', 'Client 3', 'Workshop 3', 'Design', date, date),
+	createData('3', 'Client 4', 'Workshop 4', 'Marketing', date, date)
+];
+
+// This function filters workshops by their status
+// A -1 status means all workshops are returned
+// Status code : -1 -> All, 0 -> New, 1 -> Assign Instructors, 2 -> Rejected
+const filterWorkshops = (workshops, filter) => {
 	let filtered = [];
 	let i;
 	if (filter === -1) {
-		for (i in Object.keys(workshops)){
+		for (i in Object.keys(workshops)) {
 			filtered.push(workshops[i]);
 		}
 	} else {
-		for (i in Object.keys(workshops)){
-			if (workshops[i].status === filter){
+		for (i in Object.keys(workshops)) {
+			if (workshops[i].status === filter) {
 				filtered.push(workshops[i]);
 			}
 		}
 	}
-	
-	return filtered;
-  };
 
-  // This function converts filtered list of workshops into the correct format
-  const formatWorkshopJson = (filteredWorkshops) => {
+	return filtered;
+};
+
+// This function converts filtered list of workshops into the correct format
+const formatWorkshopJson = (filteredWorkshops) => {
 	let i;
 	let workshopRows = [];
-	for (i in filteredWorkshops){
+	for (i in filteredWorkshops) {
 		workshopRows.push(createData(
-			filteredWorkshops[i].client_id, 
-			filteredWorkshops[i].companyName, 
-			filteredWorkshops[i].companyName, 
-			filteredWorkshops[i].clientType, 
-			filteredWorkshops[i].dates[0], 
+			filteredWorkshops[i].client_id,
+			filteredWorkshops[i].companyName,
+			filteredWorkshops[i].companyName,
+			filteredWorkshops[i].clientType,
+			filteredWorkshops[i].dates[0],
 			filteredWorkshops[i].dates[filteredWorkshops[i].dates.length - 1],
 			filteredWorkshops[i].status,
 			filteredWorkshops[i].workshopId));
-		}
+	}
 	return workshopRows;
-  }
+}
 
-  
 
-export default function WorkshopRequestTable() {	
+
+export default function WorkshopRequestTable() {
 	// Initializing variables here
 	const [rows, setRows] = useState([]);
-    const [filter, setFilter] = useState('All');
-    const theme = useTheme();
+	const [filter, setFilter] = useState('All');
+	const theme = useTheme();
 	const [workshops, setWorkshops] = useState({});
-	const [page, setPage] = useState("main"); 
+	const [page, setPage] = useState("main");
 	const [selectedWorkshop, setSelectedWorkshop] = useState({});
 
 	const handleAssignTrainerClick = (row) => {
@@ -77,13 +77,14 @@ export default function WorkshopRequestTable() {
 		console.log(row);
 		setPage("assign");
 		setSelectedWorkshop(row);
-	  }
+	}
 
 
 	async function fetchWorkshops() {
 		let response = await fetch(`http://${back_url}/admin/workshops`);
 		let data = await response.json();
-		setWorkshops(data)};
+		setWorkshops(data)
+	};
 
 	const acceptWorkshop = async (workshop_id) => {
 		let workshopToAccept = workshops.find(workshop => workshop.workshopId === workshop_id);
@@ -125,11 +126,11 @@ export default function WorkshopRequestTable() {
 		}
 	};
 
-		
+
 	// This effect fetches workshop data from the backend, on initial render.
 	useEffect(() => {
 		fetchWorkshops();
-		}, []);
+	}, []);
 
 	// This effect populates the table when workshops update
 	useEffect(() => {
@@ -141,11 +142,11 @@ export default function WorkshopRequestTable() {
 
 	// This effect filters the table when the filter changes
 	useEffect(() => {
-		if (filter === 'All'){
+		if (filter === 'All') {
 			let filtered = filterWorkshops(workshops, -1);
 			let formattedWorkshops = formatWorkshopJson(filtered);
 			setRows([...formattedWorkshops]);
-		} else if (filter === 'New'){
+		} else if (filter === 'New') {
 			let filtered = filterWorkshops(workshops, 0);
 			let formattedWorkshops = formatWorkshopJson(filtered);
 			setRows([...formattedWorkshops]);
@@ -163,23 +164,23 @@ export default function WorkshopRequestTable() {
 	// Here are all the button handlers
 	const handleAccept = async (row) => {
 		const res = await acceptWorkshop(row.workshopId);
-		if (res){
+		if (res) {
 			console.log('Workshop accepted');
 			fetchWorkshops();
 		} else {
 			console.log('Failed to accept workshop');
 		}
-  };
+	};
 
-  const handleReject = async (row) => {
-	const res = await rejectWorkshop(row.workshopId);
-		if (res){
+	const handleReject = async (row) => {
+		const res = await rejectWorkshop(row.workshopId);
+		if (res) {
 			console.log('Workshop accepted');
 			fetchWorkshops();
 		} else {
 			console.log('Failed to accept workshop');
 		}
-  };
+	};
 
 	const handleAssignInstructors = (index) => {
 		console.log('Assign instructors clicked');
@@ -188,26 +189,26 @@ export default function WorkshopRequestTable() {
 
 	const handleFilterChange = (event) => {
 		console.log(event.target.value);
-    	setFilter(event.target.value);
-  };
+		setFilter(event.target.value);
+	};
 
-  if (page === "assign") {
-	return (
-		<div>
-			<Button onClick={() => setPage("main")}> Back</Button>
-			<ThemeProvider>
-				<AssignTrainersnew workshop={selectedWorkshop}></AssignTrainersnew>
-			</ThemeProvider>
-		</div>
-	);
-  }
+	if (page === "assign") {
+		return (
+			<div>
+				<Button onClick={() => setPage("main")}> Back</Button>
+				<ThemeProvider>
+					<AssignTrainersnew workshop={selectedWorkshop}></AssignTrainersnew>
+				</ThemeProvider>
+			</div>
+		);
+	}
 
 	// Main frontend view
 	if (page === "main") {
 		return (
 			<div>
 				<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-					<TableContainer component={Paper} sx={{ maxWidth: 900, width: '100%', margin: 'auto' }}>
+					<TableContainer component={Paper} sx={{ maxWidth: 1000, width: '100%', margin: 'auto' }}>
 						<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px' }}>
 							<Typography variant="h5" data-testid="table-title">Workshop Requests</Typography>
 							<FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -231,10 +232,10 @@ export default function WorkshopRequestTable() {
 							<TableHead>
 								<TableRow>
 									<TableCell data-testid="client-id-header">Client ID</TableCell>
-                                                                        <TableCell data-testid="client-name-header">Client Name</TableCell>
-                                                                        <TableCell align="center" data-testid="workshop-name-header">Workshop Name</TableCell>
-                                                                        <TableCell align="center" data-testid="workshop-type-header">Workshop Type</TableCell>
-                                                                        <TableCell align="center" data-testid="status-header">Status</TableCell>
+									<TableCell data-testid="client-name-header">Client Name</TableCell>
+									<TableCell align="center" data-testid="workshop-name-header">Workshop Name</TableCell>
+									<TableCell align="center" data-testid="workshop-type-header">Workshop Type</TableCell>
+									<TableCell align="center" data-testid="status-header">Status</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -242,15 +243,15 @@ export default function WorkshopRequestTable() {
 									<TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
 										<TableCell component="th" scope="row" data-testid={`client-id-${row.workshopId}`}>{row.clientid}</TableCell>
 										<TableCell align="center" data-testid={`client-name-${row.workshopId}`}>{row.clientname}</TableCell>
-                                                                                <TableCell align="center" data-testid={`workshop-name-${row.workshopId}`}>{row.workname}</TableCell>
-                                                                                <TableCell align="center" data-testid={`workshop-type-${row.workshopId}`}>{row.worktype}</TableCell>
-                                                                                <TableCell align="center" data-testid={`status-${row.workshopId}`}>
+										<TableCell align="center" data-testid={`workshop-name-${row.workshopId}`}>{row.workname}</TableCell>
+										<TableCell align="center" data-testid={`workshop-type-${row.workshopId}`}>{row.worktype}</TableCell>
+										<TableCell align="center" data-testid={`status-${row.workshopId}`}>
 											{row.status === 0 ? ( //This represents a new request
 												<>
 													<Button
 														variant="contained"
-														sx={{ 
-															backgroundColor: theme.palette.custom.accept, 
+														sx={{
+															backgroundColor: theme.palette.custom.accept, margin: "10px",
 															color: theme.palette.getContrastText(theme.palette.custom.accept),
 															'&:hover': {
 																backgroundColor: theme.palette.custom.accept,
@@ -258,31 +259,31 @@ export default function WorkshopRequestTable() {
 															marginRight: 1
 														}}
 														onClick={() => handleAccept(row)}
-									                                        data-testid={`accept-button-${row.workshopId}`}
+														data-testid={`accept-button-${row.workshopId}`}
 													>
 														Accept
 													</Button>
 													<Button
 														variant="contained"
-														sx={{ 
-															backgroundColor: theme.palette.custom.reject, 
+														sx={{
+															backgroundColor: theme.palette.custom.reject,
 															color: theme.palette.getContrastText(theme.palette.custom.reject),
 															'&:hover': {
 																backgroundColor: theme.palette.custom.reject,
 															}
 														}}
 														onClick={() => handleReject(row)}
-                                                                                                                data-testid={`reject-button-${row.workshopId}`}
+														data-testid={`reject-button-${row.workshopId}`}
 													>
 														Reject
 													</Button>
 												</>
 											) : row.status === 1 ? ( // The value 1 represents a request that has been accepted
-												<Button 
-												variant="contained" 
-												color="primary"
-												onClick={() => {handleAssignTrainerClick(row)}}
-												data-testid={`assign-trainer-button-${row.workshopId}`}
+												<Button
+													variant="contained"
+													color="primary"
+													onClick={() => { handleAssignTrainerClick(row) }}
+													data-testid={`assign-trainer-button-${row.workshopId}`}
 												//to="/admin/assign"
 												//state={{workshop:row}}
 												>
@@ -304,9 +305,9 @@ export default function WorkshopRequestTable() {
 					{/* <AssignTrainersPopup open={open} handleClose={handleCloseModal} workshop={selectedWorkshop}/> */}
 				</Box>
 			</div>
-	
-	  );
+
+		);
 	}
 }
 
-  
+
