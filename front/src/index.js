@@ -9,7 +9,7 @@ import Client from './pages/Client';
 import Trainer from './pages/Trainer';
 import Admin from './pages/Admin';
 import AssignTrainer from './pages/AssignTrainer'
-import { FormProvider } from './components/FormContext';
+
 import AdminForm from './pages/AdminForm';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
   {path: '/admin',element: <Admin />},
   {path: '/trainer',element: <Trainer />}, 
   { path: '/admin/assign', element: <AssignTrainer /> },
-  { path: '/form', element: <FormProvider><AdminForm /></FormProvider> }
+  { path: '/form', element: <AdminForm /> }
 ]);
 
 

@@ -1,44 +1,48 @@
-// src/components/FormPreview.js
-import React from 'react';
-import { useForm } from './FormContext';
-import { Box, Button, MenuItem, Select, TextField, Typography } from '@mui/material';
-import CalendarDatePicker from './CalendarDatePicker';
+import React, { useState } from 'react';
+import { Box, Button, TextField, MenuItem, Select, Typography } from '@mui/material';
 
+const FormPreview = ({ formData }) => {
+  const [formValues, setFormValues] = useState(
+    formData.reduce((acc, question) => {
+      acc[question.title] = '';
+      return acc;
+    }, {})
+  );
 
-const FormPreview = (props) => {
-  const { formData, formResponses, handleResponseChange, submitForm } = useForm();
-  const workshopSetter = props.workshopSetter;
-  const workshop = props.workshop;
+  const handleInputChange = (title, value) => {
+    setFormValues({
+      ...formValues,
+      [title]: value
+    });
+  };
 
-  const handleInputChange = (index, value) => {
-    handleResponseChange(index, value);
-    const newWorkshop = { ...workshop };
-    newWorkshop[formData[index].title] = value;
-    workshopSetter(newWorkshop);
-    //console.log(formData[index].title);
-    
+  const handleSubmit = () => {
+    // Handle form submission
+    console.log('Form submitted with values:', formValues);
   };
 
   return (
-    <Box component="form">
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" sx={{ mb: 3 }}>Form Preview</Typography>
       {formData.map((question, index) => (
-        <Box key={index} sx={{ mb: 2 }}>
+        <Box key={index} sx={{ mb: 3 }}>
           <Typography variant="h6">{question.title}</Typography>
           {question.type === 'text' && (
             <TextField
               fullWidth
-              value={formResponses[index] || ''}
-              onChange={(e) => handleInputChange(index, e.target.value)}
+              variant="outlined"
+              value={formValues[question.title] || ''}
+              onChange={(e) => handleInputChange(question.title, e.target.value)}
             />
           )}
           {question.type === 'radio' && question.options.map((option, optionIndex) => (
-            <Box key={optionIndex}>
+            <Box key={optionIndex} sx={{ display: 'flex', alignItems: 'center' }}>
               <input
                 type="radio"
-                name={`question-${index}`}
+                name={question.title}
                 value={option}
-                checked={formResponses[index] === option}
-                onChange={(e) => handleInputChange(index, e.target.value)}
+                checked={formValues[question.title] === option}
+                onChange={() => handleInputChange(question.title, option)}
               />
               <label>{option}</label>
             </Box>
@@ -46,21 +50,24 @@ const FormPreview = (props) => {
           {question.type === 'selector' && (
             <Select
               fullWidth
-              value={formResponses[index] || ''}
-              onChange={(e) => handleInputChange(index, e.target.value)}
+              variant="outlined"
+              value={formValues[question.title] || ''}
+              onChange={(e) => handleInputChange(question.title, e.target.value)}
             >
               {question.options.map((option, optionIndex) => (
                 <MenuItem key={optionIndex} value={option}>{option}</MenuItem>
               ))}
             </Select>
           )}
-          {question.type === 'date' && (
-            // TODO : HELP IMPLEMENT THIS
-            <CalendarDatePicker>
-            </CalendarDatePicker>
-          )}
         </Box>
       ))}
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+      >
+        Submit
+      </Button>
     </Box>
   );
 };

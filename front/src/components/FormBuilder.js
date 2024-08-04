@@ -1,73 +1,79 @@
-// src/pages/formtest.js
 import React, { useState } from 'react';
-import { Box, Button, Fab, IconButton, MenuItem, Select, TextField, Typography, Menu } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import PreviewIcon from '@mui/icons-material/Visibility';
+import { Box, Button, IconButton, MenuItem, Select, TextField, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { useForm } from './FormContext';  // Adjust the import path according to your project structure
 
-const Question = ({ question, index, handleQuestionChange, handleAddOption, handleOptionChange, handleRemoveQuestion, handleMoveQuestion }) => {
-  const handleChange = (field, value) => {
-    handleQuestionChange(index, { ...question, [field]: value });
+// Preset questions
+const presetQuestions = [
+  { title: 'Company Name', type: 'text', options: [] },
+  { title: 'Client Type', type: 'radio', options: ['Technical', 'Business'] },
+  { title: 'Workshop Name', type: 'text', options: [] },
+  { title: 'Workshop Type', type: 'selector', options: ['Business Value Discovery', 'AI Platform', 'Infrastructure and Demo'] },
+  { title: 'Workshop Dates', type: 'selector', options: ['2024-07-25T00:00:00.000+00:00','2024-07-26T00:00:00.000+00:00'] },
+  { title: 'Deal Size Potential', type: 'text', options: []},
+  { title: 'Location', type: 'radio', options: ['Local', 'Overseas'] },
+  { title: 'Venue', type: 'text', options: []},
+  { title: 'Number of Attendees', type: 'selector', options: ['1-5', '10', '10-50'] },
+  { title: 'Comments', type: 'text', options: []}
+];
+
+const Question = ({ question, index, handleOptionChange, handleRemoveOption }) => {
+  const handleOptionInputChange = (optionIndex, value) => {
+    handleOptionChange(index, optionIndex, value);
   };
 
   return (
-    <Box sx={{ mb: 2, border: '1px solid #ccc', p: 2, borderRadius: 1 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography variant="h6">Question {index + 1}</Typography>
-        <Box>
-          <IconButton onClick={() => handleMoveQuestion(index, -1)}><ArrowUpwardIcon /></IconButton>
-          <IconButton onClick={() => handleMoveQuestion(index, 1)}><ArrowDownwardIcon /></IconButton>
-          <IconButton onClick={() => handleRemoveQuestion(index)}><DeleteIcon /></IconButton>
-        </Box>
-      </Box>
-      <TextField
-        label="Question Title"
-        value={question.title}
-        onChange={(e) => handleChange('title', e.target.value)}
-        fullWidth
-        sx={{ mb: 2 }}
-      />
+    <Box
+      sx={{
+        border: '1px solid #ddd',
+        borderRadius: 2,
+        p: 2,
+        mb: 2,
+        backgroundColor: '#f9f9f9',
+        boxShadow: 1,
+      }}
+    >
+      <Typography variant="h6" sx={{ mb: 1 }}>
+        {question.title}
+      </Typography>
       {question.type !== 'text' && question.options.map((option, optionIndex) => (
         <Box key={optionIndex} sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <TextField
             label={`Option ${optionIndex + 1}`}
             value={option}
-            onChange={(e) => handleOptionChange(index, optionIndex, e.target.value)}
+            onChange={(e) => handleOptionInputChange(optionIndex, e.target.value)}
             fullWidth
+            variant="outlined"
+            sx={{ mr: 1 }}
           />
+          <IconButton
+            color="error"
+            onClick={() => handleRemoveOption(index, optionIndex)}
+            sx={{ ml: 1 }}
+          >
+            <DeleteIcon />
+          </IconButton>
         </Box>
       ))}
-      {question.type !== 'text' && (
-        <Button variant="contained" onClick={() => handleAddOption(index)}>Add Option</Button>
-      )}
     </Box>
   );
 };
 
 const FormBuilder = () => {
-  const { formData, addQuestion, updateQuestion, removeQuestion, moveQuestion } = useForm();
-  const [editMode, setEditMode] = useState(true);  // Set default mode to edit mode
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [formData, setFormData] = useState(presetQuestions);
+  const [editMode, setEditMode] = useState(true);
 
-  const handleAddQuestion = (type) => {
-    addQuestion({ title: `New Question ${formData.length + 1}`, type, options: [] });
-    handleCloseMenu();
-  };
-
-  const handleQuestionChange = (index, newQuestion) => {
-    updateQuestion(index, newQuestion);
-  };
-
-  const handleAddOption = (index) => {
-    const updatedQuestion = {
-      ...formData[index],
-      options: [...formData[index].options, '']
-    };
-    updateQuestion(index, updatedQuestion);
+  const handleAddOption = (questionIndex) => {
+    const questionType = formData[questionIndex].type;
+    // Add options only for specific question types
+    if (questionType === 'radio' || questionType === 'selector') {
+      const updatedQuestion = {
+        ...formData[questionIndex],
+        options: [...formData[questionIndex].options, '']
+      };
+      const newFormData = [...formData];
+      newFormData[questionIndex] = updatedQuestion;
+      setFormData(newFormData);
+    }
   };
 
   const handleOptionChange = (questionIndex, optionIndex, value) => {
@@ -75,78 +81,75 @@ const FormBuilder = () => {
       ...formData[questionIndex],
       options: formData[questionIndex].options.map((opt, oi) => (oi === optionIndex ? value : opt))
     };
-    updateQuestion(questionIndex, updatedQuestion);
+    const newFormData = [...formData];
+    newFormData[questionIndex] = updatedQuestion;
+    setFormData(newFormData);
   };
 
-  const handleRemoveQuestion = (index) => {
-    removeQuestion(index);
-  };
-
-  const handleMoveQuestion = (index, direction) => {
-    moveQuestion(index, direction);
-  };
-
-  const handleOpenMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
+  const handleRemoveOption = (questionIndex, optionIndex) => {
+    const updatedQuestion = {
+      ...formData[questionIndex],
+      options: formData[questionIndex].options.filter((_, oi) => oi !== optionIndex)
+    };
+    const newFormData = [...formData];
+    newFormData[questionIndex] = updatedQuestion;
+    setFormData(newFormData);
   };
 
   return (
-    <Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+    <Box sx={{ p: 3 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
         <Typography variant="h4">Form Builder</Typography>
-        {editMode && (
-          <>
-            <Fab color="primary" aria-label="add" onClick={handleOpenMenu}>
-              <AddIcon />
-            </Fab>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleCloseMenu}
-            >
-              <MenuItem onClick={() => handleAddQuestion('text')}>Text Input</MenuItem>
-              <MenuItem onClick={() => handleAddQuestion('radio')}>Radio Buttons</MenuItem>
-              <MenuItem onClick={() => handleAddQuestion('selector')}>Selector</MenuItem>
-            </Menu>
-          </>
-        )}
-        <Fab color="secondary" aria-label={editMode ? 'preview' : 'edit'} onClick={() => setEditMode(!editMode)}>
-          {editMode ? <PreviewIcon /> : <EditIcon />}
-        </Fab>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setEditMode(!editMode)}
+        >
+          {editMode ? 'Preview' : 'Edit'}
+        </Button>
       </Box>
       {editMode ? (
         <Box>
           {formData.map((question, index) => (
-            <Question
-              key={index}
-              index={index}
-              question={question}
-              handleQuestionChange={handleQuestionChange}
-              handleAddOption={handleAddOption}
-              handleOptionChange={handleOptionChange}
-              handleRemoveQuestion={handleRemoveQuestion}
-              handleMoveQuestion={handleMoveQuestion}
-            />
+            <Box key={index} sx={{ mb: 3 }}>
+              <Question
+                index={index}
+                question={question}
+                handleOptionChange={handleOptionChange}
+                handleRemoveOption={handleRemoveOption}
+              />
+              {(question.title === 'Client Type' || 
+                question.title === 'Number of Attendees' || 
+                question.title === 'Workshop Type') && (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleAddOption(index)}
+                >
+                  Add Option
+                </Button>
+              )}
+            </Box>
           ))}
         </Box>
       ) : (
         <Box>
           {formData.map((question, index) => (
-            <Box key={index} sx={{ mb: 2 }}>
+            <Box key={index} sx={{ mb: 3 }}>
               <Typography variant="h6">{question.title}</Typography>
-              {question.type === 'text' && <TextField fullWidth />}
+              {question.type === 'text' && <TextField fullWidth variant="outlined" />}
               {question.type === 'radio' && question.options.map((option, optionIndex) => (
-                <Box key={optionIndex}>
-                  <input type="radio" name={`question-${index}`} value={option} />
+                <Box key={optionIndex} sx={{ display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type="radio"
+                    name={`question-${index}`}
+                    value={option}
+                  />
                   <label>{option}</label>
                 </Box>
               ))}
               {question.type === 'selector' && (
-                <Select fullWidth>
+                <Select fullWidth variant="outlined">
                   {question.options.map((option, optionIndex) => (
                     <MenuItem key={optionIndex} value={option}>{option}</MenuItem>
                   ))}

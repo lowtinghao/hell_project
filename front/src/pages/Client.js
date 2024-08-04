@@ -1,6 +1,5 @@
 import { Link, useLocation, useNavigate} from 'react-router-dom';
 import FormPreview from '../components/FormPreview';
-import { FormProvider } from '../components/FormContext';
 import { useEffect, useState, useReducer } from 'react';
 import { Box, Button } from '@mui/material';
 import { ClientNavbar } from '../components/Client_Navbar';
@@ -76,10 +75,10 @@ function App() {
       <ClientNavbar value={tabValue} handleChange={handleTabChange} />
       <Box sx={{p:2}}>
         {tabValue===0 && (
-          <div>          
-            <FormProvider>
+          <div>  
+
               <FormPreview workshopSetter={setWorkshop} workshop={workshop}/>
-            </FormProvider>
+
             <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
           </div>
         )}
