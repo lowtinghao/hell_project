@@ -3,7 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import FormPreview from '../src/components/FormPreview';
-import { FormProvider } from '../src/components/FormContext'; // Adjust the path if necessary
+import { FormProvider } from '../src/components/FormContext'; 
 
 
 // Mock data
@@ -66,51 +66,4 @@ describe('FormPreview', () => {
     expect(screen.getByTestId('select-4')).toBeInTheDocument();
     expect(screen.getByTestId('select-8')).toBeInTheDocument();
   });
-
-  // test('updates text input value on change', () => {
-  //   renderComponent();
-
-  //   const textInput = screen.getByTestId('text-input-0');
-  //   fireEvent.change(textInput, { target: { value: 'Acme Corp' } });
-
-  //   expect(mockHandleResponseChange).toHaveBeenCalledWith(0, 'Acme Corp');
-  // });
-  // test('selects radio button and updates form response', () => {
-  //   renderComponent();
-
-  //   const radioButton = screen.getByTestId('radio-1-0');
-  //   fireEvent.click(radioButton);
-
-  //   expect(radioButton).toBeChecked('true');
-  // });
-
-  // test('selects option from dropdown and updates form response', () => {
-  //   renderComponent();
-
-  //   const workshopTypeSelector = screen.getByRole('combobox', { name: /Workshop Type/i });
-  //   fireEvent.change(workshopTypeSelector, { target: { value: 'AI Platform' } });
-
-  //   expect(mockHandleResponseChange).toHaveBeenCalledWith(3, 'AI Platform');
-  // });
-
-  // test('interacts with date picker', () => {
-  //   renderComponent();
-
-  //   // Simulate interaction with the date picker
-  //   // You may need to adjust this based on the actual implementation of CalendarDatePicker
-  //   const datePicker = screen.getByLabelText(/Workshop Dates/i);
-  //   fireEvent.change(datePicker, { target: { value: '2024-07-25T00:00:00.000+00:00' } });
-
-  //   expect(mockHandleResponseChange).toHaveBeenCalledWith(4, '2024-07-25T00:00:00.000+00:00');
-  // });
-
-  // test('calls submitForm function on form submission', () => {
-  //   renderComponent();
-
-  //   // Assuming there's a submit button to trigger form submission
-  //   const submitButton = screen.getByRole('button', { name: /Submit/i });
-  //   fireEvent.click(submitButton);
-
-  //   expect(mockSubmitForm).toHaveBeenCalled();
-  // });
 });

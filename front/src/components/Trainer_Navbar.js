@@ -14,7 +14,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import 'typeface-roboto';
 
 const pages = ["View Workshops"];
 const settings = ["Account", "Logout"];
