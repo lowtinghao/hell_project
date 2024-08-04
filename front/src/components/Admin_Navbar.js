@@ -273,7 +273,7 @@ function AdminNavbar(props) {
                             </MenuItem>
                             <Divider/>
                             {notifDisplay.map((notification) => (
-                                <MenuItem onClick={() => handleClickSetting(notification)}>
+                                <MenuItem disableRipple disableTouchRipple disabled style={{ backgroundColor: 'transparent' ,  opacity: 100}} onClick={() => handleClickSetting(notification)}>
                                     <Typography textAlign="center">{notification}</Typography>
                                 </MenuItem>
                             ))}
