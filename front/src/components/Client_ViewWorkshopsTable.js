@@ -154,7 +154,7 @@ export default function ViewClientWorkshopsTable(clientid) {
     return (
         <div>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-                <TableContainer component={Paper} sx={{ maxWidth: 1000, width: '100%', margin: 'auto' }}>
+                <TableContainer component={Paper} sx={{ maxWidth: 1200, width: '100%', margin: 'auto' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px' }}>
                         <Typography variant="h5">View All Workshops</Typography>
                         <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -181,7 +181,7 @@ export default function ViewClientWorkshopsTable(clientid) {
                                 <TableCell align="center">Workshop Name</TableCell>
                                 <TableCell align="center">Workshop Type</TableCell>
                                 <TableCell align="center"  sx = {{minWidth : 150}}>Status</TableCell>
-                                <TableCell align="center">Actions</TableCell>
+                                <TableCell align="center" sx={{ m: 1, minWidth: 150} }>Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
