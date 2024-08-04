@@ -14,18 +14,40 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Divider from '@mui/material/Divider';
 import 'typeface-roboto';
 import Badge from '@mui/material/Badge';
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { dark } from "@mui/material/styles/createPalette";
+import { MenuList } from "@mui/material";
+import ListItemIcon from '@mui/material/ListItemIcon';
 
 const pages = ["Home", "Trainers", "Form"];
 const settings = ["Account", "Logout"];
 
-function AdminNavbar(props, {socket}) {
-    const navigate = useNavigate(); 
+
+function AdminNavbar(props) {
+
+    const [notifications, setNotifications] = useState([]);
+    const [notifDisplay, setNotifDisplay] = useState([]);
+    //console.log("Admin Nav reloading");
+    //console.log(props.socket);
+    useEffect(() => {
+        props.socket?.on("alertingAdmin", data => {
+            setNotifications((prev) => [...prev, data]);
+            setNotifDisplay((prev) => [...prev, data.companyName + " submitted a new request"]);
+        })
+
+    }, [props.socket]);
+    console.log(notifications);
+    console.log(notifDisplay);
+    let notifCount = notifDisplay.length;
+
+    const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElNotif, setAnchorElNotif] = React.useState(null);
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
@@ -34,10 +56,17 @@ function AdminNavbar(props, {socket}) {
         setAnchorElUser(event.currentTarget);
     };
 
+    const handleOpenNotifPanel = (event) => {
+        setAnchorElNotif(event.currentTarget);
+    };
+
+    const handleCloseNotifPanel = () => {
+        setAnchorElNotif(null);
+    };
+
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
@@ -48,24 +77,15 @@ function AdminNavbar(props, {socket}) {
         } else {
             handleCloseUserMenu();
         }
-        
+
     };
-    
+
     const handleClick = (e) => {
         handleCloseNavMenu();
+        handleCloseNotifPanel();
         props.setPage(e.target.getAttribute("data-testid"));
     };
 
-    //notifications
-    const [notifications, setNotifications] = useState([]);
-
-    useEffect(()=>{
-        socket?.on("alertingAdmin", data =>{
-            setNotifications(prev =>[...prev,data])
-        })
-    }, [socket])
-
-    console.log(notifications);
 
     return (
         <AppBar position="static" sx={{ bgcolor: "white" }}>
@@ -141,7 +161,7 @@ function AdminNavbar(props, {socket}) {
                             {pages.map((page) => (
                                 <MenuItem key={page} onClick={handleClick}>
                                     <Typography textAlign="center">
-                                        <Button data-testid={`${page.toLowerCase()}-button`} sx={{color:"#636363"}}>
+                                        <Button data-testid={`${page.toLowerCase()}-button`} sx={{ color: "#636363" }}>
                                             {page}
                                         </Button>
                                         {/* <Link
@@ -156,7 +176,7 @@ function AdminNavbar(props, {socket}) {
                         </Menu>
                     </Box>
 
-                    
+
                     <IconButton
                         size="large"
                         edge="start"
@@ -216,17 +236,51 @@ function AdminNavbar(props, {socket}) {
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
+
                         <Tooltip title="View Notifications">
-                            <IconButton
+                            <IconButton onClick={handleOpenNotifPanel}
                                 size="large"
-                                aria-label="show 17 new notifications"
+                                aria-label="show new notifications"
                                 sx={{ p: 1, mr: 4 }}
                             >
-                                <Badge badgeContent={17} color="error">
+                                <Badge badgeContent={notifCount} color="error">
                                     <NotificationsIcon />
                                 </Badge>
                             </IconButton>
-                            </Tooltip>
+                        </Tooltip>
+
+                        <Menu
+                            sx={{ mt: "45px", }}
+                            id="menu-notifs"
+                            anchorEl={anchorElNotif}
+                            anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            open={Boolean(anchorElNotif)}
+                            onClose={handleCloseNotifPanel}
+                        >
+                            <MenuItem  disableRipple disableTouchRipple disabled style={{ backgroundColor: 'transparent' ,  opacity: 100}}>
+                                <ListItemIcon>
+                                    <NewReleasesIcon fontSize="small" />
+                                </ListItemIcon>
+                                <Typography variant="inherit" sx={{ color: "black" }}>View New Notifications</Typography>
+                            </MenuItem>
+                            <Divider/>
+                            {notifDisplay.map((notification) => (
+                                <MenuItem disableRipple disableTouchRipple disabled style={{ backgroundColor: 'transparent' ,  opacity: 100}} onClick={() => handleClickSetting(notification)}>
+                                    <Typography textAlign="center">{notification}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+
+
+
                         <Tooltip title="Open settings">
 
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -250,6 +304,8 @@ function AdminNavbar(props, {socket}) {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
+
+
                             {settings.map((setting) => (
                                 <MenuItem key={setting} onClick={() => handleClickSetting(setting)}>
                                     <Typography textAlign="center">{setting}</Typography>
@@ -257,6 +313,8 @@ function AdminNavbar(props, {socket}) {
                             ))}
                         </Menu>
                     </Box>
+
+
                 </Toolbar>
             </Container>
         </AppBar>

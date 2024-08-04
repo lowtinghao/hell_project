@@ -29,15 +29,23 @@ io.on("connection", (socket) => {
         console.log(onlineUsers);
     });
 
-    socket.on("alertAdmin", ({ senderName }) => {
+    socket.on("alertAdmin", ({ senderName, workshopName,  companyName }) => {
         console.log("alerting admin");
-        const admins = onlineUsers.filter(item=> item.userId.startsWith("admin"));
-        admins.forEach(function(admin){
-            console.log(admin.socketId);
-            io.to(getUser(admin.socketId)).emit("alertingAdmin", {
-                senderName
-            });
+        //const admins = onlineUsers.filter(item=> item.userId.startsWith("admin"));
+        console.log(getUser("admin1").socketId);
+        io.to(getUser("admin1").socketId).emit("alertingAdmin", {
+            senderName, workshopName, companyName
         });
+        console.log(senderName, workshopName,  companyName);
+        
+        console.log("sent to admin");
+
+        /* admins.forEach(function(admin){
+            console.log(admin.socketId);
+            io.to(getUser(admin.socketId).socketId).emit("alertingAdmin", {
+                senderName, workshopName, companyName
+            });
+        }); */
     })
 
     socket.on("disconnect", () => {

@@ -130,5 +130,19 @@ describe('AdminNavbar', () => {
       const logoutSetting = await screen.findByText('Logout');
       expect(accountSetting).toBeInTheDocument();
       expect(logoutSetting).toBeInTheDocument();
+    });
+  test('notifications badge displays correct count', () => {
+      render(
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            <AdminNavbar />
+          </ThemeProvider>
+        </BrowserRouter>
+      );
+
+      const badge = screen.getByText('17'); // Adjust based on the badge content
+      expect(badge).toBeInTheDocument();
   });
+
+   
 });
