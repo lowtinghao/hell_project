@@ -38,34 +38,34 @@ function App() {
     console.log("Going to home page")
     return (
       <div>
-        <AdminNavbar setPage = {setPage}/>
-        <h2>Admin Page</h2>
-        <ThemeProvider>
-          <WorkshopRequestTable />
+        <AdminNavbar setPage = {setPage} data-testid="admin-navbar"/>
+        <h2 data-testid="admin-page-heading">Admin Page</h2>
+        <ThemeProvider data-testid="theme-provider">
+          <WorkshopRequestTable data-testid="workshop-request-table"/>
         </ThemeProvider>
-        <button><Link to="/">Back</Link></button>
+        <button data-testid="back-button-home"><Link to="/">Back</Link></button>
       </div>
     );
   } else if (page === "trainers-button"){
     console.log("Going to trainer page")
     return (
       <div>
-        <AdminNavbar setPage = {setPage}/>
-        <h2>Trainer Page : I need help with this</h2>
-        <Admin_view_trainer_schedule />
+        <AdminNavbar setPage = {setPage} data-testid="admin-navbar"/>
+        <h2 data-testid="trainer-page-heading">Trainer Page : I need help with this</h2>
+        <Admin_view_trainer_schedule data-testid="admin-view-trainer-schedule"/>
         {/* <ThemeProvider>
 				  <TrainerAvailability/>
 			  </ThemeProvider> */}
-        <button><Link to="/">Back</Link></button>
+        <button data-testid="back-button-trainers"><Link to="/">Back</Link></button>
       </div>
       );
     } else if (page === "form-button"){
       console.log("Going to trainer page")
       return (
         <div>
-          <AdminNavbar setPage = {setPage}/>
-          <h1>Form Page : I need help with this</h1>
-          <button><Link to="/">Back</Link></button>
+          <AdminNavbar setPage = {setPage} data-testid="admin-navbar"/>
+          <h1 data-testid="form-page-heading">Form Page : I need help with this</h1>
+          <button data-testid="back-button-form"><Link to="/">Back</Link></button>
         </div>
         
         

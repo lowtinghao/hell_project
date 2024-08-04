@@ -72,22 +72,22 @@ function App() {
   }
   
   return (
-    <div>
-      <ClientNavbar value={tabValue} handleChange={handleTabChange} />
-      <Box sx={{p:2}}>
+    <div data-testid="app-div">
+      <ClientNavbar value={tabValue} handleChange={handleTabChange} data-testid="client-navbar"/>
+      <Box sx={{p:2}} data-testid="box">
         {tabValue===0 && (
-          <div>          
+          <div data-testid="form-section">          
             <FormProvider>
-              <FormPreview workshopSetter={setWorkshop} workshop={workshop}/>
+              <FormPreview workshopSetter={setWorkshop} workshop={workshop} data-testid="form-preview"/>
             </FormProvider>
-            <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
+            <Button type="submit" variant="contained" color="primary" onClick={handleSubmit} data-testid="submit-button">Submit</Button>
           </div>
         )}
         {tabValue===1 &&(
-          <ViewClientWorkshopsTable/>
+          <ViewClientWorkshopsTable data-testid="workshops-table"/>
         )}
       </Box>
-      <button><Link to="/">Back</Link></button>
+      <button data-testid="back-button"><Link to="/">Back</Link></button>
     </div>
   );
 }
