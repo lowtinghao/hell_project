@@ -8,6 +8,8 @@ import AssignTrainer from '../pages/AssignTrainer';
 import FormBuilder from '../components/FormBuilder';
 import TrainerAvailability from '../components/TrainerAvailability';
 import Admin_view_trainer_schedule from '../components/Admin_view_trainer_schedule';
+import { AdminHomeCard } from '../components/Admin_WelcomeCard';
+
 
 import { io } from "socket.io-client";
 import TrainersTab from '../components/Admin_TrainersTab';
@@ -67,8 +69,7 @@ function App() {
     return (
       <div>
         <AdminNavbar setPage={setPage} socket={socket} user={user} />
-        <h2>Admin Page</h2>
-        <h3>{"ID : " + id}</h3>
+        <AdminHomeCard adminId = {id}/>
         <ThemeProvider>
           <WorkshopRequestTable />
         </ThemeProvider>
