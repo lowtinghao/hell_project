@@ -30,7 +30,7 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }} data-testid="avatar">
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -44,22 +44,24 @@ export default function SignIn() {
               fullWidth
               label="ID"
               autoFocus
+              data-testid="id-input"
             />
             <Link to={'/' + loginType} state={{"id" : id}}>
             <Button 
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}>
+              sx={{ mt: 3, mb: 2 }}
+              data-testid="sign-in-button">
               Sign In
             </Button>
             </Link>
           </Box>
           <Box>
           <ToggleButtonGroup>
-            <ToggleButton selected={loginType === "admin"} onClick={() => setLoginType('admin')}>Admin</ToggleButton>
-            <ToggleButton selected={loginType === "trainer"} onClick={() => setLoginType('trainer')}>Trainer</ToggleButton>
-            <ToggleButton selected={loginType === "client"} onClick={() => setLoginType('client')}>Client</ToggleButton>
+            <ToggleButton selected={loginType === "admin"} onClick={() => setLoginType('admin')} data-testid="toggle-admin">Admin</ToggleButton>
+            <ToggleButton selected={loginType === "trainer"} onClick={() => setLoginType('trainer')} data-testid="toggle-trainer">Trainer</ToggleButton>
+            <ToggleButton selected={loginType === "client"} onClick={() => setLoginType('client')} data-testid="toggle-client">Client</ToggleButton>
           </ToggleButtonGroup>
           </Box>
         </Box>
