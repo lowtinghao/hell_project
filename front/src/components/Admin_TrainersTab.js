@@ -8,7 +8,7 @@ const back_url = "localhost:3001";
 async function fetchWorkshops() {
     let response = await fetch(`http://${back_url}/admin/workshops`);
     let data = await response.json();
-		console.log('Fetched workshops');
+		console.log('Fetched workshops', {data});
     return data
 }
 

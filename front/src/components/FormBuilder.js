@@ -1,19 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, IconButton, MenuItem, Select, TextField, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-// Preset questions
+const back_url = "localhost:3001";
+
+// Fetch existing options from the server
+async function fetchFields() {
+    let response = await fetch(`http://${back_url}/admin/form`);
+    let data = await response.json();
+    console.log(data);
+    return data;
+}
+
+// Save options to the server
+async function saveFields(fields) {
+    let response = await fetch(`http://${back_url}/admin/form`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(fields)
+    });
+    let data = await response.json();
+    console.log(data);
+    return data;
+}
+
 const presetQuestions = [
   { title: 'Company Name', type: 'text', options: [] },
   { title: 'Client Type', type: 'radio', options: ['Technical', 'Business'] },
   { title: 'Workshop Name', type: 'text', options: [] },
   { title: 'Workshop Type', type: 'selector', options: ['Business Value Discovery', 'AI Platform', 'Infrastructure and Demo'] },
   { title: 'Workshop Dates', type: 'selector', options: ['2024-07-25T00:00:00.000+00:00','2024-07-26T00:00:00.000+00:00'] },
-  { title: 'Deal Size Potential', type: 'text', options: []},
+  { title: 'Deal Size Potential', type: 'text', options: [] },
   { title: 'Location', type: 'radio', options: ['Local', 'Overseas'] },
-  { title: 'Venue', type: 'text', options: []},
+  { title: 'Venue', type: 'text', options: [] },
   { title: 'Number of Attendees', type: 'selector', options: ['1-5', '10', '10-50'] },
-  { title: 'Comments', type: 'text', options: []}
+  { title: 'Comments', type: 'text', options: [] }
 ];
 
 const Question = ({ question, index, handleOptionChange, handleRemoveOption }) => {
@@ -62,9 +85,18 @@ const FormBuilder = () => {
   const [formData, setFormData] = useState(presetQuestions);
   const [editMode, setEditMode] = useState(true);
 
+  useEffect(() => {
+    async function fetchData() {
+      const fields = await fetchFields();
+      if (fields.length > 0) {
+        setFormData(fields);
+      }
+    }
+    fetchData();
+  }, []);
+
   const handleAddOption = (questionIndex) => {
     const questionType = formData[questionIndex].type;
-    // Add options only for specific question types
     if (questionType === 'radio' || questionType === 'selector') {
       const updatedQuestion = {
         ...formData[questionIndex],
@@ -96,6 +128,11 @@ const FormBuilder = () => {
     setFormData(newFormData);
   };
 
+  const handleSave = async () => {
+    const data = await saveFields(formData);
+    console.log('Save successful:', data);
+  };
+
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
@@ -106,6 +143,13 @@ const FormBuilder = () => {
           onClick={() => setEditMode(!editMode)}
         >
           {editMode ? 'Preview' : 'Edit'}
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleSave}
+        >
+          Save
         </Button>
       </Box>
       {editMode ? (

@@ -66,14 +66,11 @@ function App() {
       </div>
       );
     } else if (page === "form-button"){
-      console.log("Going to trainer page")
+      console.log("Going to form page")
       return (
         <div>
           <AdminNavbar setPage = {setPage}/>
-          <h1>Form Page : I need help with this</h1>
-
           <FormBuilder />
-
           <button><Link to="/">Back</Link></button>
         </div>
         

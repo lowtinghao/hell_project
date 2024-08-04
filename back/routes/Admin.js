@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const TrainerController = require('../handlers/TrainerController');
 const WorkshopController = require('../handlers/WorkshopController');
+const FieldController = require('../handlers/FieldController');
 
 router.use(express.json());
 
@@ -11,8 +12,27 @@ router.get('/', (req, res) => {
     res.send('Hello Admin!');
 });
 
+router.get('/form', async (req, res) => {
+    try {
+        let fields = await FieldController.getFields();
+        res.status(200).json(fields);
+    } catch (err) {
+        res.status(500).send("Unable to fetch fields");
+    }
+});
+
+router.post('/form', async (req, res) => {
+    try {
+        await FieldController.setFields(req);
+        res.status(200).send("Success");
+    } catch (err) {
+        res.status(500).send("Unable to set fields");
+    }
+});
+
 // DONE : GET /admin/workshops
 router.get('/workshops', async (req,res) => {
+    console.log("GET workshops");
     try {
         let workshops = await WorkshopController.getAllWorkshops();
         res.status(200);
