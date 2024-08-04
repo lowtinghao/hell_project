@@ -4,6 +4,11 @@ import { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, useTheme, MenuItem, FormControl, Select, InputLabel, Box, Typography } from '@mui/material';
 import WorkshopDetailsPopup from './WorkshopDetailsPopup';
 
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PendingIcon from '@mui/icons-material/Pending';
+import { alignProperty } from '@mui/material/styles/cssUtils';
+
 const back_url = "localhost:3001";
 // TODO: Modify this function to retrieve workshop request data from DB
 function createData(clientid, clientname, workname, worktype, fromDate, toDate, type, status, workshopId, numberOfAttendees, dealSizePotential, location, venue, comments, assignedTrainers) {
@@ -149,7 +154,7 @@ export default function ViewClientWorkshopsTable(clientid) {
     return (
         <div>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-                <TableContainer component={Paper} sx={{ maxWidth: 900, width: '100%', margin: 'auto' }}>
+                <TableContainer component={Paper} sx={{ maxWidth: 1200, width: '100%', margin: 'auto' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px' }}>
                         <Typography variant="h5">View All Workshops</Typography>
                         <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -171,30 +176,30 @@ export default function ViewClientWorkshopsTable(clientid) {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Client ID</TableCell>
-                                <TableCell>Client Name</TableCell>
+                                <TableCell align="center">Client ID</TableCell>
+                                <TableCell align="center">Client Name</TableCell>
                                 <TableCell align="center">Workshop Name</TableCell>
                                 <TableCell align="center">Workshop Type</TableCell>
-                                <TableCell align="center">Status</TableCell>
-                                <TableCell align="center">Actions</TableCell>
+                                <TableCell align="center"  sx = {{minWidth : 150}}>Status</TableCell>
+                                <TableCell align="center" sx={{ m: 1, minWidth: 150} }>Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {rows.map((row, index) => (
                                 <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                    <TableCell component="th" scope="row">{row.clientid}</TableCell>
+                                    <TableCell align="center" component="th" scope="row">{row.clientid}</TableCell>
                                     <TableCell align="center">{row.clientname}</TableCell>
                                     <TableCell align="center">{row.workname}</TableCell>
                                     <TableCell align="center">{row.worktype}</TableCell>
                                     <TableCell align="center">
                                         {row.status === 0 ? ( //This represents a new request
                                             <>
-                                                <p>Pending</p>
+                                                <div> <p  style={{ display: 'inline-block', verticalAlign: 'middle' }}>Pending</p> <PendingIcon style={{ display: 'inline-block', verticalAlign: 'middle', color:'orange' }} /> </div>
                                             </>
                                         ) : row.status === 1 ? ( // The value 1 represents a request that has been accepted
-                                            <p>Accepted</p>
+                                            <div> <p  style={{ display: 'inline-block', verticalAlign: 'middle' }}>Accepted</p> <CheckCircleIcon style={{ display: 'inline-block', verticalAlign: 'middle', color:'green' }} /> </div>
                                         ) : row.status === 2 ? ( // The value 2 represents a request that has been rejected
-                                            <p>Rejected</p>
+                                            <div> <p  style={{ display: 'inline-block', verticalAlign: 'middle' }}>Rejected</p> <CancelIcon style={{ display: 'inline-block', verticalAlign: 'middle', color:'red' }} /> </div>
                                         ) : (
                                             row.status
                                         )}

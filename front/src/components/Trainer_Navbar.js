@@ -17,7 +17,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 const pages = ["View Workshops"];
-const settings = ["Account", "Logout"];
+const settings = [ "Logout"];
 
 function TrainerNavbar() {
     const navigate = useNavigate();

@@ -4,6 +4,10 @@ import { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, useTheme, MenuItem, FormControl, Select, InputLabel, Box, Typography } from '@mui/material';
 import WorkshopDetailsPopup from './WorkshopDetailsPopup';
 
+import CancelIcon from '@mui/icons-material/Cancel';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PendingIcon from '@mui/icons-material/Pending';
+
 const back_url = "localhost:3001";
 // TODO: Modify this function to retrieve workshop request data from DB
 function createData(clientid, clientname, workname, worktype, fromDate, toDate, type, status, workshopId, numberOfAttendees, dealSizePotential, location, venue, comments, assignedTrainers) {
@@ -147,7 +151,7 @@ export default function ViewWorkshopsTable(trainerid) {
 			<Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
 				<TableContainer component={Paper} sx={{ maxWidth: 1000, width: '100%', margin: 'auto' }}>
 					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px' }}>
-						<Typography variant="h5">View All Workshops</Typography>
+						<Typography variant="h5">View Assigned Workshops</Typography>
 						<FormControl sx={{ m: 1, minWidth: 120 }}>
 							<InputLabel id="filter-label">Filter</InputLabel>
 							<Select
@@ -166,32 +170,21 @@ export default function ViewWorkshopsTable(trainerid) {
 					<Table aria-label="simple table">
 						<TableHead>
 							<TableRow>
-								<TableCell>Client ID</TableCell>
-								<TableCell>Client Name</TableCell>
+								<TableCell  align="center">Client ID</TableCell>
+								<TableCell  align="center">Client Name</TableCell>
 								<TableCell align="center">Workshop Name</TableCell>
 								<TableCell align="center">Workshop Type</TableCell>
-								<TableCell align="center">Status</TableCell>
-								<TableCell align="center">Actions</TableCell>
+								<TableCell sx={{ m: 1, minWidth: 120 }} align="center" >Actions</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{rows.map((row, index) => (
 								<TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-									<TableCell component="th" scope="row">{row.clientid}</TableCell>
+									<TableCell  align="center" component="th" scope="row">{row.clientid}</TableCell>
 									<TableCell align="center">{row.clientname}</TableCell>
 									<TableCell align="center">{row.workname}</TableCell>
 									<TableCell align="center">{row.worktype}</TableCell>
-									<TableCell align="center">
-										{row.status === 0 ? ( //This represents a new request
-											<>
-												<p>Pending</p>
-											</>
-										) : row.status === 1 ? ( // The value 1 represents a request that has been accepted
-											<p>Accepted</p>
-										) :(
-											row.status
-										)}
-									</TableCell>
+									
 									<TableCell align="center"> {/* Add this cell for View Details button */}
                                         <Button variant="contained" color="primary" onClick={() => handleOpenPopup(row)}>
                                             View Details

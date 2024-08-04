@@ -20,7 +20,7 @@ import Tabs from '@mui/material/Tabs';
 import 'typeface-roboto';
 
 const pages = ["Workshop Request Form", "View Workshops"];
-const settings = ["Account", "Logout"];
+const settings = [ "Logout"];
 
 function ClientNavbar({value, handleChange}) {
     const navigate = useNavigate();
