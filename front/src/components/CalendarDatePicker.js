@@ -28,4 +28,4 @@ const CalendarDatePicker = () => {
   };
   
 
-export {CalendarDatePicker};
+export default CalendarDatePicker;

@@ -14,11 +14,12 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import 'typeface-roboto';
+import { dark } from "@mui/material/styles/createPalette";
 
-const pages = ["Home", "Form", "Trainers"];
+const pages = ["Home", "Trainers", "Form"];
 const settings = ["Account", "Logout"];
 
-function AdminNavbar() {
+function AdminNavbar(props) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -35,6 +36,11 @@ function AdminNavbar() {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+    
+    const handleClick = (e) => {
+        handleCloseNavMenu();
+        props.setPage(e.target.getAttribute("data-testid"));
     };
 
     return (
@@ -64,7 +70,6 @@ function AdminNavbar() {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
                             display: { xs: "none", md: "flex" },
@@ -75,7 +80,9 @@ function AdminNavbar() {
                             textDecoration: "none",
                         }}
                     >
-                        Workshop Resource Portal
+                        <Button onClick={handleClick} data-testid={'home-button'}>
+                            Workshop Resource Portal
+                        </Button>
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -108,20 +115,23 @@ function AdminNavbar() {
                             }}
                         >
                             {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                <MenuItem key={page} onClick={handleClick}>
                                     <Typography textAlign="center">
-                                        <Link
+                                        <Button data-testid={`${page.toLowerCase()}-button`}>
+                                        {page}
+                                        </Button>
+                                        {/* <Link
                                             to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
                                             style={{ textDecoration: 'none', color: 'inherit' }}
                                         >
                                             {page}
-                                        </Link>
+                                        </Link> */}
                                     </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
                     </Box>
-                    <IconButton
+                    <IconButton 
                         size="large"
                         edge="start"
                         color="inherit"
@@ -134,7 +144,9 @@ function AdminNavbar() {
                             }, display: { xs: "flex", md: "none" }, mr: 1
                         }}
                     >
-                        <img
+                        <img 
+                            onClick={handleClick} 
+                            data-testid={'home-button'}
                             src={Dell_logo}
                             alt="Dell Technologies Logo"
                             height="33"
@@ -144,7 +156,6 @@ function AdminNavbar() {
                         variant="h5"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
                         sx={{
                             mr: 2,
                             display: { xs: "flex", md: "none" },
@@ -156,22 +167,24 @@ function AdminNavbar() {
                             textDecoration: "none",
                         }}
                     >
-                        Workshop Resource Portal
+                        <Button onClick={handleClick} data-testid={'home-button'}>
+                            Workshop Resource Portal
+                        </Button>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
                         {pages.map((page) => (
                             <Button
                                 key={page}
                                 data-testid={`${page.toLowerCase()}-button`}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: "#636363", display: "block" }}
-                            >
-                                <Link
+                                onClick={handleClick}
+                                sx={{ my: 2, color: "#636363", display: "block" }}>
+                                    {page}
+                                {/* <Link
                                     to={page === "Home" ? "/admin" : `/${page.toLowerCase()}`}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
                                     {page}
-                                </Link>
+                                </Link> */}
                             </Button>
                         ))}
                     </Box>
