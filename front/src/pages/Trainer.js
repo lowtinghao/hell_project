@@ -39,7 +39,7 @@ function App() {
           <h2>Trainer Page</h2>
           <h3>{"ID : " + id}</h3>
           <br/>
-          <ViewWorkshopsTable/>
+          <ViewWorkshopsTable trainerid = {location.state.id}/>
           <button><Link to="/">Back</Link></button>
         </div>
       );

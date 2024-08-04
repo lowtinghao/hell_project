@@ -71,7 +71,7 @@ function createData(clientid, clientname, workname, worktype, fromDate, toDate, 
   
   
 
-export default function ViewWorkshopsTable() {	
+export default function ViewWorkshopsTable(trainerid) {	
 	// Initializing variables here
 	const [rows, setRows] = useState([]);
     const [filter, setFilter] = useState('All');
@@ -81,7 +81,8 @@ export default function ViewWorkshopsTable() {
     const [open, setOpen] = useState(false); // Add this state for popup
 
 	async function fetchWorkshops() {
-		let response = await fetch(`http://${back_url}/trainer/workshops`);
+		console.log(trainerid)
+		let response = await fetch(`http://${back_url}/trainer/workshops/${trainerid.trainerid}`);
 		let data = await response.json();
 
         // remove rejected workshops
