@@ -23,12 +23,13 @@ const FormPreview = (props) => {
     <Box component="form">
       {formData.map((question, index) => (
         <Box key={index} sx={{ mb: 2 }}>
-          <Typography variant="h6">{question.title}</Typography>
+          <Typography variant="h6" data-testid={`question-title-${index}`}>{question.title}</Typography>
           {question.type === 'text' && (
             <TextField
               fullWidth
               value={formResponses[index] || ''}
               onChange={(e) => handleInputChange(index, e.target.value)}
+              data-testid={`text-input-${index}`}
             />
           )}
           {question.type === 'radio' && question.options.map((option, optionIndex) => (
@@ -39,6 +40,7 @@ const FormPreview = (props) => {
                 value={option}
                 checked={formResponses[index] === option}
                 onChange={(e) => handleInputChange(index, e.target.value)}
+                data-testid={`radio-${index}-${optionIndex}`}
               />
               <label>{option}</label>
             </Box>
@@ -48,6 +50,7 @@ const FormPreview = (props) => {
               fullWidth
               value={formResponses[index] || ''}
               onChange={(e) => handleInputChange(index, e.target.value)}
+              data-testid={`select-${index}`}
             >
               {question.options.map((option, optionIndex) => (
                 <MenuItem key={optionIndex} value={option}>{option}</MenuItem>

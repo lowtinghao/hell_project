@@ -66,7 +66,7 @@ const filterWorkshopByTrainer = (workshops, trainerID) => {
 	
 	for (let workshopId in workshops) {
 			const workshop = workshops[workshopId];
-			console.log('Current workshop:', workshop.workshopId);
+			// console.log('Current workshop:', workshop.workshopId);
 			
 			if (workshop.assignedTrainers && workshop.assignedTrainers[trainerID]) {
 					console.log('Trainer matched:', trainerID);

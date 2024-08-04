@@ -8,7 +8,7 @@ const back_url = "localhost:3001";
 // TODO: Modify this function to retrieve workshop request data from DB
 function createData(clientid, clientname, workname, worktype, fromDate, toDate, type, status, workshopId, numberOfAttendees, dealSizePotential, location, venue, comments, assignedTrainers) {
     return { clientid, clientname, workname, worktype, fromDate, toDate, type, status, workshopId, numberOfAttendees, dealSizePotential, location, venue, comments, assignedTrainers};
-  }
+}
 
 const date = new Date();
 console.log(date);

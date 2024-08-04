@@ -5,11 +5,48 @@ import { ViewState } from '@devexpress/dx-react-scheduler';
 
 // TODO: Change this to an API to retrieve data from the database
 const back_url = "localhost:3001";
+
+// Retrieve workshops from database
 async function fetchWorkshops() {
     let response = await fetch(`http://${back_url}/admin/workshops`);
     let data = await response.json();
     return data
 }
+
+// Transform data to proper format for date component
+function workshopDates(workshops){
+	const workshopObjects = Object.values(workshops);
+	console.log('workshop objects:',workshopObjects);
+	// console.log('workshop objects example:',workshopObjects[0].dates[0]);
+
+	// Date formatter 
+	const formatDate = (dateString) => {
+		const date = new Date(dateString);
+		return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}T12:00`;
+	};
+	
+	const mappedWorkshops = workshopObjects.map(workshop => {
+		const startDate = formatDate(workshop.dates[0]);
+		let endDate;
+		if(workshop.dates[1] && workshop.dates[1] !== ''){
+			endDate = formatDate(workshop.dates[1]);
+		} else{
+			endDate = startDate;
+		}
+		console.log('start date:',startDate);
+		console.log('end date:',endDate);
+		return {
+			startDate: startDate,
+            endDate: endDate,
+            title: workshop.workshopName || `Workshop ${workshop.workshopId}`,
+		}
+	});
+
+	console.log('mappedWorkshops:',mappedWorkshops)
+	return mappedWorkshops;
+}
+
+
 
 async function fetchTrainers() {
     let response = await fetch(`http://${back_url}/admin/trainers`);
@@ -49,34 +86,41 @@ async function fetchDates(){
 
 function CalendarView(){
 	const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
-  const [data, setData] = useState([]);
+  	const [data, setData] = useState([]);
 	const [allWorkshops, setAllWorkshops] = useState({});
 	const [filteredWorkshops, setFilteredWorkshops] = useState({});
 	const [allTrainers, setAllTrainers] = useState({});
 	const theme = useTheme();
 
 	// Using useEffect() to fetch data when component mounts
-	useEffect(() => {
-		const loadData = async() => {
-			const fetchedData = await fetchDates();
-			setData(fetchedData);
-		};
-		loadData();
-	}, []);
+	// useEffect(() => {
+	// 	const loadData = async() => {
+	// 		const fetchedData = await fetchDates();
+	// 		setData(fetchedData);
+	// 		console.log('dates:',data);
+	// 	};
+	// 	loadData();
+	// }, []);
 
-	/*useEffect(() => {
+	// Render data
+	useEffect(() => {
 		async function fetchData() {
+			try {
 				const workshops = await fetchWorkshops();
 				const trainers = await fetchTrainers();
-				const fetchedDates = await fetchDates();
+				const filteredWorkshops = filterWorkshopsToAccepted(workshops, 1);
+				const schedulerEvents = workshopDates(filteredWorkshops);
 				setAllWorkshops(workshops);
 				setAllTrainers(trainers);
-				setFilteredWorkshops(filterWorkshopsToAccepted(workshops, 1));
-				setData(fetchedDates)
-				console.log(allWorkshops)
+				setFilteredWorkshops(filteredWorkshops);
+				setData(schedulerEvents);
+				console.log("scheduler events", data);
+			} catch (error) {
+				console.error("Error fetching data:", error);
+			}
 		}
 		fetchData();
-		}, [])*/
+		}, [])
 
 	return(
 		<Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">

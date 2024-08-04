@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { AdminNavbar } from '../src/components/Admin_Navbar';
+import { TrainerNavbar } from '../src/components/Trainer_Navbar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
@@ -17,71 +17,24 @@ const theme = createTheme({
 
 afterEach(cleanup);
 
-describe('AdminNavbar', () => {
-    test('renders initial tabs', () => {
+describe('TrainerNavbar', () => {
+    test('renders initial tab', () => {
         render(
           <BrowserRouter>
               <ThemeProvider theme={theme}>
-                  <AdminNavbar />
+                  <TrainerNavbar />
               </ThemeProvider>
           </BrowserRouter>
         );
 
-        expect(screen.getByRole('button', { name: /Home/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /Form/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /Trainers/i })).toBeInTheDocument();
-    });
-
-    test('default selected tab is Home', async () => {
-        render(
-          <BrowserRouter>
-              <ThemeProvider theme={theme}>
-                  <AdminNavbar />
-              </ThemeProvider>
-          </BrowserRouter>
-        );
-
-        const homeTabs = screen.getAllByText('Home');
-        const homeTab = homeTabs.find((element) => element.color = '#636363');
-        expect(homeTab).toBeInTheDocument();
-    });
-
-    test('selects the Form tab when clicked', async () => {
-        render(
-          <BrowserRouter>
-              <ThemeProvider theme={theme}>
-                  <AdminNavbar />
-              </ThemeProvider>
-          </BrowserRouter>
-        );
-
-        const formTabs = await screen.getAllByText('Form');
-        const formTab = formTabs.find((element) => element.color = '#636363');
-        userEvent.click(formTab);
-        expect(formTab).toBeInTheDocument();
-    });
-
-    test('selects the Trainers tab when clicked', async () => {
-        render(
-          <BrowserRouter>
-            <ThemeProvider theme={theme}>
-              <AdminNavbar />
-            </ThemeProvider>
-          </BrowserRouter>
-        );
-
-        // Wait for the state to be updated
-        const trainersTabs = await screen.getAllByText('Trainers');
-        const trainersTab = trainersTabs.find((element) => element.color = '#636363');
-        userEvent.click(trainersTab);
-        expect(trainersTab).toBeInTheDocument();
+        expect(screen.getByTestId('view workshops-button')).toBeInTheDocument();
     });
 
     test('renders the Workshop Resource Portal component', () => {
         render(
           <BrowserRouter>
             <ThemeProvider theme={theme}>
-              <AdminNavbar />
+              <TrainerNavbar />
             </ThemeProvider>
           </BrowserRouter>
         );
@@ -98,7 +51,7 @@ describe('AdminNavbar', () => {
         render(
           <BrowserRouter>
             <ThemeProvider theme={theme}>
-              <AdminNavbar />
+              <TrainerNavbar />
             </ThemeProvider>
           </BrowserRouter>
         );
@@ -115,7 +68,7 @@ describe('AdminNavbar', () => {
       render(
         <BrowserRouter>
           <ThemeProvider theme={theme}>
-            <AdminNavbar />
+            <TrainerNavbar />
           </ThemeProvider>
         </BrowserRouter>
       );
@@ -130,19 +83,5 @@ describe('AdminNavbar', () => {
       const logoutSetting = await screen.findByText('Logout');
       expect(accountSetting).toBeInTheDocument();
       expect(logoutSetting).toBeInTheDocument();
-    });
-  test('notifications badge displays correct count', () => {
-      render(
-        <BrowserRouter>
-          <ThemeProvider theme={theme}>
-            <AdminNavbar />
-          </ThemeProvider>
-        </BrowserRouter>
-      );
-
-      const badge = screen.getByText('17'); // Adjust based on the badge content
-      expect(badge).toBeInTheDocument();
   });
-
-   
 });

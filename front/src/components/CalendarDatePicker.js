@@ -19,9 +19,11 @@ const CalendarDatePicker = () => {
   
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
-            <Calendar onChange={handleDateChange} value={value} selectRange={true}/>
+            <div data-testid="calendar-wrapper">
+                <Calendar onChange={handleDateChange} value={value} selectRange={true} />
+            </div>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px' }}>
-                <button onClick={handleSubmit}>Submit</button>
+                <button onClick={handleSubmit} data-testid='submit-button'>Submit</button>
             </Box>
         </Box>
     );

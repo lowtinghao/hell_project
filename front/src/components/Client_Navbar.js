@@ -122,8 +122,8 @@ function ClientNavbar({value, handleChange}) {
                     {/* Tabs for larger screens */}
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <Tabs value={value} onChange={handleChange}>
-                            <Tab label="Workshop Request Form" />
-                            <Tab label="View Workshops" />
+                            <Tab label="Workshop Request Form" data-testid="workshop request form-button" />
+                            <Tab label="View Workshops" data-testid="view workshops-button"/>
                         </Tabs>
                     </Box>
 

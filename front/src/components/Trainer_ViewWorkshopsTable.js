@@ -56,6 +56,7 @@ function createData(clientid, clientname, workname, worktype, fromDate, toDate, 
 			filteredWorkshops[i].dates[0], 
 			filteredWorkshops[i].dates[filteredWorkshops[i].dates.length - 1],
 			filteredWorkshops[i].type,
+			filteredWorkshops[i].type,
 			filteredWorkshops[i].status,
 			filteredWorkshops[i].workshopId,
 			filteredWorkshops[i].numberOfAttendees,
@@ -126,7 +127,7 @@ export default function ViewWorkshopsTable() {
 	const handleFilterChange = (event) => {
 		console.log(event.target.value);
     	setFilter(event.target.value);
-	};
+  };
 
 	const handleOpenPopup = (workshop) => { // Add this function to handle popup open
 		console.log('Selected workshop:', workshop); // Log the selected workshop
