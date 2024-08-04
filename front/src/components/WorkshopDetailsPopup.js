@@ -34,13 +34,13 @@ function WorkshopDetailsPopup({ open, handleClose, workshop }) {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-      <DialogTitle>Workshop Details</DialogTitle>
+    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth data-testid="workshop-dialog">
+      <DialogTitle data-testid="workshop-dialog-title">Workshop Details</DialogTitle>
       <DialogContent>
         <Table>
           <TableBody>
             {Object.entries(workshop).map(([key, value]) => (
-              <TableRow key={key}>
+              <TableRow key={key} data-testid={`workshop-row-${key}`}>
                 <TableCell>{key}</TableCell>
                 <TableCell>{formatValue(key, value)}</TableCell>
               </TableRow>
@@ -49,7 +49,7 @@ function WorkshopDetailsPopup({ open, handleClose, workshop }) {
         </Table>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary">Close</Button>
+        <Button onClick={handleClose} color="primary" data-testid="close-button">Close</Button>
       </DialogActions>
     </Dialog>
   );
