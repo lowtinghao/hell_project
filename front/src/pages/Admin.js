@@ -12,8 +12,8 @@ import Admin_view_trainer_schedule from '../components/Admin_view_trainer_schedu
 import { io } from "socket.io-client";
 import TrainersTab from '../components/Admin_TrainersTab';
 
-function checkIfIdIsValid(location_state){
-  if (location_state == null){
+function checkIfIdIsValid(location_state) {
+  if (location_state == null) {
     return false;
   }
   if (location_state.id == null) {
@@ -30,12 +30,12 @@ function checkIfIdIsValid(location_state){
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const user = "admin"+location.state.id;
-  const [id,setId] = useState();
+  const user = "admin" + location.state.id;
+  const [id, setId] = useState();
 
   useEffect(() => {
     console.log(location.state);
-    if (!checkIfIdIsValid(location.state)){
+    if (!checkIfIdIsValid(location.state)) {
       navigate('/');
     } else {
       setId(location.state.id);
@@ -52,18 +52,21 @@ function App() {
 
   useEffect(() => {
     socket?.emit("newUser", user);
-  }, [socket,user])
+  }, [socket, user]);
 
 
 
   const [page, setPage] = useState("home-button")
   console.log("Page: " + page);
 
-  if (page === "home-button"){
+
+
+  if (page === "home-button") {
     console.log("Going to home page")
+    console.log(socket)
     return (
       <div>
-        <AdminNavbar setPage={setPage} socket = {socket} user = {user}/>
+        <AdminNavbar setPage={setPage} socket={socket} user={user} />
         <h2>Admin Page</h2>
         <h3>{"ID : " + id}</h3>
         <ThemeProvider>
@@ -75,12 +78,12 @@ function App() {
     console.log("Going to trainer page")
     return (
       <div>
-        <AdminNavbar setPage={setPage} socket = {socket} user = {user} />
+        <AdminNavbar setPage={setPage} socket={socket} user={user} />
         <h2>Trainer Page : I need help with this</h2>
 
         <ThemeProvider>
-				  <TrainersTab/>
-			  </ThemeProvider>
+          <TrainersTab />
+        </ThemeProvider>
         <button><Link to="/">Back</Link></button>
       </div>
     );
@@ -88,7 +91,7 @@ function App() {
     console.log("Going to trainer page")
     return (
       <div>
-        <AdminNavbar setPage={setPage}socket = {socket} user = {user} />
+        <AdminNavbar setPage={setPage} socket={socket} user={user} />
         <h1>Form Page : I need help with this</h1>
         <button><Link to="/">Back</Link></button>
       </div>

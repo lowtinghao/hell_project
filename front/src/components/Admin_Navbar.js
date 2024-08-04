@@ -22,8 +22,23 @@ import { dark } from "@mui/material/styles/createPalette";
 const pages = ["Home", "Trainers", "Form"];
 const settings = ["Account", "Logout"];
 
-function AdminNavbar(props, {socket}) {
-    const navigate = useNavigate(); 
+
+function AdminNavbar(props) {
+
+    const [notifications, setNotifications] = useState([]);
+    console.log(props.socket);
+    useEffect(() => {
+        props.socket?.on("alertingAdmin", data => {
+            setNotifications((prev) => [...prev, data]);
+        })
+        console.log(notifications);
+        console.log("WEEEE");
+    }, [props.socket]);
+
+
+
+
+    const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -48,24 +63,14 @@ function AdminNavbar(props, {socket}) {
         } else {
             handleCloseUserMenu();
         }
-        
+
     };
-    
+
     const handleClick = (e) => {
         handleCloseNavMenu();
         props.setPage(e.target.getAttribute("data-testid"));
     };
 
-    //notifications
-    const [notifications, setNotifications] = useState([]);
-
-    useEffect(()=>{
-        socket?.on("alertingAdmin", data =>{
-            setNotifications(prev =>[...prev,data])
-        })
-    }, [socket])
-
-    console.log(notifications);
 
     return (
         <AppBar position="static" sx={{ bgcolor: "white" }}>
@@ -141,7 +146,7 @@ function AdminNavbar(props, {socket}) {
                             {pages.map((page) => (
                                 <MenuItem key={page} onClick={handleClick}>
                                     <Typography textAlign="center">
-                                        <Button data-testid={`${page.toLowerCase()}-button`} sx={{color:"#636363"}}>
+                                        <Button data-testid={`${page.toLowerCase()}-button`} sx={{ color: "#636363" }}>
                                             {page}
                                         </Button>
                                         {/* <Link
@@ -156,7 +161,7 @@ function AdminNavbar(props, {socket}) {
                         </Menu>
                     </Box>
 
-                    
+
                     <IconButton
                         size="large"
                         edge="start"
@@ -226,7 +231,7 @@ function AdminNavbar(props, {socket}) {
                                     <NotificationsIcon />
                                 </Badge>
                             </IconButton>
-                            </Tooltip>
+                        </Tooltip>
                         <Tooltip title="Open settings">
 
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
