@@ -78,8 +78,8 @@ function App() {
       }
     }
     if (sendRequest()) {
-      socket.emit("alertAdmin", { senderName: user });
-      //window.location.reload(true);
+      socket.emit("alertAdmin", { senderName: user, workshopName: workshop["Workshop Name"], companyName: workshop["Company Name"]});
+      window.location.reload(true);
     } else {
       console.error('Failed to request workshop');
       // HANDLE HERE
