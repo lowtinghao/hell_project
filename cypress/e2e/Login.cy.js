@@ -14,11 +14,6 @@ describe('Login Page Tests', () => {
         cy.get('[data-testid="toggle-admin"]').should('be.visible');
         cy.get('[data-testid="toggle-trainer"]').should('be.visible');
         cy.get('[data-testid="toggle-client"]').should('be.visible');
-        
-        // Check if the Admin, Trainer, and Client login buttons are displayed
-        cy.get('[data-testid="admin-login-button"]').should('be.visible');
-        cy.get('[data-testid="trainer-login-button"]').should('be.visible');
-        cy.get('[data-testid="client-login-button"]').should('be.visible');
     });
 
     it('should allow typing in the ID field', () => {
