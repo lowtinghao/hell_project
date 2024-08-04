@@ -1,5 +1,5 @@
 // src/components/FormPreview.js
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from './FormContext';
 import { Box, Button, MenuItem, Select, TextField, Typography } from '@mui/material';
 import CalendarDatePicker from './CalendarDatePicker';
@@ -9,6 +9,7 @@ const FormPreview = (props) => {
   const { formData, formResponses, handleResponseChange, submitForm } = useForm();
   const workshopSetter = props.workshopSetter;
   const workshop = props.workshop;
+  const [selectedDatesText, setSelectedDatesText] = useState('');
 
   const handleInputChange = (index, value) => {
     handleResponseChange(index, value);
@@ -19,8 +20,29 @@ const FormPreview = (props) => {
     
   };
 
+  const handleFormSubmit = async () => {
+    const success = await submitForm();
+    if (success) {
+      console.log('Workshop Requested');
+      window.location.reload(true);
+    } else {
+      console.error('Failed to request workshop');
+    }
+  };
+
+  const handleDateSubmit = (selectedDates) => {
+    const dateFieldIndex = formData.findIndex(field => field.title === 'Workshop Dates');
+    if (dateFieldIndex !== -1) {
+      handleInputChange(dateFieldIndex, selectedDates);
+      const formattedDate = Array.isArray(selectedDates)
+        ? `${selectedDates[0].toLocaleDateString()} - ${selectedDates[1].toLocaleDateString()}`
+        : selectedDates.toLocaleDateString();
+      setSelectedDatesText(formattedDate);
+    }
+  };
+
   return (
-    <Box component="form">
+    <Box component="form" onSubmit={(e) => { e.preventDefault(); handleFormSubmit(); }}>
       {formData.map((question, index) => (
         <Box key={index} sx={{ mb: 2 }}>
           <Typography variant="h6" data-testid={`question-title-${index}`}>{question.title}</Typography>
@@ -58,12 +80,19 @@ const FormPreview = (props) => {
             </Select>
           )}
           {question.type === 'date' && (
-            // TODO : HELP IMPLEMENT THIS
-            <CalendarDatePicker>
-            </CalendarDatePicker>
+            <CalendarDatePicker
+              value={formResponses[index] || new Date()}
+              onChange={(date) => handleInputChange(index, date)}
+              onDateSubmit={handleFormSubmit}
+            />
           )}
         </Box>
       ))}
+      {selectedDatesText && (
+        <Typography variant="h6" sx={{ mt: 2 }}>
+          Selected Dates: {selectedDatesText}
+        </Typography>
+      )}
     </Box>
   );
 };

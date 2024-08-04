@@ -41,6 +41,9 @@ class WorkshopController{
     // OUTPUT : JS Object.  body.dates should be an array of Dates. body.assignedTrainers should be an array of numbers
     static parseWorkshopRequest(req) { // Parses the JSON to match the database schema
         let body = {... req.body};
+        if (body.dates) {
+            body.dates = Array.isArray(body.dates[0]) ? body.dates[0].map(date => new Date(date)) : [new Date(body.dates)];
+        }
         return body;
         // try {
 

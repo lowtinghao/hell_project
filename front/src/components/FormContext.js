@@ -8,7 +8,7 @@ const presetQuestions = [
   { title: 'Client Type', type: 'radio', options: ['Technical', 'Business'] },
   { title: 'Workshop Name', type: 'text', options: [] },
   { title: 'Workshop Type', type: 'selector', options: ['Business Value Discovery', 'AI Platform', 'Infrastructure and Demo'] },
-  { title: 'Workshop Dates', type: 'selector', options: ['2024-07-25T00:00:00.000+00:00','2024-07-26T00:00:00.000+00:00'] },
+  { title: 'Workshop Dates', type: 'date'},
   { title: 'Deal Size Potential', type: "text", options: []},
   { title: 'Location', type: 'radio', options: ['Local', 'Overseas'] },
   { title: 'Venue', type: 'text', options: []},
