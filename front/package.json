@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.24.8",
+    "@devexpress/dx-react-core": "^4.0.8",
+    "@devexpress/dx-react-scheduler": "^4.0.8",
+    "@devexpress/dx-react-scheduler-material-ui": "^4.0.8",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.4",
@@ -55,5 +58,23 @@
     "@testing-library/user-event": "^14.5.2",
     "babel-jest": "^29.7.0",
     "jest-transform-stub": "^2.0.0"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.(js|jsx)?$": "babel-jest",
+      "\\.svg$": "jest-transform-stub"
+    },
+    "moduleNameMapper": {
+      "\\.(avif|jpg|jpeg|png|gif|webp|svg)$": "<rootDir>/mocks/fileMock.js",
+      "\\.(css|less|scss|sass)$": "<rootDir>/mocks/styleMock.js"
+    },
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@mui)/)",
+      "node_modules/(?!typeface-roboto)"
+    ]
   }
 }

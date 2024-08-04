@@ -117,10 +117,9 @@ function ShowWorkshopDetails(workshop){
 
 
 /* Main view fucntionality */
-function TrainerAvailability() {
+function TrainerAvailability(props) {
 	// Retrieve passed data of workshop using location
-	const location = useLocation();
-  const workshop = location.state?.workshop;
+  	const workshop = props.workshop;
 
 	// Initializing useStates	
 	const [rows, setRows] = useState(initialRows);

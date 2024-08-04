@@ -36,6 +36,7 @@ router.get('/workshops/:workshop_id', async (req,res) => {
 // DONE : POST /admin/workshops/workshop_id
 router.post('/workshops/:workshop_id', async (req,res) => {
     try {
+        console.log(req);
         let workshops = await WorkshopController.replaceWorkshopByWorkshopId(req, req.params.workshop_id);
         res.status(200);
         res.send("Success")

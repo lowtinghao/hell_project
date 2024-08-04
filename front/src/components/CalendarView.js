@@ -35,7 +35,7 @@ const filterWorkshopsToAccepted = (workshops, filter) => {
 	return filtered;
   };
 
-	async function fetchDates(){
+async function fetchDates(){
 	return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
@@ -53,7 +53,7 @@ function CalendarView(){
 	const [allWorkshops, setAllWorkshops] = useState({});
 	const [filteredWorkshops, setFilteredWorkshops] = useState({});
 	const [allTrainers, setAllTrainers] = useState({});
-	// const theme = useTheme();
+	const theme = useTheme();
 
 	// Using useEffect() to fetch data when component mounts
 	useEffect(() => {
