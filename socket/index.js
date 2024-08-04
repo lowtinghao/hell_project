@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
         io.to(getUser("admin1").socketId).emit("alertingAdmin", {
             senderName, workshopName, companyName
         });
-
+        console.log(senderName, workshopName,  companyName);
         
         console.log("sent to admin");
 

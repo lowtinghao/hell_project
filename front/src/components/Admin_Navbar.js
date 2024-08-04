@@ -26,18 +26,15 @@ const settings = ["Account", "Logout"];
 function AdminNavbar(props) {
 
     const [notifications, setNotifications] = useState([]);
-    console.log(props.socket);
+    //console.log("Admin Nav reloading");
+    //console.log(props.socket);
     useEffect(() => {
         props.socket?.on("alertingAdmin", data => {
             setNotifications((prev) => [...prev, data]);
         })
-        console.log(notifications);
-        console.log("WEEEE");
+        
     }, [props.socket]);
-
-
-
-
+    console.log(notifications);
     const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -52,7 +49,6 @@ function AdminNavbar(props) {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
@@ -224,7 +220,7 @@ function AdminNavbar(props) {
                         <Tooltip title="View Notifications">
                             <IconButton
                                 size="large"
-                                aria-label="show 17 new notifications"
+                                aria-label="show new notifications"
                                 sx={{ p: 1, mr: 4 }}
                             >
                                 <Badge badgeContent={17} color="error">
