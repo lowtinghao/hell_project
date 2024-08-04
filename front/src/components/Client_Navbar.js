@@ -63,7 +63,7 @@ function ClientNavbar({value, handleChange}) {
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
                             onClick={handleOpenNavMenu}
-                            color="inherit"
+                            sx={{ color: "#0672cb" }} // Set the icon color to blue
                         >
                             <MenuIcon />
                         </IconButton>
