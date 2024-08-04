@@ -80,9 +80,9 @@ function App() {
     return (
       <div>
         <AdminNavbar setPage={setPage} socket={socket} user={user} />
-        <h2>Trainer Page : I need help with this</h2>
 
         <ThemeProvider>
+          <br/>
           <TrainersTab />
         </ThemeProvider>
         <button><Link to="/">Back</Link></button>
@@ -93,7 +93,6 @@ function App() {
     return (
       <div>
         <AdminNavbar setPage={setPage} socket={socket} user={user} />
-        <h1>Form Page : I need help with this</h1>
         <button><Link to="/">Back</Link></button>
       </div>
 
