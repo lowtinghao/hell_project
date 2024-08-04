@@ -14,10 +14,14 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Divider from '@mui/material/Divider';
 import 'typeface-roboto';
 import Badge from '@mui/material/Badge';
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { dark } from "@mui/material/styles/createPalette";
+import { MenuList } from "@mui/material";
+import ListItemIcon from '@mui/material/ListItemIcon';
 
 const pages = ["Home", "Trainers", "Form"];
 const settings = ["Account", "Logout"];
@@ -26,7 +30,7 @@ const settings = ["Account", "Logout"];
 function AdminNavbar(props) {
 
     const [notifications, setNotifications] = useState([]);
-    const [notifDisplay, setNotifDisplay] = useState([]); 
+    const [notifDisplay, setNotifDisplay] = useState([]);
     //console.log("Admin Nav reloading");
     //console.log(props.socket);
     useEffect(() => {
@@ -34,7 +38,7 @@ function AdminNavbar(props) {
             setNotifications((prev) => [...prev, data]);
             setNotifDisplay((prev) => [...prev, data.companyName + " submitted a new request"]);
         })
-        
+
     }, [props.socket]);
     console.log(notifications);
     console.log(notifDisplay);
@@ -234,7 +238,7 @@ function AdminNavbar(props) {
                     <Box sx={{ flexGrow: 0 }}>
 
                         <Tooltip title="View Notifications">
-                            <IconButton onClick = {handleOpenNotifPanel}
+                            <IconButton onClick={handleOpenNotifPanel}
                                 size="large"
                                 aria-label="show new notifications"
                                 sx={{ p: 1, mr: 4 }}
@@ -261,6 +265,13 @@ function AdminNavbar(props) {
                             open={Boolean(anchorElNotif)}
                             onClose={handleCloseNotifPanel}
                         >
+                            <MenuItem  disableRipple disableTouchRipple disabled style={{ backgroundColor: 'transparent' ,  opacity: 100}}>
+                                <ListItemIcon>
+                                    <NewReleasesIcon fontSize="small" />
+                                </ListItemIcon>
+                                <Typography variant="inherit" sx={{ color: "black" }}>View New Notifications</Typography>
+                            </MenuItem>
+                            <Divider/>
                             {notifDisplay.map((notification) => (
                                 <MenuItem onClick={() => handleClickSetting(notification)}>
                                     <Typography textAlign="center">{notification}</Typography>
@@ -293,6 +304,8 @@ function AdminNavbar(props) {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
+
+
                             {settings.map((setting) => (
                                 <MenuItem key={setting} onClick={() => handleClickSetting(setting)}>
                                     <Typography textAlign="center">{setting}</Typography>
