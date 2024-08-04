@@ -6,6 +6,7 @@ import { Box, Button } from '@mui/material';
 import { ClientNavbar } from '../components/Client_Navbar';
 import ViewClientWorkshopsTable from '../components/Client_ViewWorkshopsTable';
 import CalendarDatePicker from '../components/CalendarDatePicker';
+import CalendarView from '../components/CalendarView';
 function App() {
   const location = useLocation();
   const navigate = useNavigate();

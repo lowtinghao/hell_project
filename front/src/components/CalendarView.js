@@ -1,11 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
+import { Paper, Box, useTheme } from '@mui/material';
 import { Scheduler, WeekView, Appointments, Toolbar, DateNavigator, TodayButton, ViewSwitcher, MonthView,  DayView,} from '@devexpress/dx-react-scheduler-material-ui';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 
 // TODO: Change this to an API to retrieve data from the database
-async function fetchData(){
+const back_url = "localhost:3001";
+async function fetchWorkshops() {
+    let response = await fetch(`http://${back_url}/admin/workshops`);
+    let data = await response.json();
+    return data
+}
+
+async function fetchTrainers() {
+    let response = await fetch(`http://${back_url}/admin/trainers`);
+    let data = await response.json();
+    return data
+}
+
+const filterWorkshopsToAccepted = (workshops, filter) => {
+
+	let filtered = [];
+	let i;
+	if (filter === -1) {
+		for (i in Object.keys(workshops)){
+			filtered.push(workshops[i]);
+		}
+	} else {
+		for (i in Object.keys(workshops)){
+			if (workshops[i].status === filter){
+				filtered.push(workshops[i]);
+			}
+		}
+	}
+	return filtered;
+  };
+
+	async function fetchDates(){
 	return new Promise((resolve) => {
     setTimeout(() => {
       resolve([
@@ -16,18 +46,37 @@ async function fetchData(){
   });
 }
 
+
 function CalendarView(){
 	const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
   const [data, setData] = useState([]);
+	const [allWorkshops, setAllWorkshops] = useState({});
+	const [filteredWorkshops, setFilteredWorkshops] = useState({});
+	const [allTrainers, setAllTrainers] = useState({});
+	// const theme = useTheme();
 
 	// Using useEffect() to fetch data when component mounts
 	useEffect(() => {
 		const loadData = async() => {
-			const fetchedData = await fetchData();
+			const fetchedData = await fetchDates();
 			setData(fetchedData);
 		};
 		loadData();
 	}, []);
+
+	/*useEffect(() => {
+		async function fetchData() {
+				const workshops = await fetchWorkshops();
+				const trainers = await fetchTrainers();
+				const fetchedDates = await fetchDates();
+				setAllWorkshops(workshops);
+				setAllTrainers(trainers);
+				setFilteredWorkshops(filterWorkshopsToAccepted(workshops, 1));
+				setData(fetchedDates)
+				console.log(allWorkshops)
+		}
+		fetchData();
+		}, [])*/
 
 	return(
 		<Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">

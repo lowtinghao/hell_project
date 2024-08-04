@@ -9,7 +9,7 @@ import AssignTrainer from '../pages/AssignTrainer';
 import FormBuilder from '../components/FormBuilder';
 import TrainerAvailability from '../components/TrainerAvailability';
 import Admin_view_trainer_schedule from '../components/Admin_view_trainer_schedule';
-
+import CalendarView from '../components/CalendarView';
 
 
 function App() {
@@ -42,6 +42,7 @@ function App() {
         <AdminNavbar setPage = {setPage}/>
         <h2>Admin Page</h2>
         <ThemeProvider>
+          {/* <CalendarView /> */}
           <WorkshopRequestTable />
         </ThemeProvider>
         <button><Link to="/">Back</Link></button>
