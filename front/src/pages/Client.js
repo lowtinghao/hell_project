@@ -79,7 +79,7 @@ function App() {
     }
     if (sendRequest()) {
       socket.emit("alertAdmin", { senderName: user });
-      //window.location.reload(true);
+      window.location.reload(true);
     } else {
       console.error('Failed to request workshop');
       // HANDLE HERE
