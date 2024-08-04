@@ -45,7 +45,7 @@ function App() {
   const handleSubmit = ( ) => {
     const sendRequest = async () => {
       const workshopToRequest = {
-        client_id: 1,
+        client_id: location.state.id,
         companyName: workshop["Company Name"],
         clientType: workshop["Client Type"],
         workshopName: workshop["Workshop Name"],
