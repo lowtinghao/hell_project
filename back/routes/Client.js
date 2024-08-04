@@ -14,9 +14,9 @@ router.get('/', (req, res) => {
     }
 );
 
-router.get('/workshops', async (req, res) => {
+router.get('/workshops/:clientid', async (req, res) => {
     try {
-        let workshops = await WorkshopController.getWorkshopsByClientId(parseInt(req.body.client_id))
+        let workshops = await WorkshopController.getWorkshopsByClientId(parseInt(req.params['clientid']));
         res.status(200);
         res.send(workshops)
     } catch (err) {

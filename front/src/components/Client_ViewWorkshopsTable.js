@@ -71,7 +71,7 @@ const formatWorkshopJson = (filteredWorkshops) => {
 
 
 
-export default function ViewClientWorkshopsTable() {
+export default function ViewClientWorkshopsTable(clientid) {
     // Initializing variables here
     const [rows, setRows] = useState([]);
     const [filter, setFilter] = useState('All');
@@ -81,8 +81,7 @@ export default function ViewClientWorkshopsTable() {
     const [open, setOpen] = useState(false); // Add this state for popup
 
     async function fetchWorkshops() {
-        // TODO: update fetch url with /workshops instead of /workshops when client id filtering works
-        let response = await fetch(`http://${back_url}/client/allworkshops`);
+        let response = await fetch(`http://${back_url}/client/workshops/${clientid.clientid}`);
         let data = await response.json();
         // remove rejected workshops
         // data = data.filter(item => item.status !== 2);

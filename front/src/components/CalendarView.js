@@ -22,7 +22,8 @@ function workshopDates(workshops){
 	// Date formatter 
 	const formatDate = (dateString) => {
 		const date = new Date(dateString);
-		return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}T12:00`;
+		// return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}T12:00`;
+		return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}T${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
 	};
 	
 	const mappedWorkshops = workshopObjects.map(workshop => {
@@ -38,7 +39,7 @@ function workshopDates(workshops){
 		return {
 			startDate: startDate,
             endDate: endDate,
-            title: workshop.workshopName || `Workshop ${workshop.workshopId}`,
+            title: workshop.workshopName,
 		}
 	});
 
