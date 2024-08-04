@@ -103,7 +103,7 @@ function App() {
           </div>
         )}
         {tabValue===1 &&(
-          <ViewClientWorkshopsTable/>
+          <ViewClientWorkshopsTable clientid = {location.state.id}/>
         )}
       </Box>
       <button><Link to="/">Back</Link></button>
