@@ -35,6 +35,7 @@ function App() {
   //console.log("Trainer ID: " + trainerId);
       return (
         <div>
+          <TrainerNavbar />
           <h2>Trainer Page</h2>
           <h3>{"ID : " + id}</h3>
           <br/>
