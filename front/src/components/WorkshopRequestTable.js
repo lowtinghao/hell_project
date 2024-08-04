@@ -6,6 +6,8 @@ import { ThemeProvider } from '../components/ThemeProvider';
 import AssignTrainer from '../components/AssignTrainer';
 import AssignTrainersnew from '../components/AssignTrainersnew';
 
+
+
 const back_url = "localhost:3001";
 // TODO: Modify this function to retrieve workshop request data from DB
 function createData(clientid, clientname, workname, worktype, fromDate, toDate, status, workshopId) {
@@ -231,8 +233,8 @@ export default function WorkshopRequestTable() {
 						<Table aria-label="simple table">
 							<TableHead>
 								<TableRow>
-									<TableCell data-testid="client-id-header">Client ID</TableCell>
-									<TableCell data-testid="client-name-header">Client Name</TableCell>
+									<TableCell align="center" data-testid="client-id-header">Client ID</TableCell>
+									<TableCell align="center" data-testid="client-name-header">Client Name</TableCell>
 									<TableCell align="center" data-testid="workshop-name-header">Workshop Name</TableCell>
 									<TableCell align="center" data-testid="workshop-type-header">Workshop Type</TableCell>
 									<TableCell align="center" data-testid="status-header">Status</TableCell>
@@ -241,7 +243,7 @@ export default function WorkshopRequestTable() {
 							<TableBody>
 								{rows.map((row, index) => (
 									<TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell component="th" scope="row" data-testid={`client-id-${row.workshopId}`}>{row.clientid}</TableCell>
+										<TableCell align="center" component="th" scope="row" data-testid={`client-id-${row.workshopId}`}>{row.clientid}</TableCell>
 										<TableCell align="center" data-testid={`client-name-${row.workshopId}`}>{row.clientname}</TableCell>
 										<TableCell align="center" data-testid={`workshop-name-${row.workshopId}`}>{row.workname}</TableCell>
 										<TableCell align="center" data-testid={`workshop-type-${row.workshopId}`}>{row.worktype}</TableCell>
