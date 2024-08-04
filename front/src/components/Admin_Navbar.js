@@ -5,6 +5,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
+import { useEffect, useState } from 'react';
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -21,7 +22,7 @@ import { dark } from "@mui/material/styles/createPalette";
 const pages = ["Home", "Trainers", "Form"];
 const settings = ["Account", "Logout"];
 
-function AdminNavbar(props) {
+function AdminNavbar(props, {socket}) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -44,6 +45,17 @@ function AdminNavbar(props) {
         handleCloseNavMenu();
         props.setPage(e.target.getAttribute("data-testid"));
     };
+
+    //notifications
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(()=>{
+        socket?.on("alertingAdmin", data =>{
+            setNotifications(prev =>[...prev,data])
+        })
+    }, [socket])
+
+    console.log(notifications);
 
     return (
         <AppBar position="static" sx={{ bgcolor: "white" }}>
@@ -119,7 +131,7 @@ function AdminNavbar(props) {
                             {pages.map((page) => (
                                 <MenuItem key={page} onClick={handleClick}>
                                     <Typography textAlign="center">
-                                        <Button data-testid={`${page.toLowerCase()}-button`}>
+                                        <Button data-testid={`${page.toLowerCase()}-button`} sx={{color:"#636363"}}>
                                             {page}
                                         </Button>
                                         {/* <Link
@@ -133,6 +145,8 @@ function AdminNavbar(props) {
                             ))}
                         </Menu>
                     </Box>
+
+                    
                     <IconButton
                         size="large"
                         edge="start"
@@ -211,7 +225,7 @@ function AdminNavbar(props) {
 
                         </Tooltip>
                         <Menu
-                            sx={{ mt: "45px" }}
+                            sx={{ mt: "45px", }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
                             anchorOrigin={{

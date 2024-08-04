@@ -73,6 +73,9 @@ $ npm install --save-dev babel-jest
 # Jest Transform stub - handles non-JavaScript assets like images [Testing]
 $ npm install jest-transform-stub --save-dev
 
+# Socket.io for notifications
+$ npm install socket.io-client
+
 # @testing-library
 $ npm install @testing-library/react
 $ npm install --save-dev @testing-library/user-event
@@ -83,6 +86,15 @@ For the Backend, you will need to install the following via your command line. E
 ```bash
 # Jest, In-memory mongoDB, Mongoose
 $ npm install --save-dev jest mongodb-memory-server mongoose
+
+#
+```
+
+For the Socket, you will need to install the following via your command line. Ensure you are in the "socket" folder
+
+```bash
+# Socket.io for notifications
+$ npm install socket.io
 
 #
 ```

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
@@ -11,6 +11,8 @@ import Admin from './pages/Admin';
 import AssignTrainer from './pages/AssignTrainer'
 import { FormProvider } from './components/FormContext';
 import AdminForm from './pages/AdminForm';
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const router = createBrowserRouter([
