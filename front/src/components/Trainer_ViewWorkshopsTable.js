@@ -81,7 +81,6 @@ export default function ViewWorkshopsTable(trainerid) {
     const [open, setOpen] = useState(false); // Add this state for popup
 
 	async function fetchWorkshops() {
-		console.log(trainerid)
 		let response = await fetch(`http://${back_url}/trainer/workshops/${trainerid.trainerid}`);
 		let data = await response.json();
 

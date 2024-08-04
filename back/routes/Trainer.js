@@ -15,8 +15,6 @@ router.get('/', (req, res) => {
 // TODO: get workshops only assigned to respective trainer
 router.get('/workshops/:trainerid', async (req,res) => {
     try {
-        console.log("HELLO00000000000000000000000000000000000000000000");
-        console.log(req.params['trainerid']);
         let workshops = await WorkshopController.getworkshopsAssignedToTrainer(parseInt(req.params['trainerid']));
         res.status(200);
         res.send(workshops)
