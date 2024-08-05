@@ -9,7 +9,7 @@ import FormBuilder from '../components/FormBuilder';
 import TrainerAvailability from '../components/TrainerAvailability';
 import Admin_view_trainer_schedule from '../components/Admin_view_trainer_schedule';
 import { AdminHomeCard } from '../components/Admin_WelcomeCard';
-
+import CalendarView from '../components/CalendarView';
 
 import { io } from "socket.io-client";
 import TrainersTab from '../components/Admin_TrainersTab';
@@ -83,16 +83,18 @@ function App() {
 
         <ThemeProvider>
           <br/>
+          <CalendarView/>
           <TrainersTab />
         </ThemeProvider>
         <button><Link to="/">Back</Link></button>
       </div>
     );
   } else if (page === "form-button") {
-    console.log("Going to trainer page")
+    console.log("Going to form page")
     return (
       <div>
         <AdminNavbar setPage={setPage} socket={socket} user={user} />
+        <FormBuilder/>
         <button><Link to="/">Back</Link></button>
       </div>
 
