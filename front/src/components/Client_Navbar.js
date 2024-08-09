@@ -17,7 +17,6 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import 'typeface-roboto';
 
 const pages = ["Workshop Request Form", "View Workshops"];
 const settings = [ "Logout"];
